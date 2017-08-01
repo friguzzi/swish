@@ -15,11 +15,11 @@ a:- b,c,d.
 a:- e,f,\+ g.
 
 b:0.3.
-c:abducible.
+abducible c.
 e:0.6.
-d:abducible.
-f:abducible.
-g:abducible.
+abducible d.
+abducible f.
+abducible g.
 
 :- end_lpad.
 
