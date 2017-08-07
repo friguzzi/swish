@@ -69,9 +69,36 @@ state_diagram(digraph(G)):-
 ?-viterbi(hmm1(S,[a,g,g]),P,E).
 S = [q2, q2, q1],
 P = 0.000405,
+E= [rule(0,next_state(q1,q2,[]),[next_state(q1,q1,[]):0.5,
+    next_state(q1,q2,[]):0.45,next_state(q1,end,[]):0.05],[]),
+  rule(2,letter(q1,a,[]),[letter(q1,a,[]):0.4,letter(q1,c,[]):0.3,
+	  letter(q1,g,[]):0.2,letter(q1,t,[]):0.1],[]),
+	rule(1,next_state(q2,q2,[q1]),[next_state(q2,q1,[q1]):0.45,
+	  next_state(q2,q2,[q1]):0.5,next_state(q2,end,[q1]):0.05],[]),
+	rule(3,letter(q2,g,[q1]),[letter(q2,a,[q1]):0.1,
+	  letter(q2,c,[q1]):0.2,letter(q2,g,[q1]):0.3,letter(q2,t,[q1]):0.4],[]),
+	rule(1,next_state(q2,end,[q2,q1]),[next_state(q2,q1,[q2,q1]):0.45,
+	  next_state(q2,q2,[q2,q1]):0.5,next_state(q2,end,[q2,q1]):0.05],[]),
+	rule(3,letter(q2,g,[q2,q1]),[letter(q2,a,[q2,q1]):0.1,
+	  letter(q2,c,[q2,q1]):0.2,letter(q2,g,[q2,q1]):0.3,
+		letter(q2,t,[q2,q1]):0.4],[])]
+
 ?-viterbi(hmm1(S,[a,a,a]),P,E).
 S = [q1, q1, q1],
 P = 0.0008000000000000003,
+E = [rule(0,next_state(q1,q1,[]),[next_state(q1,q1,[]):0.5,
+    next_state(q1,q2,[]):0.45,next_state(q1,end,[]):0.05],[]),
+	rule(2,letter(q1,a,[]),[letter(q1,a,[]):0.4,letter(q1,c,[]):0.3,
+	  letter(q1,g,[]):0.2,letter(q1,t,[]):0.1],[]),
+	rule(0,next_state(q1,q1,[q1]),[next_state(q1,q1,[q1]):0.5,
+	  next_state(q1,q2,[q1]):0.45,next_state(q1,end,[q1]):0.05],[]),
+	rule(2,letter(q1,a,[q1]),[letter(q1,a,[q1]):0.4,letter(q1,c,[q1]):0.3,
+	  letter(q1,g,[q1]):0.2,letter(q1,t,[q1]):0.1],[]),
+	rule(0,next_state(q1,end,[q1,q1]),[next_state(q1,q1,[q1,q1]):0.5,
+	  next_state(q1,q2,[q1,q1]):0.45,next_state(q1,end,[q1,q1]):0.05],[]),
+	rule(2,letter(q1,a,[q1,q1]),[letter(q1,a,[q1,q1]):0.4,
+	 letter(q1,c,[q1,q1]):0.3,letter(q1,g,[q1,q1]):0.2,
+	 letter(q1,t,[q1,q1]):0.1],[])]
 
 ?- state_diagram(G).
 % show the state diagram
