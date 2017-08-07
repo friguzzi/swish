@@ -222,6 +222,8 @@ pengines:prepare_module(Module, swish, _Options) :-
 :- use_module(swish(lib/render/sldnf),	  []).
 
 :- use_module(library(pita)).
+:- use_module(library(kbest)).
+:- use_module(library(viterbi)).
 :- use_module(library(mcintyre)).
 :- use_module(library(slipcover)).
 :- use_module(library(lemur)).
@@ -231,5 +233,3 @@ pengines:prepare_module(Module, swish, _Options) :-
 :- multifile sandbox:safe_primitive/1.
 
 sandbox:safe_primitive(nf_r:{_}).
-
-
