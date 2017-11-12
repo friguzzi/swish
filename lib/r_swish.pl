@@ -50,6 +50,7 @@
 :- use_module(library(r/r_call)).
 :- use_module(library(r/r_serve)).
 :- use_module(download).
+:- use_module(library(http/mimetype)).
 
 /** <Module> Bind Rserve to SWISH
 
@@ -93,7 +94,7 @@ svg_html(Images, HTMlString) :-
 	with_output_to(string(HTMlString), print_html(Tokens)).
 
 svg_html(Images) -->
-	html(div(class('Rplots'), \rplots(Images))).
+	html(div([div(class('Rplots'), \rplots(Images))])).
 
 rplots([]) --> [].
 rplots([H|T]) -->
@@ -105,6 +106,7 @@ plot(svg(SVG), _Options) --> !,
 	html(\[SVG]),
 	pan_zoom,
 	"".
+%   html(img(src(Img),[])).
 plot(Term, _Options) --> !,
 	{ domain_error(image, Term) }.
 
@@ -217,12 +219,43 @@ r_download(File) :-
 	),
 	file_name_extension(_Name, Ext, File),
 	download_encoding(Ext, Enc),
+	(Ext=svg->
 	download_button(Content,
 			[ filename(File),
 			  encoding(Enc)
-			]).
+			])
+	;
+	(   catch(r_read_file($, File, Content), E, r_error(E))
+	->
+		
+		%file_mime_type(File, Major/Minor),
+		%atomics_to_string([Major, Minor], /, ContentType),
+	string_codes(Content, Codes),
+	phrase(base64(Codes), Codes64),
+		        string_codes(EncData, Codes64),
+			%encode_data(Enc,Content, _CharSet, EncData),
+	%	Image =.. [Ext,EncData],
+	string_concat("data:image/gif;base64,",EncData,Img),
+	show_gif(Img),
+	download_button(Content,
+		[ filename(File),
+		encoding(Enc)
+	])
+	)
+)
+.
+
 r_download(File) :-
 	existence_error(r_file, File).
+
+show_gif(Img):-
+	phrase(plot_gif(Img), Tokens),
+	with_output_to(string(HTMlString), print_html(Tokens)),
+	pengine_output(HTMlString).
+
+plot_gif(Img)-->!,
+      html(img(src(Img),[])).
+
 
 r_error(error(r_error(70),_), File) :- !,
 	existence_error(r_file, File).
