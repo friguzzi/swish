@@ -285,6 +285,7 @@ pengines:prepare_module(Module, swish, _Options) :-
 :- use_module(library(lemur)).
 :- use_module(library(auc)).
 :- use_module(library(matrix)).
+:- use_module(library(viterbi)).
 
 
 :- use_module(swish(lib/render/gvterm),   []).
