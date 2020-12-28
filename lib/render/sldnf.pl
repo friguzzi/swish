@@ -82,12 +82,44 @@ render_latex(_LatexString,_Options) -->
 	no_latex(latex).
 
 render_latex(LatexString, _Options) -->	% <svg> rendering
-	{ latex_stream(LatexString,SVG)
-	},
+  { latex_stream(LatexString,SVG0),
+    random(0,100000,R),
+    number_string(R,Rs),
+    string_concat(Rs,"-glyph",NewGlyph),
+    string_codes(NewGlyph,NewGlyphCodes),
+    string_codes(SVG0,SVG0Codes),
+    phrase(rename_ids(NewGlyphCodes,SVGCodes),SVG0Codes,_),
+    string_codes(SVG,SVGCodes)
+          
+},
   html(div([ class(['render-latex', 'reactive-size']),
 		       'data-render'('As tree')
 		     ],
 		     \svg(SVG, []))).
+
+      
+rename_ids(NewGlyph,O) -->
+  "glyph",!,
+  rename_ids(NewGlyph,O0),
+  {append(NewGlyph,O0,O)}.
+
+rename_ids(NewGlyph,[C|T])-->
+  [C],!,
+  rename_ids(NewGlyph,T).
+
+rename_ids(_NewGlyph,[])-->
+  [].
+      
+
+
+rename_ids(NewGlyph,[NewGlyph|T]) -->
+  "glyph",!,
+  rename_ids(NewGlyph,T).
+
+rename_ids(NewGlyph,[C|T])-->
+  [C],
+  rename_ids(NewGlyph,T).
+
 
 %%	svg(+SVG:string, +Options:list)//
 %
