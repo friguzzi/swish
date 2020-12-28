@@ -86,9 +86,10 @@ render_latex(LatexString, _Options) -->	% <svg> rendering
     random(0,100000,R),
     number_string(R,Rs),
     string_concat(Rs,"-glyph",NewGlyph),
-    string_codes(NewGlyph,NewGlyphCodes),
+    string_codes(NewGlyph,NewGlyphCodes0),
+    append(NewGlyphCodes0,T,NewGlyphCodes),
     string_codes(SVG0,SVG0Codes),
-    phrase(rename_ids(NewGlyphCodes,SVGCodes),SVG0Codes,_),
+    phrase(rename_ids(NewGlyphCodes,T,SVGCodes),SVG0Codes,_),
     string_codes(SVG,SVGCodes)
           
 },
@@ -98,16 +99,16 @@ render_latex(LatexString, _Options) -->	% <svg> rendering
 		     \svg(SVG, []))).
 
       
-rename_ids(NewGlyph,O) -->
+rename_ids(NewGlyph,O0,O) -->
   "glyph",!,
-  rename_ids(NewGlyph,O0),
-  {append(NewGlyph,O0,O)}.
+  {copy_term((NewGlyph,O0),(O,T))},
+  rename_ids(NewGlyph,O0,T).
 
-rename_ids(NewGlyph,[C|T])-->
+rename_ids(NewGlyph,O,[C|T])-->
   [C],!,
-  rename_ids(NewGlyph,T).
+  rename_ids(NewGlyph,O,T).
 
-rename_ids(_NewGlyph,[])-->
+rename_ids(_NewGlyph,_O,[])-->
   [].
       
 
