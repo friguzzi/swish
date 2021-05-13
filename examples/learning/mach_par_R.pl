@@ -8,8 +8,8 @@ https://dtai.cs.kuleuven.be/static/ACE/doc/
 */
 
 /** <examples>
-?- induce_par([train],P),test_r(P,[test],LL,AUCROC,ROC,AUCPR,PR).
-?- induce_par([rand_train],P),test_r(P,[rand_test],LL,AUCROC,ROC,AUCPR,PR).
+?- induce_par([train],P),test_r(P,[test],LL,AUCROC,AUCPR).
+?- induce_par([rand_train],P),test_r(P,[rand_test],LL,AUCROC,AUCPR).
 */
 :-use_module(library(slipcover)).
 :-use_module(library(cplint_r)).
