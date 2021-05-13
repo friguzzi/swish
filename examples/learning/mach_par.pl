@@ -1,21 +1,17 @@
-/* 
+/*
 The task is to decide whether a machine should be fixed, sent back or is ok.
 Machines dataset from The ACE Data Mining System User's Manual
 https://dtai.cs.kuleuven.be/ACE/doc/ACEuser-1.2.16.pdf
 
-Downloaded from 
+Downloaded from
 https://dtai.cs.kuleuven.be/static/ACE/doc/
 */
 
 /** <examples>
-?- induce_par([train],P),test_r(P,[test],LL,AUCROC,AUCPR).
-?- induce_par([rand_train],P),test_r(P,[rand_test],LL,AUCROC,AUCPR).
-?- in(P),test_r(P,[all],LL,AUCROC,AUCPR).
-?- induce([train],P),test_r(P,[test],LL,AUCROC,AUCPR).
-?- induce([rand_train],P),test_r(P,[rand_test],LL,AUCROC,AUCPR).
+?- induce_par([train],P),test(P,[test],LL,AUCROC,ROC,AUCPR,PR).
+?- induce_par([rand_train],P),test(P,[rand_test],LL,AUCROC,ROC,AUCPR,PR).
 */
 :-use_module(library(slipcover)).
-:-use_module(library(cplint_r)).
 
 :- if(current_predicate(use_rendering/1)).
 :- use_rendering(c3).
@@ -43,7 +39,7 @@ class(fix):0.6 :-
 
 class(ok):0.5 :-
   not_worn(_A).
-:- end_in.  
+:- end_in.
 
 :- begin_bg.
 component(C):-
@@ -237,4 +233,3 @@ neg(class(ok)).
 worn(wheel).
 worn(gear).
 end(model(15)).
-

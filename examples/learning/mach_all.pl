@@ -1,18 +1,14 @@
-/* 
+/*
 The task is to decide whether a machine should be fixed, sent back or is ok.
 Machines dataset from The ACE Data Mining System User's Manual
 https://dtai.cs.kuleuven.be/ACE/doc/ACEuser-1.2.16.pdf
 
-Downloaded from 
+Downloaded from
 https://dtai.cs.kuleuven.be/static/ACE/doc/
 */
 
 /** <examples>
-?- induce_par([train],P),test(P,[test],LL,AUCROC,ROC,AUCPR,PR).
-?- induce_par([rand_train],P),test(P,[rand_test],LL,AUCROC,ROC,AUCPR,PR).
 ?- in(P),test(P,[all],LL,AUCROC,ROC,AUCPR,PR).
-?- induce([train],P),test(P,[test],LL,AUCROC,ROC,AUCPR,PR).
-?- induce([rand_train],P),test(P,[rand_test],LL,AUCROC,ROC,AUCPR,PR).
 */
 :-use_module(library(slipcover)).
 
@@ -32,17 +28,27 @@ https://dtai.cs.kuleuven.be/static/ACE/doc/
 
 
 :- begin_in.
-class(sendback):0.5 :-
-  worn(A),
-  not_replaceable(A).
+class(sendback):-
+  sendback.
 
-class(fix):0.6 :-
-  worn(A),
-  replaceable(A).
+class(fix):-
+  \+ sendback,
+  fix.
 
-class(ok):0.5 :-
-  not_worn(_A).
-:- end_in.  
+class(ok):-
+  \+ sendback,
+  \+ fix.
+
+sendback:-
+  worn(_A), 
+  not_replaceable(_B), 
+  not_replaceable(C), 
+  worn(C).
+
+fix:-
+  worn(_A).
+
+:- end_in.
 
 :- begin_bg.
 component(C):-
@@ -84,29 +90,8 @@ input_cw(not_replaceable/1).
 input_cw(worn/1).
 input_cw(not_worn/1).
 input_cw(none_worn/0).
-%input(one_worn/0).
-
-determination(class/1,replaceable/1).
-determination(class/1,not_replaceable/1).
-determination(class/1,worn/1).
-determination(class/1,not_worn/1).
-determination(class/1,none_worn/0).
-
-modeh(*,class(fix)).
-modeh(*,class(ok)).
-modeh(*,class(sendback)).
 
 
-/*modeh(*,[class(fix),class(ok),class(sendback)],
-  [class(fix),class(ok),class(sendback)],
-  [replaceable/1,not_replaceable/1,worn/1]).
-*/
-
-modeb(*,not_replaceable(-comp)).
-modeb(*,replaceable(-comp)).
-modeb(*,worn(-comp)).
-modeb(*,not_worn(-comp)).
-modeb(*,none_worn).
 
 begin(model(1)).
 testnr(1).
@@ -236,4 +221,3 @@ neg(class(ok)).
 worn(wheel).
 worn(gear).
 end(model(15)).
-
