@@ -1,0 +1,305 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 24, 2016, 7:12:10 PM
+    Author     : giuseppe
+*/
+/*body {
+    background-color: #fafafa;
+}*/
+
+html{
+    font-size:.875em;
+    background:#fafafa;
+    color:#373D49
+}
+
+html,body{
+    font-family: Verdana,sans-serif;
+    /*font-family:Georgia,Cambria,serif;*/
+    height:100%
+}
+
+body {
+    font-size:1rem;
+    font-weight:400;
+    line-height:2rem;
+    height:100%;
+}
+
+ul,ol {margin-bottom: 0;
+       margin-top: 0;
+       padding-top: 0;
+}
+
+.unife-teal, .hover-unife-teal:hover {
+    background-color: #349e9d !important;
+    color: #f2f2f2 !important;
+}
+
+.unife-teal2, .hover-unife-teal2:hover {
+    background-color: #689e97 !important;
+    color: #f2f2f2 !important;
+}
+
+#sidenav .tutorial-sidenav{
+    width: 200px;   
+    max-height: 500px;
+    font-size: 20px;
+    margin-top: -7px;
+    padding-top: 5px;
+    border-radius: 7px 7px 7px 7px;
+    z-index: 1;
+}
+
+.w3-sidenav a {
+    text-decoration: none;
+    color: #f2f2f2;
+    font-weight: normal;
+}
+
+.w3-sidenav a:hover {
+    color: #f2f2f2;
+}
+
+.w3-sidenav .fa {
+    color: inherit;
+}
+
+a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #689e97;
+}
+
+a:hover {
+    color: #349E9D;
+}
+
+.content {
+    /*text-align: center;*/
+    margin-left: 200px;
+    padding-left: 30px;
+    margin-right: 0px;
+    padding-right: 10px;
+    position: relative;
+    display: none;
+    padding-bottom: 100px;
+    /*min-width: 300px;*/
+}
+
+#footer {
+    position: absolute;
+    bottom: 0px;
+}
+
+#sidenav .w3-sidenav a:hover {
+    background-color: #349e9d !important;
+}
+
+/*#sidenav .tutorial-sidenav.w3-sidenav.unife-teal2.w3-card-2 a:hover {
+    background-color: #349e9d !important;
+    color: #e2e2e2 !important;
+}*/
+
+.separation-line {
+    box-sizing: border-box;
+    min-height: 0.5rem;
+    max-height: 0.5rem;
+}
+
+#header .w3-container.unife-teal.w3-padding-left {
+    border-bottom: 1rem solid #85c1c1;
+    padding-bottom: 10px;
+    padding-top: 5px;
+    margin-top: 15px;
+    border-radius: 7px 7px 7px 0;
+    z-index: 2;
+    position: relative;
+}
+
+#page-wrapper {
+    padding-right: 30px;
+    position: relative;
+    min-height: 100%;
+}
+
+/* override CSS rule defined in w3.css*/
+@media screen and (max-width: 991px){
+    #sidenav .w3-sidenav.w3-collapse {display: block !important}
+}
+
+@media screen and (min-width: 601px){
+    #sidenav .w3-sidenav.w3-collapse {display: block !important}
+}
+
+@media screen and (max-width: 601px){
+    #sidenav .w3-sidenav.w3-collapse {
+        display: none !important;}
+    #tutorial {margin-left: 0}
+    .w3-main{margin-left: 0 !important}
+}
+
+
+@media screen and (max-width: 601px) {
+    .menu-responsive-symbol {
+        display: block !important;
+        color: #f2f2f2 !important;
+    }
+    .content {
+        margin-left: 0px;
+    }
+}
+
+@media screen and (min-width: 601px) {
+    .menu-responsive-symbol {
+        display: none !important
+    }
+}
+
+.fa {
+    color: #349e9d;
+}
+
+.run-button.fa {
+    /*color: #349e9d !important;*/
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    font-size: 36px;
+    cursor: pointer;
+}
+
+div.swish .run-button.fa{
+    font-size: 24px;
+}
+
+div.query {
+    position: relative;
+}
+
+.nb-cell.query {
+    width: 90%;
+}
+
+.nb-cell.program {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+span.ref {
+    cursor: pointer;
+}
+
+p {
+    margin-top: .3rem;
+    margin-bottom: .3rem;
+    padding-top: .3rem
+}
+
+body {
+    counter-reset: h2counter;
+}
+
+#header h1 a {
+    text-decoration: inherit;
+    color: inherit;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-style: normal;
+    font-weight: 600;
+}
+
+h1 {
+    padding-top: 0.5rem;
+    counter-reset: h2counter;
+}
+
+h2 {
+    margin-top: 1rem;
+}
+/*
+section h1 {
+    counter-reset: h2counter;
+}
+*/
+section h2 {
+    counter-reset: h3counter;
+}
+
+section h2::before {
+    content: counter(h2counter) ".\0000a0\0000a0";
+    counter-increment: h2counter;
+}
+
+section h2.nocount::before {
+    content: none;
+    counter-increment: none;
+}
+
+section h3::before {
+    content: counter(h2counter) "." counter(h3counter) ".\0000a0\0000a0";
+    counter-increment: h3counter;
+}
+
+section h3.nocount::before {
+    content: none;
+    counter-increment: none;
+}
+
+@media print {
+    body {
+        line-height: 1rem;
+        text-align: justify;
+        text-justify: inter-word;
+    }
+
+}
+
+div.person img {
+    width: 100px;
+    margin-bottom: 10px;
+    position: fixed;
+}
+
+div.person {
+    /*min-width: 500px;*/
+    min-height: 110px;
+    position: relative;
+    /*padding-bottom: 30px;*/
+    margin-top: 20px;
+    /*    white-space: nowrap;*/
+}
+
+div.person p{
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: .1rem;
+    padding-bottom: 0.1rem;
+
+}
+
+div.person h4 {
+    margin: 0px;
+
+}
+
+div.person div{
+    min-width: 200px;
+    /*margin-top: 30px;*/
+    margin-left: 100px;
+    padding-left: 15px;
+    margin-right: 50px;
+    padding-right: 30px;
+    position: relative;
+    padding-top: 10px;
+    /*padding-bottom: 100px;*/
+}
+
+.menu-responsive-symbol {
+    color: #f2f2f2;
+}

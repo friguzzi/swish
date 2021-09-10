@@ -3,7 +3,7 @@
   { "file":"help.html",	      "title":"Help" },
   { "url":"http://friguzzi.github.io/cplint/","title":"Help on cplint"},
   { "url":"http://ArnaudFadja.github.io/phil/","title":"Help on PHIL"},
-  { "url":"http://mcs.unife.it/~friguzzi/plptutorial/", "title":"Tutorial" },
+  { "url":"/help/plptutorial/index.html", "title":"Tutorial" },
   { "url":"http://www.swi-prolog.org/pack/list?p=cplint", "title":"Pack page on cplint"},
 
   { "url":"http://friguzzi.github.io/aleph/doc/manual.html", "title":"Help on Aleph"},

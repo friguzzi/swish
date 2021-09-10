@@ -1,0 +1,2228 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>PLP Tutorial</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+        <link rel="stylesheet" type="text/css" href="css/unife.css">
+        <link rel="stylesheet" type="text/css" href="css/other.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css">
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+        <!--<script src="js/libs/jquery/jquery.js"></script>-->
+        <script src="http://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+        <!--        <script src="js/jquery-ui.min.js"></script>-->
+        <script src="js/lpn.js"></script>
+        <script src="js/sidenav.js"></script>
+        <script src="js/bibliography-handler.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div id="page-wrapper" class="w3-container">
+            <div id="header">
+                <header>
+                    <div class="w3-container unife-teal w3-padding-left">
+                        <div class="w3-padding-left">
+                            <h1><a href="">Probabilistic Logic Programming Tutorial</a></h1>
+                            <i class="w3-opennav w3-xxlarge menu-responsive-symbol fa fa-bars" onclick="w3_open()"></i>
+                        </div>
+
+                    </div>
+                </header>
+
+            </div>
+            <div id="sidenav">
+                <nav class="tutorial-sidenav w3-collapse w3-sidenav unife-teal2 w3-card-3">
+                    <a href="javascript:void(0)" onclick="w3_close()" 
+                       class="w3-closenav w3-large">Close X</a>
+                    <br>
+                    <a class="sidenav-link" href=""><i class="fa fa-home"></i> Home</a>				
+                    <a class="sidenav-link" href="#tutorial" ><i class="fa fa-book"></i> Tutorial</a>		
+                    <a class="sidenav-link" href="#credits"><i class="fa fa-group"></i> Credits</a>		
+                    <a class="sidenav-link" href="#contacts"><i class="fa fa-envelope"></i> Contact Us</a>		
+                </nav>
+            </div>
+            <div id="welcome" class="w3-container content"><h2>Welcome to the Tutorial of Probabilistic Logic Programming!</h2>
+                <div>
+                    This tutorial is meant to introduce the reader into the amazing world of
+                    Probabilistic Logic Programming
+                </div>
+
+            </div>
+
+            <div id="tutorial" class="w3-container content">
+                <section>
+                    <div id="intro">
+                        <h2 class="nocount">Introduction</h2>
+                        <p>Probabilistic Logic Programming (PLP) introduces probabilistic reasoning in Logic Programs in
+                            order to represent uncertain information. It is receiving an increased attention due to its applications
+                            in particular in the Machine Learning field.
+                            <br/>
+                            In this tutorial we will show how to use 
+                            <a href="http://cplint.lamping.unife.it/">cplint on SWISH</a>,
+                            a web application for performing inference and learning 
+                            on user-defined probabilistic logic programs. You will 
+                            learn how to write a probabilistic 
+                            logic program processable by <strong>cplint on SWISH</strong>,
+                            how to execute the different types of queries allowed by 
+                            this application and how to perform learning.
+                        </p>
+                        <p>
+                            <strong>cplint on SWISH</strong> is based on <a href="http://swish.swi-prolog.org/">SWISH</a>, a web framework for Logic Programming,
+                            and on cplint <span class="ref" data-cite="RigEs2009"></span>, a suite  
+                            of programs for inference and learning of Logic Programs
+                            with annotated disjunctions (LPADs) <span class="ref" data-cite="VenVerLp2004"></span>.
+                            It keeps the same syntax of cplint and as cplint it uses Logic Programs
+                            with annotated disjunctions (LPADs) as formalism to represent
+                            probabilistic logic programs.
+                        </p>
+                        <p>The tutorial is structured as follows. 
+                            <a href="#lpad" class="section-ref"></a> provides an introduction to LPADs.
+                            <a href="#inference" class="section-ref"></a> shows how to write an LPAD
+                            processable by <strong>cplint on SWISH</strong> and how to 
+                            perform simple and conditional exact inference over 
+                            LPADs. 
+                            <a href="#approx-inference" class="section-ref"></a> 
+                            and <a href="#rejection-MHMCMC" class="section-ref"></a>
+                            illustrate how to perform approximate inference over 
+                            LPADs.
+                            Sections <a href="#continuous-random-variables" class="section-ref"></a>
+                            and <a href="#conditional-continuous-random-variables" class="section-ref-name"></a>
+                            explain how to perform simple and conditional approximate inference
+                            over <strong>hybrid programs</strong>, i.e., programs 
+                            where some of the random variables are continuous.
+                            <a href="#parameter-learning" class="section-ref"></a>
+                            describes how to learn the parameters of an LPAD, whereas
+                            <a href="#structure-learning" class="section-ref"></a>
+                            explains how to perform structure learning. Finally 
+                            <a href="#test" class="section-ref"></a> shows how to
+                            test a learned program.</p>
+                        <div id="TOC">
+                            <h3  class="nocount">Table of Contents</h3>
+                            <ul>
+                                <li><a href="#lpad" class="section-ref-name"></a></li>
+                                <li><a href="#inference" class="section-ref-name"></a></li>
+                                <li><a href="#approx-inference" class="section-ref-name"></a></li>
+                                <li><a href="#rejection-MHMCMC" class="section-ref-name"></a></li>
+                                <li><a href="#continuous-random-variables" class="section-ref-name"></a></li>
+                                <li><a href="#conditional-continuous-random-variables" class="section-ref-name"></a></li>
+                                <li><a href="#parameter-learning" class="section-ref-name"></a></li>
+                                <li><a href="#structure-learning" class="section-ref-name"></a></li>
+                                <li><a href="#test" class="section-ref-name"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <hr/>
+                <section>
+                    <div id="lpad">
+                        <h2>Logic Program with Annotated Disjunction</h2>
+                        <h3>Definition</h3>
+                        <p>A Logic Program with Annotated Disjunction (LPAD) 
+                            <span class="ref" data-cite="VenVerLp2004"></span> 
+                            consists of a set of rules of the following form:</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-attribute">h_1 </span>: a_1 ; ... ; <span class="hljs-attribute">h_n </span>: <span class="hljs-attribute">a_n </span>:- b_1, ..., b_m. 
+</code></pre>
+                        <p>where <code>h_i</code> are atoms, <code>b_i</code> are literals and <code>a_i</code> are real numbers between 0 and 1 such that the sum of all <code>a_i</code> is 1. The set of elements <code>h_i : a_i</code> compose the head of a rule, while the set <code>b_i</code> is the body. Disjunction in  the  head  is  represented  with  a  semicolon  and  atoms  in  the  head  are  separated  from probabilities by a colon.
+                            If the head of a rule contains only one element <code>h : 1</code>, we can simply write this element as <code>h</code>, i.e. the clause takes the form of a normal prolog clause. Therefore</p>
+                        <pre><code class="language-{.pl}">h : <span class="hljs-number">1</span> :- <span class="hljs-keyword">b_1, </span>..., <span class="hljs-keyword">b_m.
+</span></code></pre>
+                        <p>is equivalent to</p>
+                        <pre><code class="language-{.pl}">h :- <span class="hljs-keyword">b_1, </span>..., <span class="hljs-keyword">b_m.
+</span></code></pre>
+                        <p>If the clause has an empty body, it can be represented like this:</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-attribute">h_1 </span>: a_1 ; ... ; <span class="hljs-attribute">h_n </span>: a_n. 
+</code></pre>
+                        <p>If the sum of all the <code>a_i</code> is smaller than 1, an extra disjunct <code>null</code> is assumed with probability <em>1 - sum(a_i)</em>. Therefore</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-tag">h_1</span> : 0<span class="hljs-class">.5</span> ; <span class="hljs-tag">h_2</span> : 0<span class="hljs-class">.2</span> <span class="hljs-pseudo">:-</span> <span class="hljs-tag">b_1</span>, ..., <span class="hljs-tag">b_m</span>. 
+</code></pre>
+                        <p>is equivalent to</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-rule"><span class="hljs-attribute">null </span>:<span class="hljs-value"> <span class="hljs-number">0.3</span> </span></span>; <span class="hljs-tag">h_1</span> : 0<span class="hljs-class">.5</span> ; <span class="hljs-tag">h_2</span> : 0<span class="hljs-class">.2</span> <span class="hljs-pseudo">:-</span> <span class="hljs-tag">b_1</span>, ..., <span class="hljs-tag">b_2</span>.
+</code></pre>
+                    </div>
+                </section>
+
+                <hr/>
+                <section>
+                    <div id="inference">
+                        <h2>Writing an LPAD and Asking a Query with Exact Inference</h2>
+                        In this section the basic features of 
+                        <strong>cplint on SWISH</strong> will be illustrated.
+                        You will learn:
+                        <ul>
+                            <li>how to write your first
+                                probabilistic logic program processable by 
+                                <strong>cplint on SWISH</strong>
+                                that follows the syntax of LPADs;</li>
+                            <li>how to submit a simple or a conditional query;</li>
+                            <li>how to obtain the histogram of a query</li>
+                        </ul>
+
+                        <p>We consider as example a program which models the fact that 
+                            if somebody has the flu and the climate is cold, there 
+                            is the possibility that an epidemic or a pandemic arises. 
+                            We are uncertain about whether the climate is cold but 
+                            we know for sure that David and Robert have the flu 
+                            (based on <span class="ref" data-cite="BelRigEM2013"></span>).</p>
+                        <h3>Epidemic Example: Writing the Program Step by Step</h3>
+                        <p>The rule that we want to write is the one which  states that, if somebody has the flu and the climate is cold, an epidemic arises with 60% probability, a pandemic arises with 30% probability, whereas we have a 10% probability that neither an epidemic nor a pandemic arises. We can write</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-rule"><span class="hljs-attribute">epidemic </span>:<span class="hljs-value"> <span class="hljs-number">0.6</span></span></span>; <span class="hljs-rule"><span class="hljs-attribute">pandemic </span>:<span class="hljs-value"> <span class="hljs-number">0.3</span></span></span>; <span class="hljs-rule"><span class="hljs-attribute">null</span>:<span class="hljs-value"> <span class="hljs-number">0.1</span> :- <span class="hljs-function">flu</span>(_), cold.
+</span></span></code></pre>
+                        <p>As we said in Section <a href="#lpad">Logic Program with Annotated Disjunction</a>, the <code>null</code> atom can be implicit.
+                            Therefore the previous rule, without changing its meaning, can be written</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-rule"><span class="hljs-attribute">epidemic </span>:<span class="hljs-value"> <span class="hljs-number">0.6</span></span></span>; <span class="hljs-rule"><span class="hljs-attribute">pandemic </span>:<span class="hljs-value"> <span class="hljs-number">0.3</span> :- <span class="hljs-function">flu</span>(_), cold.
+</span></span></code></pre>
+                        <p>The following probabilistic fact says that the weather is cold with a 70% probability. Note that the <code>null</code> atom is implicit here as well.</p>
+                        <pre><code class="language-{.pl}">cold : <span class="hljs-number">0.7</span>.
+</code></pre>
+                        <p>Now we assert that David and Robert have the flu.</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">flu</span><span class="hljs-params">(david)</span></span>.
+<span class="hljs-function"><span class="hljs-title">flu</span><span class="hljs-params">(robert)</span></span>.
+</code></pre>
+                        <h3>Epidemic Example: Full Program</h3>
+                        <p>The program is almost complete, what we need now is to 
+                            load the library <code>pita</code>  in order to perform 
+                            exact inference (for further information about PITA see 
+                            <span class="ref" data-cite="RigSwiTP2011"></span>). 
+                            Therefore we import this library with the built-in predicate 
+                            <code>use_module/1</code>. So we need to write</p>
+                        <pre><code class="language-{.pl}">:- <span class="hljs-function"><span class="hljs-title">use_module</span><span class="hljs-params">(library(pita)</span></span>).
+</code></pre>
+                        <p>Moreover, after <code>:- use_module(library(pita))</code> we need to write <code>:- pita.</code> in order to initalize the library and the program should be enclosed by <code>:- begin_lpad.</code> and <code>:- end_lpad.</code> (respectively at the begin and at the end of the program). These goals are mandatory to initialize the inference system.</p>
+                        <p>The full LPAD of this example is shown below.</p>
+                        <div class="nb-cell program prolog"><pre><code class="language-{.pl}"><span class="hljs-comment">% load the 'pita' library to perform inference</span>
+:- <span class="hljs-atom">use_module</span>(<span class="hljs-atom">library</span>(<span class="hljs-atom">pita</span>)).
+:- <span class="hljs-atom">pita</span>.
+<span class="hljs-comment">% to be written before the program</span>
+:- <span class="hljs-atom">begin_lpad</span>.
+<span class="hljs-atom">epidemic</span> : <span class="hljs-number">0.6</span>; <span class="hljs-atom">pandemic</span> : <span class="hljs-number">0.3</span> :- <span class="hljs-atom">flu</span>(<span class="hljs-name">_</span>), <span class="hljs-atom">cold</span>.
+<span class="hljs-atom">cold</span> : <span class="hljs-number">0.7</span>.
+<span class="hljs-atom">flu</span>(<span class="hljs-atom">david</span>).
+<span class="hljs-atom">flu</span>(<span class="hljs-atom">robert</span>).
+<span class="hljs-comment">% to be written after the program</span>
+:- <span class="hljs-atom">end_lpad</span>.
+</code></pre></div>
+                        <h3>How to Execute a Simple Query</h3>
+                        <p>Ok, we have our program, now what?!
+                            Now it’s time to submit some queries!
+                        </p>
+                        <p>To query a program you must use the <code>prob/2</code> predicate with the following syntax</p>
+                        <pre><code class="language-{.pl}">prob(<span class="hljs-symbol">:Query</span><span class="hljs-symbol">:atom</span>,-<span class="hljs-constant">Probability</span><span class="hljs-symbol">:float</span>).
+</code></pre>
+                        <p><code>Query</code> is an atom that represents the query that we want to perform, while <code>Probability</code> is the variable that will contain the probability that <code>Query</code> is true (a float between 0 and 1).</p>
+                        <p>For instance, let us ask for the probability that an epidemic arises. To know it we just have to submit the following query.</p>
+                        <div class="nb-cell query"><pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">prob</span><span class="hljs-params">(epidemic, P)</span></span>.
+</code></pre></div>
+                        <p>If you click on the icon <i class="w3-large fa fa-play-circle-o"></i>
+                            a frame containing <strong>cplint on SWISH</strong> will be open, then you can 
+                            submit the query by clicking on the "Run" button.
+                            <br/>
+                            You can close the frame by clicking on the icon 
+                            <i class="w3-large fa fa-times-circle-o"></i>
+                        </p>
+                        <h3>How to Execute an Conditional Query</h3>
+                        <p><strong>cplint on SWISH</strong> allows to ask <strong>conditional 
+                                queries</strong> with the predicate <code>prob/3</code></p>
+                        <pre><code class="language-{.pl}">prob(<span class="hljs-symbol">:Query</span><span class="hljs-symbol">:atom</span>,<span class="hljs-symbol">:Evidence</span><span class="hljs-symbol">:atom</span>,-<span class="hljs-constant">Probability</span><span class="hljs-symbol">:float</span>).
+</code></pre>       
+                        <p>For instance, we can ask for the probability that an epidemic 
+                            arises given that outside is cold</p>
+                        <div class="nb-cell query"><pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">prob</span><span class="hljs-params">(epidemic, cold, P)</span></span>.
+</code></pre></div>
+                        <h3>How to Execute a Query with Graphical Results</h3>
+                        <p><strong>cplint on SWISH</strong> can show the probabilistic 
+                            results of a query as histograms using predicate <code>bar/2</code>. 
+                            <!-- This feature, however, 
+                             it is only supported if we are using the "Prolog" editor, 
+                             it is <strong>NOT</strong> supported with the "LPAD" editor.-->
+                            <br/>
+                            The syntax  is </p>
+                        <pre><code class="language-{.pl}">bar(+<span class="hljs-constant">Probability</span><span class="hljs-symbol">:float</span>,-<span class="hljs-constant">Chart</span><span class="hljs-symbol">:dict</span>).
+</code></pre>
+                        <p>Where <code>Probability</code> is the probability of the query and
+                         <code>Chart</code> is 
+                            a dictionary that will contain a bar chart with two bars, 
+                            one for the probability of the atom of being true and 
+                            one for the probability of the atom of being false 
+                            (1- true_probability). 
+                            After the submission of the query a graphical bar chart 
+                            of the two values will be plotted.</p>
+                        <p>However, before submitting this kind of query, we need to 
+                            specify that we want to use the renderer <code>c3</code> 
+                            by adding the following line before the 
+                            <code>:- begin_lpad.</code> goal</p>
+                        <pre><code class="language-{.pl}">:- <span class="hljs-function"><span class="hljs-title">use_rendering</span><span class="hljs-params">(c3)</span></span>.
+</code></pre>
+                        <p>Moreover <strong>cplint on SWISH</strong> allows to draw 
+                            the Binary Decision Diagram (BDD) used to perform queries with
+                            exact inference. A BDD represents the explanations
+                            of a query.
+                            <br/>
+                            The syntax is the following:
+                        </p>
+                        <pre><code class="language-{.pl}">bdd_dot_string(<span class="hljs-symbol">:Query</span><span class="hljs-symbol">:atom</span>,-<span class="hljs-constant">DotString</span><span class="hljs-symbol">:string</span>,-<span class="hljs-constant">Var</span><span class="hljs-symbol">:list</span>).
+</code></pre>
+                        <p>A solid edge indicates a 1-child, a dashed edge 
+                            indicates a 0-child and a dotted edge indicates a 
+                            negated 0-child. Each level of the BDD is associated 
+                            to a variable of the form XI_J indicated on the left: 
+                            I indicates the multivalued variable index and J the 
+                            index of the Boolean variable of I. The table 
+                            <code>Var</code>
+                            contains the associations between the rule groundings 
+                            and the multivalued variables: the first column 
+                            contains the multivalued variable index, the second 
+                            column contains the rule index, corresponding to its 
+                            position in the program, and the last column contains 
+                            the list of constants grounding the rule, each replacing 
+                            a variable in the order of appearance in the rule.
+                        </p>
+                        <p>However, before submitting <code>bdd_dot_string/3</code>,
+                            we have to specify that we want to use the renderers <code>graphviz</code>
+                            and <code>table</code>. 
+                        <pre><code class="language-prolog">:- <span class="hljs-atom">use_rendering</span>(<span class="hljs-atom">graphviz</span>).
+:- <span class="hljs-atom">use_rendering</span>(<span class="hljs-atom">table</span>,[<span class="hljs-atom">header</span>([<span class="hljs-string">'Multivalued variable index'</span>,<span class="hljs-string">'Rule index'</span>,<span class="hljs-string">'Grounding substitution'</span>])]).
+</code></pre>
+                        <p>This render plugins are necessary to plot the BDD and to show
+                            what is contained in <code>Var</code> as a table.
+                        </p>
+                        
+                        <p>Therefore our program becomes</p>
+                        <div class="nb-cell program prolog">
+                            <pre><code class="language-{.pl}"><span class="hljs-comment">% load the 'pita' library to perform inference</span>
+:- <span class="hljs-atom">use_module</span>(<span class="hljs-atom">library</span>(<span class="hljs-atom">pita</span>)).
+:- <span class="hljs-atom">pita</span>.
+<span class="hljs-comment">% allows to create graphical results</span>
+:- <span class="hljs-atom">use_rendering</span>(<span class="hljs-atom">c3</span>).
+:- <span class="hljs-atom">pita</span>.
+<span class="hljs-comment">% the following renderers allow to correctly show the BDDs</span>
+:- <span class="hljs-atom">use_rendering</span>(<span class="hljs-atom">graphviz</span>).
+<!--:- <span class="hljs-atom">use_rendering</span>(<span class="hljs-atom">table</span>, [<span class="hljs-string">'Multivalued variable index'</span>,<span class="hljs-string">'Rule index'</span>,<span class="hljs-string">'Grounding substitution'</span>]).-->
+<span class="hljs-comment">% to be written before the program</span>
+:- <span class="hljs-atom">begin_lpad</span>.
+<span class="hljs-atom">epidemic</span> : <span class="hljs-number">0.6</span>; <span class="hljs-atom">pandemic</span> : <span class="hljs-number">0.3</span> :- <span class="hljs-atom">flu</span>(<span class="hljs-name">_</span>), <span class="hljs-atom">cold</span>.
+<span class="hljs-atom">cold</span> : <span class="hljs-number">0.7</span>.
+<span class="hljs-atom">flu</span>(<span class="hljs-atom">david</span>).
+<span class="hljs-atom">flu</span>(<span class="hljs-atom">robert</span>).
+<span class="hljs-comment">% to be written after the program</span>
+:- <span class="hljs-atom">end_lpad</span>.
+</code></pre>
+                        </div>
+
+                        <p>Let us see the histogram of the first query of the example
+                            (simple inference)</p>
+                        <div class="nb-cell query"><pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">prob</span><span class="hljs-params">(epidemic, P),<span class="hljs-title">bar</span><span class="hljs-params">(P,G)</span></span>.
+</code></pre></div>
+                        <p>If we want to see the histogram of the second query 
+                            (conditional query)</p>
+                        <div class="nb-cell query"><pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">prob</span><span class="hljs-params">(epidemic, cold, P)</span>,<span class="hljs-title">bar</span><span class="hljs-params">(P,G)</span></span>.
+</code></pre></div>
+                        <p>If we want to see the BDD of the first query of the example (simple inference)</p>
+                        <div class="nb-cell query"><pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">bdd_dot_string</span><span class="hljs-params">(epidemic, BDD, Var)</span></span>.
+</code></pre></div>
+                        <p>This example shows that conclusions from different 
+                            groundings of a rule are combined with a noisy or 
+                            rule: the probability of an epidemic is obtained by 
+                            combining with noisy or the conclusions of the two 
+                            groundings of the rule where the only variable is 
+                            replaced by David or Robert. So the probability of 
+                            an epidemic if <code>cold</code> is true is <em>0.6+0.6-0.6*0.6=84</em>. 
+                            Since <code>cold</code> is also uncertain, the overall 
+                            probability is <em>0.84*0.7=0.588</em>.</p>
+                        <hr>
+                        <p>Complete example: <a target="_blank" href="http://cplint.lamping.unife.it/example/inference/epidemic.pl">epidemic.pl</a></p>
+                    </div>
+                </section>
+
+                <hr/>
+                <section>
+                    <div id="approx-inference">
+                        <h2>Approximate Inference</h2>
+                        <p>In this example we will show how to perform an approximate 
+                            inference with Monte Carlo sampling. In addition, as in the
+                            exact inference setting, it is possible to plot an histogram
+                            representing the probabilistic values.</p>
+                        <p>To show these features we exploit the Markov chain example 
+                            <span class="ref" data-cite="GorRamMc2012"></span>.
+                            In this example we want to know what is the likelihood 
+                            that on an execution of a Markov chain from a start 
+                            state 's', a final state 't' will be reached?
+                            The chains may be infinite so the query may have an 
+                            infinite number of explanations and if we want exact 
+                            inference and use PITA, the inference may not terminate. 
+                            To ensure termination, we have two solutions. 
+                            We may either fix a bound on the depth of the derivations 
+                            of PITA by setting the parameters</p>
+                        <pre><code class="language-{.pl}">:- <span class="hljs-function"><span class="hljs-title">set_pita</span><span class="hljs-params">(depth_bound,true)</span></span>.
+:- <span class="hljs-function"><span class="hljs-title">set_pita</span><span class="hljs-params">(depth,&lt;level of depth (integer)</span></span>&gt;).
+</code></pre>
+                        <p>(see <a target="_blank" href="http://cplint.lamping.unife.it/example/inference/markov_chaindb.pl">exact inference variant of this example</a>). Alternatively, MCINTYRE can be used.</p>
+                        <p>Here we will use the latter approach.</p>
+                        <h3>Markov Chain Example: Full Program</h3>
+                        <p>Below the full program of this example is shown</p>
+                        <div class="nb-cell program prolog"><p>
+                            <pre><code class="language-{.pl}"><span class="hljs-comment">% load the library ‘mcintyre’ to perform approximate inference</span>
+:- <span class="hljs-atom">use_module</span>(<span class="hljs-atom">library</span>(<span class="hljs-atom">mcintyre</span>)).
+<span class="hljs-comment">% load the renderer ‘c3’ for graphical results</span>
+:- <span class="hljs-atom">use_rendering</span>(<span class="hljs-atom">c3</span>).
+<span class="hljs-comment">% initialize the library 'mcintyre'</span>
+:- <span class="hljs-atom">mc</span>.
+<span class="hljs-comment">% to be written before the program</span>
+:- <span class="hljs-atom">begin_lpad</span>.
+<span class="hljs-atom">reach</span>(<span class="hljs-name">S</span>, <span class="hljs-name">I</span>, <span class="hljs-name">T</span>) :-
+<span class="hljs-atom">trans</span>(<span class="hljs-name">S</span>, <span class="hljs-name">I</span>, <span class="hljs-name">U</span>),
+<span class="hljs-atom">reach</span>(<span class="hljs-name">U</span>, <span class="hljs-atom">next</span>(<span class="hljs-name">I</span>), <span class="hljs-name">T</span>).
+<span class="hljs-atom">reach</span>(<span class="hljs-name">S</span>, <span class="hljs-name">_</span>, <span class="hljs-name">S</span>).
+<span class="hljs-atom">trans</span>(<span class="hljs-atom">s0</span>,<span class="hljs-name">S</span>,<span class="hljs-atom">s0</span>):<span class="hljs-number">0.5</span>; <span class="hljs-atom">trans</span>(<span class="hljs-atom">s0</span>,<span class="hljs-name">S</span>,<span class="hljs-atom">s1</span>):<span class="hljs-number">0.3</span>; <span class="hljs-atom">trans</span>(<span class="hljs-atom">s0</span>,<span class="hljs-name">S</span>,<span class="hljs-atom">s2</span>):<span class="hljs-number">0.2</span>.
+<span class="hljs-atom">trans</span>(<span class="hljs-atom">s1</span>,<span class="hljs-name">S</span>,<span class="hljs-atom">s1</span>):<span class="hljs-number">0.4</span>; <span class="hljs-atom">trans</span>(<span class="hljs-atom">s1</span>,<span class="hljs-name">S</span>,<span class="hljs-atom">s3</span>):<span class="hljs-number">0.1</span>; <span class="hljs-atom">trans</span>(<span class="hljs-atom">s1</span>,<span class="hljs-name">S</span>,<span class="hljs-atom">s4</span>):<span class="hljs-number">0.5</span>.
+<span class="hljs-atom">trans</span>(<span class="hljs-atom">s4</span>,<span class="hljs-name">_</span>,<span class="hljs-atom">s3</span>).
+<span class="hljs-comment">% to be written after the program</span>
+:- <span class="hljs-atom">end_lpad</span>.
+</code></pre></div>
+                        <p>To execute queries we must use the predicates <code>mc_prob/2</code>.</p>
+                        <pre><code class="language-{.pl}">mc_prob(<span class="hljs-symbol">:Query</span><span class="hljs-symbol">:atom</span>,-<span class="hljs-constant">Probability</span><span class="hljs-symbol">:float</span>).
+</code></pre>
+                        <p>We ask for the probability that starting at state 's0' at instance 0, state 's3' is reachable</p>
+                        <div class="nb-cell query"><pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">mc_prob</span><span class="hljs-params">(reach(s0,<span class="hljs-number">0</span>,s3)</span></span>,P).
+</code></pre></div>
+                        <p>if we want to see the probability histogram</p>
+                        <div class="nb-cell query"><pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">mc_prob</span><span class="hljs-params">(reach(s0,<span class="hljs-number">0</span>,s3),P)</span>,<span class="hljs-title">bar</span><span class="hljs-params">(P,G)</span></span>.
+</code></pre></div>
+                        <h3>Sampling a Query</h3>
+                        <p>With MCINTYRE, you can also take a given number of sample with</p>
+                        <pre><code class="language-{.pl}">mc_sample(<span class="hljs-symbol">:Query</span><span class="hljs-symbol">:atom</span>,+<span class="hljs-constant">Samples</span><span class="hljs-symbol">:int</span>,-<span class="hljs-constant">Probability</span><span class="hljs-symbol">:float</span>).</code></pre>
+                        <p>For example this query</p>
+                        <div class="nb-cell query"><pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">mc_sample</span><span class="hljs-params">(reach(s0,<span class="hljs-number">0</span>,s3),<span class="hljs-number">1000</span>,P)</span></span>.
+</code></pre></div>
+                        <p>samples <code>reach(s0,0,s3)</code> 1000 times and returns in P the estimated probability.</p>
+                        <p>We can obtain a bar chart of the samples with the predicate <code>bar/2</code> (<strong>note:</strong> remember to load the renderer <code>c3</code>):</p>
+                        <div class="nb-cell query"><pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">mc_sample</span><span class="hljs-params">(reach(s0,<span class="hljs-number">0</span>,s3)</span></span>,<span class="hljs-number">1000</span>,P)</span>,<span class="hljs-title">bar</span><span class="hljs-params">(P,G)</span></span>.
+</code></pre></div>
+
+                        <p>We can also sample <strong>arguments of queries</strong> with the predicate <code>mc_sample_arg/4</code></p>
+                        <pre><code class="language-{.pl}">mc_sample_arg(<span class="hljs-symbol">:Query</span><span class="hljs-symbol">:atom</span>,+<span class="hljs-constant">Samples</span><span class="hljs-symbol">:int</span>,?<span class="hljs-constant">Arg</span><span class="hljs-symbol">:var</span>,-<span class="hljs-constant">Values</span><span class="hljs-symbol">:list</span>).
+</code></pre>
+                        <p>The predicate samples <code>Query</code> a number of <code>Samples</code> times. <code>Arg</code> should be a variable in <code>Query</code>.
+                            The predicate returns in <code>Values</code> a list of couples <code>L-N</code> where <code>L</code> is the list of
+                            values of <code>Arg</code> for which <code>Query</code> succeeds in world sampled at random and
+                            <code>N</code> is the number of samples. If <code>L</code> is the empty list, it means that for that sample the query failed.
+                            If <code>L</code> is a list with a
+                            single element, it means that for that sample the query is
+                            determinate.
+                            If, in all couples <code>L-N</code>, <code>L</code>
+                            is a list with a
+                            single element, it means that the clauses in the program
+                            are mutually exclusive, i.e., that in every sample,
+                            only one clause for each subgoal has the body true.</p>
+                        <p>So for example we may sample the argument <code>S</code> of 
+                            <code>reach(s0,0,S)</code> with</p>
+                        <div class="nb-cell query"><pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">mc_sample_arg</span><span class="hljs-params">(reach(s0,<span class="hljs-number">0</span>,S)</span></span>,<span class="hljs-number">50</span>,S,Values).
+</code></pre></div>
+                        <p>If we want to see the bar graph of this sampling we use the predicate <code>argbar/2</code></p>
+                        <pre><code class="language-{.pl}">argbar(+<span class="hljs-symbol">List</span><span class="hljs-symbol">:list</span>,-<span class="hljs-constant">Chart</span><span class="hljs-symbol">:dict</span>).
+</code></pre>
+
+                        <p>For example</p>
+                        <div class="nb-cell query"><pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">mc_sample_arg</span><span class="hljs-params">(reach(s0,<span class="hljs-number">0</span>,S),<span class="hljs-number">50</span>,S,List),</span><span class="hljs-title">argbar</span><span class="hljs-params">(List,Chart).</span></span></span>
+</code></pre></div>
+                        <p>Moreover, we can sample arguments of queries with the predicate <code>mc_sample_arg_first/4</code></p>
+                        <pre><code class="language-{.pl}">mc_sample_arg_first<span class="hljs-list">(<span class="hljs-keyword">:Query</span><span class="hljs-keyword">:atom</span>,+Samples<span class="hljs-keyword">:int</span>,?Arg<span class="hljs-keyword">:var</span>,-Values<span class="hljs-keyword">:list</span>)</span>
+</code></pre>
+                        <p>that returns in <code>Values</code> a list of couples <code>V-N</code> where
+                            <code>V</code> is the value of <code>Arg</code> returned as the first answer by <code>Query</code> in
+                            a world sampled at random and <code>N</code> is the number of samples
+                            returning that value.
+                            <code>V</code> is <code>failure</code> if the query fails.
+                            <code>mc_sample_arg_first/4</code> differs from <code>mc_sample_arg/4</code> because the first just computes the first answer of the query for each sampled world.</p>
+                        <p>So for example we may sample 50 times the first answer for <code>S</code> in <code>reach(s0,0,S)</code> with</p>
+                        <div class="nb-cell query"><pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">mc_sample_arg_first</span><span class="hljs-params">(reach(s0,<span class="hljs-number">0</span>,S)</span></span>,<span class="hljs-number">50</span>,S,Values).
+</code></pre></div>
+                        <hr />
+                        <p>Complete example: <a target="_blank" href="http://cplint.lamping.unife.it/example/inference/markov_chain.pl">markov_chain.pl</a></p>
+
+
+
+                        <hr/>
+                        <div id="pctl_slep">
+                            <h3>Computing Expectations</h3>
+                            <p>With <strong>cplint on SWISH</strong> it is possible to
+                                compute the expectation of a random variable.
+                                <br/>
+                                In this example we want to perform model checking of the 
+                                Synchronous Leader Election Protocol 
+                                <span class="ref" data-cite="ItaRodSB1990,NamRamAM2014,prismURL"></span>
+                                expressed in Probabilistic 
+                                Computation Tree Logic (PCTL).
+                                <br/>
+                                Given a synchronous ring of N processes the Synchronous 
+                                Leader Election Protocol is used to elect a leader 
+                                (a uniquely designated processor) by sending messages around the ring.
+                                The protocol proceeds in rounds and is parametrised by a
+                                constant K. Each round begins by all processors (independently) 
+                                choosing a random number (uniformly) from {1,…,K} as an 
+                                id. The processors then pass their ids around the ring. 
+                                If there is a unique id, then the processor with the 
+                                maximum unique id is elected the leader, and otherwise 
+                                the processors begin a new round.</p>
+                            <!--                            <p>With this program you can</p>
+                                                        <ul>
+                                                            <li>check that the probability of eventually electing a leader is 1</li>
+                                                            <li>compute the probability of electing a leader within a certain
+                                                                number of rounds</li>
+                                                            <li>compute the expected number of rounds to elect a leader</li>
+                                                            <li>graph the probability of electing a leader within L rounds as a function of L</li>
+                                                            <li>graph the expected number of rounds to elect a leader as a function of the
+                                                                number of processes or of K</li>
+                                                        </ul>-->
+
+                            <h4>Synchronous Leader Election Protocol example: full program</h4>
+                            <p>The full program of this example is</p>
+                            <div class="nb-cell program prolog" data-code="https://raw.githubusercontent.com/friguzzi/swish/master/examples/inference/pctl_slep.pl" data-singleline="true"><pre><code class="language-{.pl}">:- <span class="hljs-atom">use_module</span>(<span class="hljs-atom">library</span>(<span class="hljs-atom">mcintyre</span>)).
+
+:- <span class="hljs-atom">if</span>(<span class="hljs-atom">current_predicate</span>(<span class="hljs-atom">use_rendering</span>/<span class="hljs-number">1</span>)).
+:- <span class="hljs-atom">use_rendering</span>(<span class="hljs-atom">c3</span>).
+:- <span class="hljs-atom">endif</span>.
+:- <span class="hljs-atom">dynamic</span> <span class="hljs-atom">kr</span>/<span class="hljs-number">1</span>,<span class="hljs-atom">num</span>/<span class="hljs-number">1.</span>
+:- <span class="hljs-atom">mc</span>.
+
+:- <span class="hljs-atom">begin_lpad</span>.
+
+<span class="hljs-comment">% State Formulae </span>
+<span class="hljs-atom">models</span>(<span class="hljs-name">_S</span>, <span class="hljs-atom">tt</span>,<span class="hljs-name">_Hist</span>,<span class="hljs-name">_Limit</span>,<span class="hljs-name">_Time</span>).
+<span class="hljs-atom">models</span>(<span class="hljs-name">S</span>, <span class="hljs-atom">prop</span>(<span class="hljs-name">P</span>),<span class="hljs-name">_Hist</span>,<span class="hljs-name">_Limit</span>,<span class="hljs-name">_Time</span>) :-
+    <span class="hljs-atom">proposition</span>(<span class="hljs-name">P</span>, <span class="hljs-name">S</span>).
+<span class="hljs-atom">models</span>(<span class="hljs-name">S</span>, <span class="hljs-atom">and</span>(<span class="hljs-name">F1</span>, <span class="hljs-name">F2</span>),<span class="hljs-name">Hist</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time</span>) :-
+    <span class="hljs-atom">models</span>(<span class="hljs-name">S</span>, <span class="hljs-name">F1</span>,<span class="hljs-name">Hist</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time</span>), <span class="hljs-atom">models</span>(<span class="hljs-name">S</span>, <span class="hljs-name">F2</span>,<span class="hljs-name">Hist</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time</span>).
+<span class="hljs-atom">models</span>(<span class="hljs-name">S</span>, <span class="hljs-atom">or</span>(<span class="hljs-name">F1</span>, <span class="hljs-name">_F2</span>),<span class="hljs-name">Hist</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time</span>) :-
+    <span class="hljs-atom">models</span>(<span class="hljs-name">S</span>, <span class="hljs-name">F1</span>,<span class="hljs-name">Hist</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time</span>).
+<span class="hljs-atom">models</span>(<span class="hljs-name">S</span>, <span class="hljs-atom">or</span>(<span class="hljs-name">F1</span>, <span class="hljs-name">F2</span>),<span class="hljs-name">Hist</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time</span>) :-
+    \+ <span class="hljs-atom">models</span>(<span class="hljs-name">S</span>, <span class="hljs-name">F1</span>,<span class="hljs-name">Hist</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time</span>),
+    <span class="hljs-atom">models</span>(<span class="hljs-name">S</span>, <span class="hljs-name">F2</span>,<span class="hljs-name">Hist</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time</span>).
+<span class="hljs-atom">models</span>(<span class="hljs-name">S</span>, <span class="hljs-atom">not</span>(<span class="hljs-name">F</span>), <span class="hljs-name">Hist</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time</span>) :-
+    \+ <span class="hljs-atom">models</span>(<span class="hljs-name">S</span>, <span class="hljs-name">F</span>,<span class="hljs-name">Hist</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time</span>).
+<span class="hljs-atom">models</span>(<span class="hljs-name">S</span>, <span class="hljs-atom">prob_until</span>(<span class="hljs-atom">comp</span>(<span class="hljs-name">Op</span>, <span class="hljs-name">P</span>), <span class="hljs-name">F1</span>, <span class="hljs-name">F2</span>),<span class="hljs-name">Hist</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time</span>) :-
+    <span class="hljs-atom">mc_sample</span>(<span class="hljs-atom">pmodels</span>(<span class="hljs-name">S</span>, <span class="hljs-atom">until</span>(<span class="hljs-name">F1</span>, <span class="hljs-name">F2</span>),<span class="hljs-name">Hist</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time</span>),<span class="hljs-number">20</span>, <span class="hljs-name">Q</span>),
+    <span class="hljs-atom">comp</span>(<span class="hljs-name">Q</span>, <span class="hljs-name">Op</span>, <span class="hljs-name">P</span>).
+<span class="hljs-atom">models</span>(<span class="hljs-name">S</span>, <span class="hljs-atom">prob_next</span>(<span class="hljs-atom">comp</span>(<span class="hljs-name">Op</span>, <span class="hljs-name">P</span>), <span class="hljs-name">F</span>),<span class="hljs-name">Hist</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time</span>) :-
+    <span class="hljs-atom">mc_sample</span>(<span class="hljs-atom">pmodels</span>(<span class="hljs-name">S</span>, <span class="hljs-atom">next</span>(<span class="hljs-name">F</span>),<span class="hljs-name">Hist</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time</span>),<span class="hljs-number">20</span>, <span class="hljs-name">Q</span>),
+    <span class="hljs-atom">comp</span>(<span class="hljs-name">Q</span>, <span class="hljs-name">Op</span>, <span class="hljs-name">P</span>).
+
+<span class="hljs-atom">comp</span>(<span class="hljs-name">Q</span>,&gt;,<span class="hljs-name">P</span>):-
+  <span class="hljs-name">Q</span>&gt;<span class="hljs-name">P</span>.
+
+<span class="hljs-atom">comp</span>(<span class="hljs-name">Q</span>,&gt;=,<span class="hljs-name">P</span>):-
+  <span class="hljs-name">Q</span>&gt;=<span class="hljs-name">P</span>.
+
+<span class="hljs-atom">comp</span>(<span class="hljs-name">Q</span>,&lt;,<span class="hljs-name">P</span>):-
+  <span class="hljs-name">Q</span>&lt;<span class="hljs-name">P</span>.
+
+<span class="hljs-atom">comp</span>(<span class="hljs-name">Q</span>,=&lt;,<span class="hljs-name">P</span>):-
+  <span class="hljs-name">Q</span>=&lt;<span class="hljs-name">P</span>.
+
+
+<span class="hljs-comment">% Path Formulae</span>
+<span class="hljs-atom">pmodels</span>(<span class="hljs-name">S</span>,<span class="hljs-name">F</span>):-
+  <span class="hljs-atom">pmodels</span>(<span class="hljs-name">S</span>,<span class="hljs-name">F</span>,[],<span class="hljs-atom">nolimit</span>,<span class="hljs-number">0</span>,<span class="hljs-name">_Time</span>).
+
+<span class="hljs-atom">pmodels</span>(<span class="hljs-name">S</span>,<span class="hljs-name">F</span>,<span class="hljs-name">Hist</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time</span>):-
+  <span class="hljs-atom">pmodels</span>(<span class="hljs-name">S</span>,<span class="hljs-name">F</span>,<span class="hljs-name">Hist</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time</span>,<span class="hljs-name">_Time</span>).
+
+<span class="hljs-atom">pmodels</span>(<span class="hljs-name">S</span>, <span class="hljs-atom">until</span>(<span class="hljs-name">_F1</span>, <span class="hljs-name">F2</span>),<span class="hljs-name">Hist</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time</span>,<span class="hljs-name">Time</span>) :-
+    <span class="hljs-atom">models</span>(<span class="hljs-name">S</span>, <span class="hljs-name">F2</span>,<span class="hljs-name">Hist</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time</span>),!.
+    
+<span class="hljs-atom">pmodels</span>(<span class="hljs-name">S</span>, <span class="hljs-atom">until</span>(<span class="hljs-name">F1</span>, <span class="hljs-name">F2</span>),<span class="hljs-name">Hist0</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time0</span>,<span class="hljs-name">Time</span>) :-
+    <span class="hljs-atom">within_limit</span>(<span class="hljs-name">Time0</span>,<span class="hljs-name">Limit</span>),
+    <span class="hljs-atom">models</span>(<span class="hljs-name">S</span>, <span class="hljs-name">F1</span>,<span class="hljs-name">Hist0</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time0</span>),
+    <span class="hljs-atom">ctrans</span>(<span class="hljs-name">S</span>, <span class="hljs-name">_</span>, <span class="hljs-name">T</span>, <span class="hljs-name">Hist0</span>, <span class="hljs-name">Hist</span>),!,
+    <span class="hljs-name">Time1</span> <span class="hljs-atom">is</span> <span class="hljs-name">Time0</span>+<span class="hljs-number">1</span>,
+    <span class="hljs-atom">pmodels</span>(<span class="hljs-name">T</span>, <span class="hljs-atom">until</span>(<span class="hljs-name">F1</span>,<span class="hljs-name">F2</span>),<span class="hljs-name">Hist</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time1</span>,<span class="hljs-name">Time</span>).
+
+<span class="hljs-atom">pmodels</span>(<span class="hljs-name">S</span>, <span class="hljs-atom">next</span>(<span class="hljs-name">F</span>), <span class="hljs-name">Hist</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time0</span>,<span class="hljs-name">Time</span>) :-
+    <span class="hljs-atom">within_limit</span>(<span class="hljs-name">Time0</span>,<span class="hljs-name">Limit</span>),
+    <span class="hljs-atom">ctrans</span>(<span class="hljs-name">S</span>, <span class="hljs-name">_</span>, <span class="hljs-name">T</span>, <span class="hljs-name">Hist</span>, <span class="hljs-name">_</span>),!,
+    <span class="hljs-name">Time</span> <span class="hljs-atom">is</span> <span class="hljs-name">Time0</span>+<span class="hljs-number">1</span>,
+    <span class="hljs-atom">models</span>(<span class="hljs-name">T</span>, <span class="hljs-name">F</span>,<span class="hljs-name">Hist</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">Time</span>).
+
+<span class="hljs-atom">within_limit</span>(<span class="hljs-name">_Time</span>,<span class="hljs-atom">nolimit</span>):-!.
+
+<span class="hljs-atom">within_limit</span>(<span class="hljs-name">Time</span>,<span class="hljs-name">Limit</span>):-
+  <span class="hljs-name">Time</span>&lt;<span class="hljs-name">Limit</span>.
+
+<span class="hljs-atom">bounded_eventually</span>(<span class="hljs-name">Prop</span>,<span class="hljs-name">Rounds</span>):-
+  <span class="hljs-atom">num</span>(<span class="hljs-name">N</span>),
+  <span class="hljs-name">B</span> <span class="hljs-atom">is</span> <span class="hljs-name">Rounds</span>*(<span class="hljs-name">N</span>+<span class="hljs-number">1</span>),
+  <span class="hljs-atom">eventually</span>(<span class="hljs-name">Prop</span>,<span class="hljs-name">B</span>,<span class="hljs-name">_T</span>).
+
+<span class="hljs-atom">eventually</span>(<span class="hljs-name">Prop</span>):-
+  <span class="hljs-atom">eventually</span>(<span class="hljs-name">Prop</span>,<span class="hljs-name">_T</span>).
+
+<span class="hljs-atom">eventually</span>(<span class="hljs-name">Prop</span>,<span class="hljs-name">Rounds</span>):-
+  <span class="hljs-atom">eventually</span>(<span class="hljs-name">Prop</span>,<span class="hljs-atom">nolimit</span>,<span class="hljs-name">T</span>),
+  <span class="hljs-atom">num</span>(<span class="hljs-name">N</span>),
+  <span class="hljs-name">Rounds</span> <span class="hljs-atom">is</span> <span class="hljs-name">T</span>/(<span class="hljs-name">N</span>+<span class="hljs-number">1</span>).
+
+<span class="hljs-atom">eventually</span>(<span class="hljs-name">Prop</span>,<span class="hljs-name">Limit</span>,<span class="hljs-name">T</span>) :-
+    <span class="hljs-atom">init</span>(<span class="hljs-name">S</span>),
+    <span class="hljs-atom">pctlspec</span>(<span class="hljs-name">Prop</span>, <span class="hljs-name">F</span>),
+    <span class="hljs-atom">pmodels</span>(<span class="hljs-name">S</span>, <span class="hljs-name">F</span>,[],<span class="hljs-name">Limit</span>,<span class="hljs-number">0</span>,<span class="hljs-name">T</span>).
+
+
+<span class="hljs-atom">pctlspec</span>(<span class="hljs-name">X</span>, <span class="hljs-atom">until</span>(<span class="hljs-atom">tt</span>, <span class="hljs-atom">prop</span>(<span class="hljs-name">X</span>))).
+<span class="hljs-atom">proposition</span>(<span class="hljs-name">P</span>, <span class="hljs-name">S</span>) :- <span class="hljs-atom">final</span>(<span class="hljs-name">P</span>, <span class="hljs-name">S</span>).
+
+<span class="hljs-atom">final</span>(<span class="hljs-atom">elect</span>, [<span class="hljs-name">_</span>|<span class="hljs-name">L</span>]) :-
+    <span class="hljs-atom">num</span>(<span class="hljs-name">N</span>),
+    <span class="hljs-atom">gen_elected_state</span>(<span class="hljs-name">N</span>, <span class="hljs-name">L</span>).
+
+<span class="hljs-atom">gen_elected_state</span>(<span class="hljs-name">J</span>, <span class="hljs-name">L</span>) :-
+    (<span class="hljs-name">J</span>==<span class="hljs-number">0</span>
+    -&gt;    <span class="hljs-name">L</span>=[]
+    ;     <span class="hljs-name">L</span> = [<span class="hljs-atom">state</span>(<span class="hljs-number">3</span>,<span class="hljs-name">_</span>,<span class="hljs-name">_</span>,<span class="hljs-name">_</span>)|<span class="hljs-name">Rest</span>],
+          <span class="hljs-name">J1</span> <span class="hljs-atom">is</span> <span class="hljs-name">J</span>-<span class="hljs-number">1</span>,
+          <span class="hljs-atom">gen_elected_state</span>(<span class="hljs-name">J1</span>,<span class="hljs-name">Rest</span>)
+    ).
+    
+
+<span class="hljs-comment">% transitions</span>
+<span class="hljs-comment">% module counter</span>
+<span class="hljs-comment">% [read] c&lt;N-1 -&gt; (c'=c+1);</span>
+<span class="hljs-comment">% reading</span>
+<span class="hljs-atom">trans</span>(<span class="hljs-atom">counter</span>, <span class="hljs-atom">counter</span>(<span class="hljs-name">C</span>), <span class="hljs-atom">read</span>, <span class="hljs-atom">counter</span>(<span class="hljs-name">D</span>),<span class="hljs-name">_S</span>,<span class="hljs-name">H</span>,<span class="hljs-name">H</span>) :-
+  <span class="hljs-atom">num</span>(<span class="hljs-name">N</span>),
+  <span class="hljs-name">C</span> &lt; <span class="hljs-name">N</span>-<span class="hljs-number">1</span>,
+  <span class="hljs-name">D</span> <span class="hljs-atom">is</span> <span class="hljs-name">C</span>+<span class="hljs-number">1.</span>
+
+<span class="hljs-comment">% [read] c=N-1 -&gt; (c'=c);</span>
+<span class="hljs-comment">% finished reading</span>
+<span class="hljs-atom">trans</span>(<span class="hljs-atom">counter</span>, <span class="hljs-atom">counter</span>(<span class="hljs-name">C</span>), <span class="hljs-atom">read</span>, <span class="hljs-atom">counter</span>(<span class="hljs-name">C</span>),<span class="hljs-name">_S</span>,<span class="hljs-name">H</span>,<span class="hljs-name">H</span>) :-
+  <span class="hljs-atom">num</span>(<span class="hljs-name">N</span>),
+  <span class="hljs-name">C</span> =:= <span class="hljs-name">N</span>-<span class="hljs-number">1.</span>
+
+<span class="hljs-comment">% [done] u1 | u2 | u3 | u4 -&gt; (c'=c);</span>
+<span class="hljs-comment">% done</span>
+<span class="hljs-atom">trans</span>(<span class="hljs-atom">counter</span>, <span class="hljs-atom">counter</span>(<span class="hljs-name">C</span>), <span class="hljs-atom">done</span>, <span class="hljs-atom">counter</span>(<span class="hljs-name">C</span>),<span class="hljs-name">S</span>,<span class="hljs-name">H</span>,<span class="hljs-name">H</span>) :-
+  <span class="hljs-atom">get_processid</span>(<span class="hljs-name">P</span>), 
+  <span class="hljs-atom">nonlocal</span>(<span class="hljs-atom">process</span>(<span class="hljs-name">P</span>,<span class="hljs-name">_</span>), <span class="hljs-atom">uniqueid</span>, <span class="hljs-number">1</span>,<span class="hljs-name">S</span>).
+   
+
+<span class="hljs-comment">% [retry] !(u1 | u2 | u3 | u4) -&gt; (c'=1);</span>
+<span class="hljs-comment">% pick again reset counter </span>
+<span class="hljs-atom">trans</span>(<span class="hljs-atom">counter</span>, <span class="hljs-atom">counter</span>(<span class="hljs-name">_C</span>), <span class="hljs-atom">retry</span>, <span class="hljs-atom">counter</span>(<span class="hljs-number">1</span>),<span class="hljs-name">S</span>,<span class="hljs-name">H</span>,<span class="hljs-name">H</span>) :-
+        <span class="hljs-atom">findall</span>(<span class="hljs-name">P</span>,<span class="hljs-atom">get_processid</span>(<span class="hljs-name">P</span>),<span class="hljs-name">PL</span>),
+    <span class="hljs-atom">maplist</span>(<span class="hljs-atom">nl</span>(<span class="hljs-name">S</span>),<span class="hljs-name">PL</span>).
+
+<span class="hljs-comment">% [loop] s1=3 -&gt; (c'=c);</span>
+<span class="hljs-comment">% loop (when finished to avoid deadlocks)</span>
+<span class="hljs-atom">trans</span>(<span class="hljs-atom">counter</span>, <span class="hljs-atom">counter</span>(<span class="hljs-name">C</span>), <span class="hljs-atom">loop</span>, <span class="hljs-atom">counter</span>(<span class="hljs-name">C</span>),<span class="hljs-name">S</span>,<span class="hljs-name">H</span>,<span class="hljs-name">H</span>) :-
+  <span class="hljs-atom">nonlocal</span>(<span class="hljs-atom">process</span>(<span class="hljs-number">1</span>,<span class="hljs-name">_</span>), <span class="hljs-atom">state</span>, <span class="hljs-number">3</span>,<span class="hljs-name">S</span>).
+
+<span class="hljs-comment">% module process</span>
+<span class="hljs-comment">% local state</span>
+<span class="hljs-comment">% s1=0 make random choice</span>
+<span class="hljs-comment">% s1=1 reading</span>
+<span class="hljs-comment">% s1=2 deciding</span>
+<span class="hljs-comment">% s1=3 finished</span>
+
+<span class="hljs-comment">% [pick] s1=0 -&gt; 1/K : (s1'=1) &amp; (p1'=0) &amp; (v1'=0) &amp; (u1'=true) + ...;</span>
+<span class="hljs-comment">% pick value</span>
+<span class="hljs-atom">trans</span>(<span class="hljs-atom">process</span>(<span class="hljs-name">_N</span>,<span class="hljs-name">_Next</span>), <span class="hljs-atom">state</span>(<span class="hljs-number">0</span>,<span class="hljs-name">_</span>,<span class="hljs-name">_</span>,<span class="hljs-name">_</span>), <span class="hljs-atom">pick</span>, <span class="hljs-atom">state</span>(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-name">R</span>,<span class="hljs-name">R</span>),<span class="hljs-name">_S</span>,<span class="hljs-name">H</span>,[<span class="hljs-atom">pick</span>(<span class="hljs-name">R</span>)|<span class="hljs-name">H</span>]) :-
+  <span class="hljs-atom">pick</span>(<span class="hljs-name">H</span>,<span class="hljs-name">R</span>).
+
+<span class="hljs-comment">%read </span>
+<span class="hljs-comment">% [read] s1=1 &amp;  u1 &amp; !p1=v2 &amp; c&lt;N-1 -&gt; (u1'=true) &amp; (v1'=v2);</span>
+<span class="hljs-atom">trans</span>(<span class="hljs-atom">process</span>(<span class="hljs-name">_N</span>,<span class="hljs-name">Next</span>), <span class="hljs-atom">state</span>(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-name">_</span>,<span class="hljs-name">P</span>), <span class="hljs-atom">read</span>, <span class="hljs-atom">state</span>(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-name">V</span>,<span class="hljs-name">P</span>),<span class="hljs-name">S</span>,<span class="hljs-name">H</span>,<span class="hljs-name">H</span>) :-
+  <span class="hljs-atom">nonlocal</span>(<span class="hljs-atom">counter</span>, <span class="hljs-atom">counter</span>, <span class="hljs-name">C</span>,<span class="hljs-name">S</span>),
+  <span class="hljs-atom">num</span>(<span class="hljs-name">CN</span>),
+  <span class="hljs-name">C</span> &lt; <span class="hljs-name">CN</span> - <span class="hljs-number">1</span>,
+  <span class="hljs-atom">nonlocal</span>(<span class="hljs-atom">process</span>(<span class="hljs-name">Next</span>,<span class="hljs-name">_</span>), <span class="hljs-atom">value</span>, <span class="hljs-name">V</span>,<span class="hljs-name">S</span>),
+  <span class="hljs-name">P</span> \== <span class="hljs-name">V</span>.
+
+<span class="hljs-comment">% [read] s1=1 &amp;  u1 &amp;  p1=v2 &amp; c&lt;N-1 -&gt; (u1'=false) &amp; (v1'=v2) &amp; (p1'=0);</span>
+<span class="hljs-atom">trans</span>(<span class="hljs-atom">process</span>(<span class="hljs-name">_N</span>,<span class="hljs-name">Next</span>), <span class="hljs-atom">state</span>(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-name">_</span>,<span class="hljs-name">P</span>), <span class="hljs-atom">read</span>, <span class="hljs-atom">state</span>(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-name">V</span>,<span class="hljs-number">0</span>),<span class="hljs-name">S</span>,<span class="hljs-name">H</span>,<span class="hljs-name">H</span>) :-
+  <span class="hljs-atom">nonlocal</span>(<span class="hljs-atom">counter</span>, <span class="hljs-atom">counter</span>, <span class="hljs-name">C</span>,<span class="hljs-name">S</span>),
+  <span class="hljs-atom">num</span>(<span class="hljs-name">CN</span>),
+  <span class="hljs-name">C</span> &lt; <span class="hljs-name">CN</span> - <span class="hljs-number">1</span>,
+  <span class="hljs-atom">nonlocal</span>(<span class="hljs-atom">process</span>(<span class="hljs-name">Next</span>,<span class="hljs-name">_</span>), <span class="hljs-atom">value</span>, <span class="hljs-name">V</span>,<span class="hljs-name">S</span>),
+  <span class="hljs-name">P</span> == <span class="hljs-name">V</span>.
+
+<span class="hljs-comment">% [read] s1=1 &amp; !u1 &amp;  c&lt;N-1 -&gt; (u1'=false) &amp; (v1'=v2);</span>
+<span class="hljs-atom">trans</span>(<span class="hljs-atom">process</span>(<span class="hljs-name">_N</span>,<span class="hljs-name">Next</span>), <span class="hljs-atom">state</span>(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-name">_</span>,<span class="hljs-name">P</span>), <span class="hljs-atom">read</span>, <span class="hljs-atom">state</span>(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-name">V</span>,<span class="hljs-name">P</span>),<span class="hljs-name">S</span>,<span class="hljs-name">H</span>,<span class="hljs-name">H</span>) :-
+  <span class="hljs-atom">nonlocal</span>(<span class="hljs-atom">counter</span>, <span class="hljs-atom">counter</span>, <span class="hljs-name">C</span>,<span class="hljs-name">S</span>),
+  <span class="hljs-atom">num</span>(<span class="hljs-name">CN</span>),
+  <span class="hljs-name">C</span> &lt; <span class="hljs-name">CN</span> - <span class="hljs-number">1</span>,
+  <span class="hljs-atom">nonlocal</span>(<span class="hljs-atom">process</span>(<span class="hljs-name">Next</span>,<span class="hljs-name">_</span>), <span class="hljs-atom">value</span>, <span class="hljs-name">V</span>,<span class="hljs-name">S</span>).
+ 
+<span class="hljs-comment">% read and move to decide </span>
+<span class="hljs-comment">% [read] s1=1 &amp;  u1 &amp; !p1=v2 &amp; c=N-1 -&gt; (s1'=2) &amp; (u1'=true) &amp; (v1'=0) &amp; (p1'=0);</span>
+<span class="hljs-atom">trans</span>(<span class="hljs-atom">process</span>(<span class="hljs-name">_N</span>,<span class="hljs-name">Next</span>), <span class="hljs-atom">state</span>(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-name">_</span>,<span class="hljs-name">P</span>), <span class="hljs-atom">read</span>, <span class="hljs-atom">state</span>(<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>),<span class="hljs-name">S</span>,<span class="hljs-name">H</span>,<span class="hljs-name">H</span>) :-
+  <span class="hljs-atom">nonlocal</span>(<span class="hljs-atom">counter</span>, <span class="hljs-atom">counter</span>, <span class="hljs-name">C</span>,<span class="hljs-name">S</span>),
+  <span class="hljs-atom">num</span>(<span class="hljs-name">CN</span>),
+  <span class="hljs-name">C</span> =:= <span class="hljs-name">CN</span> - <span class="hljs-number">1</span>,
+  <span class="hljs-atom">nonlocal</span>(<span class="hljs-atom">process</span>(<span class="hljs-name">Next</span>,<span class="hljs-name">_</span>), <span class="hljs-atom">value</span>, <span class="hljs-name">V</span>,<span class="hljs-name">S</span>),
+  <span class="hljs-name">P</span> \== <span class="hljs-name">V</span>.
+
+<span class="hljs-comment">% [read] s1=1 &amp;  u1 &amp;  p1=v2 &amp; c=N-1 -&gt; (u1'=false) &amp; (v1'=0) &amp; (p1'=0);</span>
+<span class="hljs-atom">trans</span>(<span class="hljs-atom">process</span>(<span class="hljs-name">_N</span>,<span class="hljs-name">Next</span>), <span class="hljs-atom">state</span>(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-name">_</span>,<span class="hljs-name">P</span>), <span class="hljs-atom">read</span>, <span class="hljs-atom">state</span>(<span class="hljs-number">2</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>),<span class="hljs-name">S</span>,<span class="hljs-name">H</span>,<span class="hljs-name">H</span>) :-
+  <span class="hljs-atom">nonlocal</span>(<span class="hljs-atom">counter</span>, <span class="hljs-atom">counter</span>, <span class="hljs-name">C</span>,<span class="hljs-name">S</span>),
+  <span class="hljs-atom">num</span>(<span class="hljs-name">CN</span>),
+  <span class="hljs-name">C</span> =:= <span class="hljs-name">CN</span> - <span class="hljs-number">1</span>,
+  <span class="hljs-atom">nonlocal</span>(<span class="hljs-atom">process</span>(<span class="hljs-name">Next</span>,<span class="hljs-name">_</span>), <span class="hljs-atom">value</span>, <span class="hljs-name">V</span>,<span class="hljs-name">S</span>),
+  <span class="hljs-name">P</span> == <span class="hljs-name">V</span>.
+
+<span class="hljs-comment">% [read] s1=1 &amp; !u1 &amp;  c=N-1 -&gt; (s1'=2) &amp; (u1'=false) &amp; (v1'=0);</span>
+<span class="hljs-atom">trans</span>(<span class="hljs-atom">process</span>(<span class="hljs-name">_N</span>,<span class="hljs-name">_Next</span>), <span class="hljs-atom">state</span>(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-name">_</span>,<span class="hljs-name">P</span>), <span class="hljs-atom">read</span>, <span class="hljs-atom">state</span>(<span class="hljs-number">2</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-name">P</span>),<span class="hljs-name">S</span>,<span class="hljs-name">H</span>,<span class="hljs-name">H</span>) :-
+  <span class="hljs-atom">nonlocal</span>(<span class="hljs-atom">counter</span>, <span class="hljs-atom">counter</span>, <span class="hljs-name">C</span>,<span class="hljs-name">S</span>),
+  <span class="hljs-atom">num</span>(<span class="hljs-name">CN</span>),
+  <span class="hljs-name">C</span> =:= <span class="hljs-name">CN</span> - <span class="hljs-number">1.</span>
+
+<span class="hljs-comment">% done</span>
+<span class="hljs-comment">% [done] s1=2 -&gt; (s1'=3) &amp; (u1'=false) &amp; (v1'=0) &amp; (p1'=0);</span>
+<span class="hljs-atom">trans</span>(<span class="hljs-atom">process</span>(<span class="hljs-name">_N</span>,<span class="hljs-name">_Next</span>), <span class="hljs-atom">state</span>(<span class="hljs-number">2</span>,<span class="hljs-name">_</span>,<span class="hljs-name">_</span>,<span class="hljs-name">_</span>), <span class="hljs-atom">done</span>, <span class="hljs-atom">state</span>(<span class="hljs-number">3</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>),<span class="hljs-name">_S</span>,<span class="hljs-name">H</span>,<span class="hljs-name">H</span>).
+
+<span class="hljs-comment">% retry</span>
+<span class="hljs-comment">% [retry] s1=2 -&gt; (s1'=0) &amp; (u1'=false) &amp; (v1'=0) &amp; (p1'=0);</span>
+<span class="hljs-atom">trans</span>(<span class="hljs-atom">process</span>(<span class="hljs-name">_N</span>,<span class="hljs-name">_Next</span>), <span class="hljs-atom">state</span>(<span class="hljs-number">2</span>,<span class="hljs-name">_</span>,<span class="hljs-name">_</span>,<span class="hljs-name">_</span>), <span class="hljs-atom">retry</span>, <span class="hljs-atom">state</span>(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>),<span class="hljs-name">_S</span>,<span class="hljs-name">H</span>,<span class="hljs-name">H</span>).
+
+<span class="hljs-comment">% loop (when finished to avoid deadlocks)</span>
+<span class="hljs-comment">% [loop] s1=3 -&gt; (s1'=3);</span>
+<span class="hljs-atom">trans</span>(<span class="hljs-atom">process</span>(<span class="hljs-name">_N</span>,<span class="hljs-name">_Next</span>), <span class="hljs-atom">state</span>(<span class="hljs-number">3</span>,<span class="hljs-name">U</span>,<span class="hljs-name">V</span>,<span class="hljs-name">P</span>), <span class="hljs-atom">loop</span>, <span class="hljs-atom">state</span>(<span class="hljs-number">3</span>,<span class="hljs-name">U</span>,<span class="hljs-name">V</span>,<span class="hljs-name">P</span>),<span class="hljs-name">_S</span>,<span class="hljs-name">H</span>,<span class="hljs-name">H</span>).
+
+<span class="hljs-atom">pick</span>(<span class="hljs-name">H</span>,<span class="hljs-name">V</span>):-
+  <span class="hljs-atom">kr</span>(<span class="hljs-name">K</span>),
+  <span class="hljs-name">K1</span> <span class="hljs-atom">is</span> <span class="hljs-name">K</span>-<span class="hljs-number">1</span>,
+  <span class="hljs-name">PH</span> <span class="hljs-atom">is</span> <span class="hljs-number">1</span>/<span class="hljs-name">K</span>,
+  <span class="hljs-atom">findall</span>(<span class="hljs-name">I</span>,<span class="hljs-atom">between</span>(<span class="hljs-number">0</span>,<span class="hljs-name">K1</span>,<span class="hljs-name">I</span>),<span class="hljs-name">L</span>),
+  <span class="hljs-atom">foldl</span>(<span class="hljs-atom">pick_value</span>(<span class="hljs-name">H</span>,<span class="hljs-name">PH</span>),<span class="hljs-name">L</span>,(<span class="hljs-number">1</span>,<span class="hljs-name">_</span>),(<span class="hljs-name">_</span>,<span class="hljs-name">V</span>)).
+
+<span class="hljs-atom">pick_value</span>(<span class="hljs-name">_H</span>,<span class="hljs-name">_PH</span>,<span class="hljs-name">_I</span>,(<span class="hljs-name">P0</span>,<span class="hljs-name">V0</span>),(<span class="hljs-name">P0</span>,<span class="hljs-name">V0</span>)):-
+  <span class="hljs-atom">nonvar</span>(<span class="hljs-name">V0</span>).
+
+<span class="hljs-atom">pick_value</span>(<span class="hljs-name">H</span>,<span class="hljs-name">PH</span>,<span class="hljs-name">I</span>,(<span class="hljs-name">P0</span>,<span class="hljs-name">V0</span>),(<span class="hljs-name">P1</span>,<span class="hljs-name">V1</span>)):-
+  <span class="hljs-atom">var</span>(<span class="hljs-name">V0</span>),
+  <span class="hljs-name">PF</span> <span class="hljs-atom">is</span> <span class="hljs-name">PH</span>/<span class="hljs-name">P0</span>,
+  (<span class="hljs-atom">pick_fact</span>(<span class="hljs-name">H</span>,<span class="hljs-name">V0</span>,<span class="hljs-name">PF</span>)-&gt;
+    <span class="hljs-name">P1</span>=<span class="hljs-name">PF</span>,
+    <span class="hljs-name">V1</span>=<span class="hljs-name">I</span>
+  ;
+    <span class="hljs-name">P1</span> <span class="hljs-atom">is</span> <span class="hljs-name">P0</span>*(<span class="hljs-number">1</span>-<span class="hljs-name">PF</span>),
+    <span class="hljs-name">V1</span>=<span class="hljs-name">V0</span>
+  ).
+
+<span class="hljs-atom">pick_fact</span>(<span class="hljs-name">_</span>,<span class="hljs-name">_</span>,<span class="hljs-name">P</span>):<span class="hljs-name">P</span>.
+
+<span class="hljs-comment">%pick(H,0):0.5; pick(H,1):0.5.</span>
+
+<span class="hljs-atom">ctrans</span>(<span class="hljs-name">S</span>, <span class="hljs-name">A</span>, <span class="hljs-name">T</span>, <span class="hljs-name">Hi</span>, <span class="hljs-name">Ho</span>) :-
+    <span class="hljs-atom">config</span>(<span class="hljs-name">P</span>),
+    <span class="hljs-atom">find_matching_trans</span>(<span class="hljs-name">P</span>,<span class="hljs-name">S</span>,<span class="hljs-name">S</span>,[],<span class="hljs-name">A</span>,<span class="hljs-name">T</span>,<span class="hljs-name">Hi</span>,<span class="hljs-name">Ho</span>).
+
+<span class="hljs-atom">find_matching_trans</span>([], [], <span class="hljs-name">_CS</span>, <span class="hljs-name">_PA</span>, <span class="hljs-name">A</span>, [], <span class="hljs-name">H</span>,<span class="hljs-name">H</span>) :- <span class="hljs-atom">nonvar</span>(<span class="hljs-name">A</span>).
+<span class="hljs-atom">find_matching_trans</span>([<span class="hljs-name">P</span>|<span class="hljs-name">Ps</span>], [<span class="hljs-name">S</span>|<span class="hljs-name">Ss</span>], <span class="hljs-name">CS</span>, <span class="hljs-name">PA</span>, <span class="hljs-name">A</span>, [<span class="hljs-name">T</span>|<span class="hljs-name">Ts</span>],<span class="hljs-name">Hi</span>,<span class="hljs-name">Ho</span>) :-
+    <span class="hljs-atom">pick_trans</span>(<span class="hljs-name">P</span>, <span class="hljs-name">S</span>, <span class="hljs-name">CS</span>, <span class="hljs-name">PA</span>, <span class="hljs-name">A</span>, <span class="hljs-name">T</span>, <span class="hljs-name">Hi</span>,<span class="hljs-name">H1</span>),
+    <span class="hljs-atom">find_matching_trans</span>(<span class="hljs-name">Ps</span>, <span class="hljs-name">Ss</span>, <span class="hljs-name">CS</span>, <span class="hljs-name">PA</span>, <span class="hljs-name">A</span>, <span class="hljs-name">Ts</span>,<span class="hljs-name">H1</span>,<span class="hljs-name">Ho</span>).
+<span class="hljs-atom">find_matching_trans</span>([<span class="hljs-name">P</span>|<span class="hljs-name">Ps</span>], [<span class="hljs-name">S</span>|<span class="hljs-name">Ss</span>], <span class="hljs-name">CS</span>, <span class="hljs-name">PA</span>, <span class="hljs-name">A</span>, [<span class="hljs-name">S</span>|<span class="hljs-name">Ts</span>], <span class="hljs-name">Hi</span>,<span class="hljs-name">Ho</span>) :-
+    <span class="hljs-comment">% skip current process; but then all transitions enabled in the current</span>
+    <span class="hljs-comment">% process will be prohibited for selection in later processes.</span>
+    <span class="hljs-atom">enabled_trans</span>(<span class="hljs-name">P</span>,<span class="hljs-name">L</span>),
+    (<span class="hljs-atom">nonvar</span>(<span class="hljs-name">A</span>) -&gt; \+ <span class="hljs-atom">member</span>(<span class="hljs-name">A</span>,<span class="hljs-name">L</span>); <span class="hljs-atom">true</span>),
+    <span class="hljs-atom">append</span>(<span class="hljs-name">L</span>, <span class="hljs-name">PA</span>, <span class="hljs-name">PA1</span>),
+    <span class="hljs-atom">find_matching_trans</span>(<span class="hljs-name">Ps</span>, <span class="hljs-name">Ss</span>, <span class="hljs-name">CS</span>, <span class="hljs-name">PA1</span>, <span class="hljs-name">A</span>, <span class="hljs-name">Ts</span>, <span class="hljs-name">Hi</span>, <span class="hljs-name">Ho</span>).
+
+<span class="hljs-atom">pick_trans</span>(<span class="hljs-name">P</span>, <span class="hljs-name">S</span>, <span class="hljs-name">CS</span>, <span class="hljs-name">PA</span>, <span class="hljs-name">A</span>, <span class="hljs-name">T</span>, <span class="hljs-name">H0</span>,<span class="hljs-name">H</span>) :-
+    <span class="hljs-atom">etrans</span>(<span class="hljs-name">P</span>, <span class="hljs-name">S</span>, <span class="hljs-name">PA</span>, <span class="hljs-name">A</span>, <span class="hljs-name">T</span>,<span class="hljs-name">CS</span>, <span class="hljs-name">H0</span>,<span class="hljs-name">H</span>).
+
+<span class="hljs-atom">etrans</span>(<span class="hljs-name">P</span>, <span class="hljs-name">S</span>, <span class="hljs-name">PA</span>, <span class="hljs-name">A</span>, <span class="hljs-name">T</span>, <span class="hljs-name">CS</span>,<span class="hljs-name">H0</span>,<span class="hljs-name">H</span>) :-
+    <span class="hljs-atom">trans</span>(<span class="hljs-name">P</span>, <span class="hljs-name">S</span>, <span class="hljs-name">A</span>, <span class="hljs-name">T</span>,<span class="hljs-name">CS</span>,<span class="hljs-name">H0</span>,<span class="hljs-name">H</span>),
+    <span class="hljs-name">A</span> \= <span class="hljs-atom">epsilon</span>,
+    \+ <span class="hljs-atom">member</span>(<span class="hljs-name">A</span>, <span class="hljs-name">PA</span>).
+
+<span class="hljs-atom">enabled_trans</span>(<span class="hljs-name">P</span>, <span class="hljs-name">L</span>) :-
+    <span class="hljs-atom">setof</span>(<span class="hljs-name">A</span>, <span class="hljs-atom">enabled_trans_in_process</span>(<span class="hljs-name">P</span>,<span class="hljs-name">A</span>), <span class="hljs-name">L</span>).
+
+<span class="hljs-atom">enabled_trans_in_process</span>(<span class="hljs-name">P</span>,<span class="hljs-name">A</span>) :-
+    <span class="hljs-atom">clause</span>(<span class="hljs-atom">trans</span>(<span class="hljs-name">P</span>,<span class="hljs-name">_</span>,<span class="hljs-name">A</span>,<span class="hljs-name">_</span>,<span class="hljs-name">_</span>,<span class="hljs-name">_</span>,<span class="hljs-name">_</span>),<span class="hljs-name">_</span>),
+    <span class="hljs-name">A</span> \= <span class="hljs-atom">epsilon</span>.
+
+<span class="hljs-atom">nonlocal</span>(<span class="hljs-name">Proc</span>, <span class="hljs-name">Var</span>, <span class="hljs-name">Val</span>,<span class="hljs-name">CS</span>) :-
+    <span class="hljs-atom">getpid</span>(<span class="hljs-name">Proc</span>, <span class="hljs-name">Var</span>, <span class="hljs-name">Pid</span>, <span class="hljs-name">Idx</span>),
+    <span class="hljs-atom">nth1</span>(<span class="hljs-name">Pid</span>, <span class="hljs-name">CS</span>, <span class="hljs-name">State</span>),
+    <span class="hljs-atom">arg</span>(<span class="hljs-name">Idx</span>, <span class="hljs-name">State</span>, <span class="hljs-name">Val</span>).
+<span class="hljs-comment">%   writeln(nonlocal_read(Proc, State, Var, Val)).</span>
+
+<span class="hljs-atom">getpid</span>(<span class="hljs-name">Proc</span>, <span class="hljs-name">Var</span>, <span class="hljs-name">Pid</span>, <span class="hljs-name">Idx</span>) :-
+    <span class="hljs-atom">config</span>(<span class="hljs-name">Config</span>),
+    <span class="hljs-atom">nth1</span>(<span class="hljs-name">Pid</span>, <span class="hljs-name">Config</span>, <span class="hljs-name">Proc</span>),
+    <span class="hljs-atom">nonlocal_access</span>(<span class="hljs-name">Proc</span>, <span class="hljs-name">Var</span>, <span class="hljs-name">Idx</span>).
+
+<span class="hljs-atom">get_processid</span>(<span class="hljs-name">P</span>):-
+  <span class="hljs-atom">num</span>(<span class="hljs-name">N</span>),
+  <span class="hljs-atom">between</span>(<span class="hljs-number">1</span>,<span class="hljs-name">N</span>,<span class="hljs-name">P</span>).
+
+<span class="hljs-atom">config</span>([<span class="hljs-atom">counter</span>| <span class="hljs-name">L</span>]) :-
+    <span class="hljs-atom">findall</span>(<span class="hljs-name">P</span>,<span class="hljs-atom">get_processid</span>(<span class="hljs-name">P</span>),<span class="hljs-name">PL</span>),
+    <span class="hljs-atom">maplist</span>(<span class="hljs-atom">neighbor</span>,<span class="hljs-name">PL</span>,<span class="hljs-name">L</span>).
+
+<span class="hljs-atom">neighbor</span>(<span class="hljs-name">I</span>,<span class="hljs-atom">process</span>(<span class="hljs-name">I</span>,<span class="hljs-name">J</span>)) :-
+    <span class="hljs-atom">num</span>(<span class="hljs-name">N</span>),
+    (<span class="hljs-name">I</span>&lt;<span class="hljs-name">N</span>
+  -&gt;
+      <span class="hljs-name">J</span> <span class="hljs-atom">is</span> <span class="hljs-name">I</span>+<span class="hljs-number">1</span>
+    ;   <span class="hljs-name">J</span> = <span class="hljs-number">1</span>
+    ).
+
+<span class="hljs-comment">%config([counter, process(1,2), process(2,3), process(3,4), process(4,1)]).</span>
+
+<span class="hljs-atom">init</span>(<span class="hljs-name">S</span>) :-
+    <span class="hljs-atom">config</span>(<span class="hljs-name">P</span>),
+    <span class="hljs-atom">maplist</span>(<span class="hljs-atom">init_state</span>,<span class="hljs-name">P</span>,<span class="hljs-name">S</span>).
+
+<span class="hljs-atom">init_state</span>(<span class="hljs-atom">counter</span>, <span class="hljs-atom">counter</span>(<span class="hljs-number">1</span>)).
+<span class="hljs-atom">init_state</span>(<span class="hljs-atom">process</span>(<span class="hljs-name">_</span>,<span class="hljs-name">_</span>), <span class="hljs-atom">state</span>(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>)).
+
+<span class="hljs-atom">nonlocal_access</span>(<span class="hljs-atom">counter</span>, <span class="hljs-atom">counter</span>, <span class="hljs-number">1</span>).
+<span class="hljs-atom">nonlocal_access</span>(<span class="hljs-atom">process</span>(<span class="hljs-name">_</span>,<span class="hljs-name">_</span>), <span class="hljs-atom">state</span>, <span class="hljs-number">1</span>).
+<span class="hljs-atom">nonlocal_access</span>(<span class="hljs-atom">process</span>(<span class="hljs-name">_</span>,<span class="hljs-name">_</span>), <span class="hljs-atom">uniqueid</span>, <span class="hljs-number">2</span>).
+<span class="hljs-atom">nonlocal_access</span>(<span class="hljs-atom">process</span>(<span class="hljs-name">_</span>,<span class="hljs-name">_</span>), <span class="hljs-atom">value</span>, <span class="hljs-number">3</span>).
+
+<span class="hljs-atom">nl</span>(<span class="hljs-name">S</span>,<span class="hljs-name">P</span>):-
+  <span class="hljs-atom">nonlocal</span>(<span class="hljs-atom">process</span>(<span class="hljs-name">P</span>, <span class="hljs-name">_</span>), <span class="hljs-atom">uniqueid</span>, <span class="hljs-number">0</span>,<span class="hljs-name">S</span>).
+
+<span class="hljs-atom">num</span>(<span class="hljs-number">4</span>).
+<span class="hljs-atom">kr</span>(<span class="hljs-number">4</span>).
+
+
+:- <span class="hljs-atom">end_lpad</span>.
+
+<span class="hljs-atom">graph_prob</span>(<span class="hljs-name">G</span>):-
+  <span class="hljs-atom">retract</span>(<span class="hljs-atom">num</span>(<span class="hljs-name">N</span>)),
+  <span class="hljs-atom">retract</span>(<span class="hljs-atom">kr</span>(<span class="hljs-name">K</span>)),
+  <span class="hljs-atom">assert</span>(<span class="hljs-atom">num</span>(<span class="hljs-number">4</span>)),
+  <span class="hljs-atom">assert</span>(<span class="hljs-atom">kr</span>(<span class="hljs-number">2</span>)),
+  <span class="hljs-atom">findall</span>(<span class="hljs-name">L</span>-<span class="hljs-name">P</span>,
+    (<span class="hljs-atom">between</span>(<span class="hljs-number">1</span>,<span class="hljs-number">6</span>,<span class="hljs-name">L</span>),<span class="hljs-atom">mc_sample</span>(<span class="hljs-atom">bounded_eventually</span>(<span class="hljs-atom">elect</span>,<span class="hljs-name">L</span>),<span class="hljs-number">100</span>,<span class="hljs-name">P</span>)),<span class="hljs-name">LV</span>),
+  <span class="hljs-name">G</span>=<span class="hljs-atom">c3</span>{<span class="hljs-atom">data</span>:<span class="hljs-name">_</span>{<span class="hljs-atom">x</span>:<span class="hljs-atom">x</span>, <span class="hljs-atom">rows</span>:[<span class="hljs-atom">x</span>-<span class="hljs-string">'Probability of leader elected within L rounds (N=4, K=2)'</span>|<span class="hljs-name">LV</span>]},<span class="hljs-comment">%legend:_{show: false},</span>
+    <span class="hljs-atom">axis</span>:<span class="hljs-name">_</span>{<span class="hljs-atom">x</span>:<span class="hljs-name">_</span>{<span class="hljs-atom">min</span>:<span class="hljs-number">1</span>,<span class="hljs-atom">max</span>:<span class="hljs-number">6</span>,<span class="hljs-atom">label</span>:<span class="hljs-string">'L'</span>,<span class="hljs-atom">padding</span>:<span class="hljs-name">_</span>{<span class="hljs-atom">bottom</span>:<span class="hljs-number">0.0</span>,<span class="hljs-atom">top</span>:<span class="hljs-number">0.0</span>}},
+           <span class="hljs-atom">y</span>:<span class="hljs-name">_</span>{<span class="hljs-atom">label</span>:<span class="hljs-string">'Probability'</span>,<span class="hljs-atom">padding</span>:<span class="hljs-name">_</span>{<span class="hljs-atom">bottom</span>:<span class="hljs-number">0.0</span>,<span class="hljs-atom">top</span>:<span class="hljs-number">0.0</span>}}}},
+  <span class="hljs-atom">retract</span>(<span class="hljs-atom">num</span>(<span class="hljs-number">4</span>)),
+  <span class="hljs-atom">retract</span>(<span class="hljs-atom">kr</span>(<span class="hljs-number">2</span>)),
+  <span class="hljs-atom">assert</span>(<span class="hljs-atom">num</span>(<span class="hljs-name">N</span>)),
+  <span class="hljs-atom">assert</span>(<span class="hljs-atom">kr</span>(<span class="hljs-name">K</span>)).
+
+<span class="hljs-atom">graph_exp_rounds_n</span>(<span class="hljs-name">G</span>):-
+  <span class="hljs-atom">retract</span>(<span class="hljs-atom">num</span>(<span class="hljs-name">NI</span>)),
+  <span class="hljs-atom">retract</span>(<span class="hljs-atom">kr</span>(<span class="hljs-name">KI</span>)),
+  <span class="hljs-atom">assert</span>(<span class="hljs-atom">kr</span>(<span class="hljs-number">3</span>)),
+  <span class="hljs-atom">findall</span>(<span class="hljs-name">N</span>-<span class="hljs-name">E</span>,
+    (<span class="hljs-atom">between</span>(<span class="hljs-number">3</span>,<span class="hljs-number">8</span>,<span class="hljs-name">N</span>),
+     <span class="hljs-atom">assert</span>(<span class="hljs-atom">num</span>(<span class="hljs-name">N</span>)),
+     <span class="hljs-atom">mc_expectation</span>(<span class="hljs-atom">eventually</span>(<span class="hljs-atom">elect</span>,<span class="hljs-name">T</span>),<span class="hljs-number">100</span>,<span class="hljs-name">T</span>,<span class="hljs-name">E</span>),
+     <span class="hljs-atom">retract</span>(<span class="hljs-atom">num</span>(<span class="hljs-name">N</span>))),
+    <span class="hljs-name">LV</span>),
+  <span class="hljs-name">G</span>=<span class="hljs-atom">c3</span>{<span class="hljs-atom">data</span>:<span class="hljs-name">_</span>{<span class="hljs-atom">x</span>:<span class="hljs-atom">x</span>, <span class="hljs-atom">rows</span>:[<span class="hljs-atom">x</span>-<span class="hljs-string">'Expected rounds to elect a leader (K=3)'</span>|<span class="hljs-name">LV</span>]},<span class="hljs-comment">%legend:_{show: false},</span>
+    <span class="hljs-atom">axis</span>:<span class="hljs-name">_</span>{<span class="hljs-atom">x</span>:<span class="hljs-name">_</span>{<span class="hljs-atom">min</span>:<span class="hljs-number">3</span>,<span class="hljs-atom">max</span>:<span class="hljs-number">8</span>,<span class="hljs-atom">label</span>:<span class="hljs-string">'N'</span>,<span class="hljs-atom">padding</span>:<span class="hljs-name">_</span>{<span class="hljs-atom">bottom</span>:<span class="hljs-number">0.0</span>,<span class="hljs-atom">top</span>:<span class="hljs-number">0.0</span>}},
+           <span class="hljs-atom">y</span>:<span class="hljs-name">_</span>{<span class="hljs-atom">label</span>:<span class="hljs-string">'Expected rounds'</span>,<span class="hljs-atom">padding</span>:<span class="hljs-name">_</span>{<span class="hljs-atom">bottom</span>:<span class="hljs-number">0.0</span>,<span class="hljs-atom">top</span>:<span class="hljs-number">0.0</span>}}}},
+  <span class="hljs-atom">retract</span>(<span class="hljs-atom">kr</span>(<span class="hljs-number">3</span>)),
+  <span class="hljs-atom">assert</span>(<span class="hljs-atom">num</span>(<span class="hljs-name">NI</span>)),
+  <span class="hljs-atom">assert</span>(<span class="hljs-atom">kr</span>(<span class="hljs-name">KI</span>)).
+
+<span class="hljs-atom">graph_exp_rounds_k</span>(<span class="hljs-name">G</span>):-
+  <span class="hljs-atom">retract</span>(<span class="hljs-atom">num</span>(<span class="hljs-name">NI</span>)),
+  <span class="hljs-atom">retract</span>(<span class="hljs-atom">kr</span>(<span class="hljs-name">KI</span>)),
+  <span class="hljs-atom">assert</span>(<span class="hljs-atom">num</span>(<span class="hljs-number">3</span>)),
+  <span class="hljs-atom">findall</span>(<span class="hljs-name">K</span>-<span class="hljs-name">E</span>,
+    (<span class="hljs-atom">between</span>(<span class="hljs-number">3</span>,<span class="hljs-number">8</span>,<span class="hljs-name">K</span>),
+     <span class="hljs-atom">assert</span>(<span class="hljs-atom">kr</span>(<span class="hljs-name">K</span>)),
+     <span class="hljs-atom">mc_expectation</span>(<span class="hljs-atom">eventually</span>(<span class="hljs-atom">elect</span>,<span class="hljs-name">T</span>),<span class="hljs-number">500</span>,<span class="hljs-name">T</span>,<span class="hljs-name">E</span>),
+     <span class="hljs-atom">retract</span>(<span class="hljs-atom">kr</span>(<span class="hljs-name">K</span>))),
+    <span class="hljs-name">LV</span>),
+  <span class="hljs-name">G</span>=<span class="hljs-atom">c3</span>{<span class="hljs-atom">data</span>:<span class="hljs-name">_</span>{<span class="hljs-atom">x</span>:<span class="hljs-atom">x</span>, <span class="hljs-atom">rows</span>:[<span class="hljs-atom">x</span>-<span class="hljs-string">'Expected rounds to elect a leader (N=3)'</span>|<span class="hljs-name">LV</span>]},<span class="hljs-comment">%legend:_{show: false},</span>
+    <span class="hljs-atom">axis</span>:<span class="hljs-name">_</span>{<span class="hljs-atom">x</span>:<span class="hljs-name">_</span>{<span class="hljs-atom">min</span>:<span class="hljs-number">3</span>,<span class="hljs-atom">max</span>:<span class="hljs-number">8</span>,<span class="hljs-atom">label</span>:<span class="hljs-string">'K'</span>,<span class="hljs-atom">padding</span>:<span class="hljs-name">_</span>{<span class="hljs-atom">bottom</span>:<span class="hljs-number">0.0</span>,<span class="hljs-atom">top</span>:<span class="hljs-number">0.0</span>}},
+           <span class="hljs-atom">y</span>:<span class="hljs-name">_</span>{<span class="hljs-atom">label</span>:<span class="hljs-string">'Expected rounds'</span>,<span class="hljs-atom">padding</span>:<span class="hljs-name">_</span>{<span class="hljs-atom">bottom</span>:<span class="hljs-number">0.0</span>,<span class="hljs-atom">top</span>:<span class="hljs-number">0.0</span>}}}},
+  <span class="hljs-atom">retract</span>(<span class="hljs-atom">num</span>(<span class="hljs-number">3</span>)),
+  <span class="hljs-atom">assert</span>(<span class="hljs-atom">num</span>(<span class="hljs-name">NI</span>)),
+  <span class="hljs-atom">assert</span>(<span class="hljs-atom">kr</span>(<span class="hljs-name">KI</span>)).
+</code></pre></div>
+                            <h4>How to compute the expectations</h4>
+                            <p>We consider the problem of computing expectations.
+                                We would like to compute the expected number of rounds to elect a leader.
+                                <br/>
+                                We can compute expectations with</p>
+                            <pre><code class="language-{.pl}">mc_expectation(:<span class="hljs-string">Query:</span>atom,+<span class="hljs-string">N:</span><span class="hljs-typename">int</span>,?Arg:var,-<span class="hljs-string">Exp:</span><span class="hljs-typename">float</span>).
+</code></pre>
+                            <p>that computes the expected value of <code>Arg</code> in <code>Query</code> by
+                                sampling.
+                                It takes <code>N</code> samples of <code>Query</code> and sums up the value of <code>Arg</code> for
+                                each sample. The overall sum is divided by <code>N</code> to give <code>Exp</code>.</p>
+                            <p>An example of use of the above predicate is</p>
+                            <div class="nb-cell query"><pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">mc_expectation</span><span class="hljs-params">(eventually(elect,T)</span></span>,<span class="hljs-number">1000</span>,T,E).
+</code></pre></div>
+                            <p>that returns in E the expected value of rounds necessary to elect a leader computed by taking 1000 samples.</p>
+
+                            <hr>
+                            <p>Complete example: <a target="_blank" href="http://cplint.lamping.unife.it/example/inference/pctl_slep.pl">pctl_slep.pl</a></p>
+
+                        </div>
+                    </div>
+                </section>
+                <hr/>
+                <section>
+                    <div id="rejection-MHMCMC">
+                        <h2>Approximate conditional inference with Rejection Sampling and Metropolis-Hastings MCMC</h2>
+                        <p>In this example we want to show how to perform conditional inference in
+                            an approximate way using sampling. In particular, we will show how to
+                            use rejection sampling and Metropolis-Hastings.</p>
+                        <p>This example generatively defines a random arithmetic function.
+                            The problem is to predict the value returned by the function given one or
+                            two couples of input-output, i.e., to compute a conditional probability.
+                            This program is translated from the example
+                            <span class="ref" data-cite="arithmURL"></span>
+                            in the Church functional probabilistic programming language.
+                            Sampling is necessary as queries have an infinite number of explanations.</p>
+                        <h3>Random Arithmetic Function: Full Program</h3>
+                        <p>The full program of this example is</p>
+                        <div class="nb-cell program prolog" data-singleline="true"><pre><code class="language-{.pl}"><span class="hljs-value">:- <span class="hljs-function">use_module</span>(<span class="hljs-function">library</span>(mcintyre)).
+
+:- <span class="hljs-function">if</span>(<span class="hljs-function">current_predicate</span>(use_rendering/<span class="hljs-number">1</span>)).
+:- <span class="hljs-function">use_rendering</span>(c3).
+:- endif.
+
+:- mc.
+
+:- begin_lpad.
+
+<span class="hljs-function">eval</span>(X,Y):-
+  <span class="hljs-function">random_fn</span>(X,<span class="hljs-number">0</span>,F),
+  Y is F.
+
+<span class="hljs-function">op</span>(+):<span class="hljs-number">0.5</span>;</span><span class="hljs-function">op</span>(-)<span class="hljs-value">:<span class="hljs-number">0.5</span>.
+
+<span class="hljs-function">random_fn</span>(X,L,F):-
+  <span class="hljs-function">comb</span>(L),
+  <span class="hljs-function">random_fn</span>(X,<span class="hljs-function">l</span>(L),F1),
+  <span class="hljs-function">random_fn</span>(X,<span class="hljs-function">r</span>(L),F2),
+  <span class="hljs-function">op</span>(Op),
+  F=..[Op,F1,F2].
+
+<span class="hljs-function">random_fn</span>(X,L,F):-
+  \+ <span class="hljs-function">comb</span>(L),
+  <span class="hljs-function">base_random_fn</span>(X,L,F).
+
+<span class="hljs-function">comb</span>(_):<span class="hljs-number">0.3</span>.
+
+<span class="hljs-function">base_random_fn</span>(X,L,X):-
+  <span class="hljs-function">identity</span>(L).
+
+<span class="hljs-function">base_random_fn</span>(_X,L,C):-
+  \+ <span class="hljs-function">identity</span>(L),
+  <span class="hljs-function">random_const</span>(L,C).
+
+<span class="hljs-function">identity</span>(_):<span class="hljs-number">0.5</span>.
+
+<span class="hljs-function">random_const</span>(L,<span class="hljs-number">0</span>):<span class="hljs-number">0.1</span>;</span><span class="hljs-function">random_const</span>(L,1)<span class="hljs-value">:<span class="hljs-number">0.1</span>;</span><span class="hljs-function">random_const</span>(L,2)<span class="hljs-value">:<span class="hljs-number">0.1</span>;</span>
+<span class="hljs-function">random_const</span>(L,3)<span class="hljs-value">:<span class="hljs-number">0.1</span>;</span><span class="hljs-function">random_const</span>(L,4)<span class="hljs-value">:<span class="hljs-number">0.1</span>;</span><span class="hljs-function">random_const</span>(L,5)<span class="hljs-value">:<span class="hljs-number">0.1</span>;</span>
+<span class="hljs-function">random_const</span>(L,6)<span class="hljs-value">:<span class="hljs-number">0.1</span>;</span><span class="hljs-function">random_const</span>(L,7)<span class="hljs-value">:<span class="hljs-number">0.1</span>;</span><span class="hljs-function">random_const</span>(L,8)<span class="hljs-value">:<span class="hljs-number">0.1</span>;</span>
+<span class="hljs-function">random_const</span>(L,9)<span class="hljs-value">:<span class="hljs-number">0.1</span>.
+
+:- end_lpad.
+</span></code></pre></div>
+                        <p>We know that the random function returns 3 for input 1 and we want to
+                            compute the probability that it returns 4 for input 2.
+                            We thus need to ask a conditional query and sampling 
+                            is necessary as queries have an infinite number of explanations.
+                            <br/>
+                            The simplest approach is to use rejection sampling:  you first query the evidence and, if the query is successful, query the goal in the same sample, otherwise
+                            the sample is discarded.
+                            <br/>
+                            This can be done with</p>
+                            mc_rejection_sample(:Query:atom,:Evidence:atom,+Samples:int,
+  -Probability:float,+Options:list) is det
+where Options is a list of options, the following are recognised by mc_sample_arg/5:
+
+successes(-Successes:int) Number of succeses
+
+failures(-Failures:int) Number of failueres
+                        <pre><code class="language-{.pl}">mc_rejection_sample(:<span class="hljs-string">Query:</span>atom,:<span class="hljs-string">Evidence:</span>atom,+<span class="hljs-string">Samples:</span><span class="hljs-typename">int</span>,
+  -<span class="hljs-string">Probability:</span><span class="hljs-typename">float</span>,+<span class="hljs-string">Options:</span><span class="hljs-typename">list</span>).
+</code></pre>
+                        <p>that takes <code>Samples</code> samples of <code>Query</code> given that <code>Evidence</code> is true.</p>
+                        <p> <code>Options</code> is a list of options, the following are recognised:
+<ul>
+    <li>
+<code>successes(-successes:int)</code>  Number of successes
+</li>
+<li><code>failures(-failures:int)</code> Number of failures
+</li>
+</ul>
+</p>
+                        <p>An example of use of the above predicate is</p>
+                        <div class="nb-cell query"><pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">mc_rejection_sample</span><span class="hljs-params">(eval(<span class="hljs-number">2</span>,<span class="hljs-number">4</span>)</span></span>,<span class="hljs-function"><span class="hljs-title">eval</span><span class="hljs-params">(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>)</span></span>,<span class="hljs-number">1000</span>,P,[]).
+</code></pre></div>
+                        <p>that perform rejection sampling of <code>eval(2,4)</code> given that <code>eval(1,3)</code> is true.</p>
+                        <p>Differently from exact inference, in approximate inference 
+                            the evidence can be a conjunction of atoms, so if 
+                            you also know that <code>eval(0,2)</code> is true, you can use</p>
+                        <div class="nb-cell query"><pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">mc_rejection_sample</span><span class="hljs-params">(eval(<span class="hljs-number">2</span>,<span class="hljs-number">4</span>)</span></span>,(<span class="hljs-function"><span class="hljs-title">eval</span><span class="hljs-params">(<span class="hljs-number">0</span>,<span class="hljs-number">2</span>)</span></span>,<span class="hljs-function"><span class="hljs-title">eval</span><span class="hljs-params">(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>)</span></span>),<span class="hljs-number">1000</span>,P,[]).
+</code></pre></div>
+                        <p>and, as you can see, the query with more evidence is now almost certainly true.</p>
+                        <p>In Metropolis-Hastings MCMC, a Markov chain is produced using the algorithm
+                            of <span class="ref" data-cite="NamRamAM2014"></span>:
+                            after a sample, a number of sampled probabilistic choices are deleted and the others are retained for the next sample.
+                            The sample is accepted with a probability of min{1,N0/N1} where N0 is the number of choices sampled
+                            in the previous sample and N1 is the number of choices sampled in the current sample. Metropolis-Hastings is usually much faster than rejection sampling
+                            because less samples are discarded.</p>
+                        <p>To use Metropolis-Hastings, the following predicate is available</p>
+                        <pre><code class="language-{.pl}">mc_mh_sample(:<span class="hljs-string">Query:</span>atom,:<span class="hljs-string">Evidence:</span>atom,+<span class="hljs-string">Samples:</span><span class="hljs-typename">int</span>,
+  -<span class="hljs-string">Probability:</span><span class="hljs-typename">float</span>,+<span class="hljs-string">Options:</span><span class="hljs-typename">list</span>).
+</code></pre>
+<p>where <code>Options</code> is a list of options, the following are recognised:
+<ul>
+    <li>
+<code>mix(+Mix:int) </code> The first <code>Mix</code> samples are discarded (mixing time), default value 0
+</li>
+<li><code>lag(+lag:int)</code> lag between each sample, <code>Lag</code> sampled choices are forgotten, default value 1
+</li>
+    <li>
+<code>successes(-successes:int)</code>  Number of successes
+</li>
+<li><code>failures(-failures:int)</code> Number of failures
+</li>
+    <li>
+<code>bar(-BarChar:dict) </code>  <code>BarChart</code> is a bar chart of the possible values
+</li>
+</ul>
+</p>
+                        <p>where <code>Lag</code> is the number of sampled choices to forget before taking a new sample.
+                            For example
+
+                        <div class="nb-cell query"><pre><code class="language-{.pl}">mc_mh_sample(eval(<span class="hljs-number">2</span>,<span class="hljs-number">4</span>),eval(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>),<span class="hljs-number">10000</span>,P).
+</code></pre></div>
+                        <p>takes 10000 accepted samples and returns in <code>P</code> the
+                            estimated probability.</p>
+                        <h3>Sampling the arguments</h3>
+                        You can sample arguments of queries with rejection sampling and Metropolis-Hastings MCMC using
+                        <pre><code class="language-{.pl}">mc_rejection_sample_arg(:<span class="hljs-string">Query:</span>atom,:<span class="hljs-string">Evidence:</span>atom,+<span class="hljs-string">Samples:</span><span class="hljs-typename">int</span>,
+  ?<span class="hljs-string">Arg:</span><span class="hljs-typename">Var</span>,-<span class="hljs-string">Values:</span><span class="hljs-typename">list</span>,+<span class="hljs-string">Options:</span><span class="hljs-typename">list</span>).
+mc_mh_sample_arg(:<span class="hljs-string">Query:</span>atom,:<span class="hljs-string">Evidence:</span>atom,+<span class="hljs-string">Samples:</span><span class="hljs-typename">int</span>,
+  ?<span class="hljs-string">Arg:</span><span class="hljs-typename">Var</span>,-<span class="hljs-string">Values:</span><span class="hljs-typename">list</span>,+<span class="hljs-string">Options:</span><span class="hljs-typename">list</span>).
+</code></pre>
+                        <p>that return the distribution of values for 
+                            <code>Arg</code> in <code>Query</code> in 
+                            <code>Samples</code> of <code>Query</code> given that 
+                            <code>Evidence</code> is true. The predicate returns in <code>Values</code> a list of couples <code>L-N</code> where <code>L</code> is the list of values of <code>Arg</code> for which <code>Query</code> succeeds in a world sampled at random where <code>Evidence</code> is true and <code>N</code> is the number of samples returning that list of values.</p>
+                        <p> For example if we want to sample arg <code>Y</code> 
+                            of <code>eval(2,Y)</code> given that 
+                            <code>eval(0,2)</code> and <code>eval(1,3)</code> 
+                            are true with Metropolis-Hastings MCMC</p>
+                        <div class="nb-cell query"><pre><code class="language-{.pl}">mc_mh_sample_arg(eval(2,Y),eval(1,3),1000,Y,V,[]).
+</code></pre></div>
+                        <p>The printed results are pretty ugly. 
+                            For visualizing the results of sampling arguments as
+                            bar chart you can use <code>argbar/2</code></p>
+                        <p>If we want to plot the bar chart of the previous query</p>
+                        <div class="nb-cell query"><pre><code class="language-{.pl}">mc_mh_sample_arg(eval(2,Y),eval(1,3),1000,Y,L),argbar(L,C).
+</code></pre></div>
+                        <h3>Compute conditional expectations</h3>
+                        <p>You can also compute conditional expectations with</p>
+                        <pre><code class="language-{.pl}">mc_mh_expectation(:<span class="hljs-string">Query:</span>atom,:<span class="hljs-string">Evidence:</span>atom,+<span class="hljs-string">N:</span><span class="hljs-typename">int</span>,?Arg:var,-<span class="hljs-string">Exp:</span><span class="hljs-typename">float</span>,+<span class="hljs-string">Options:</span><span class="hljs-typename">list</span>).
+</code></pre>
+                        <p>as in</p>
+                        <div class="nb-cell query"><pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">mc_mh_expectation</span><span class="hljs-params">(eval(<span class="hljs-number">2</span>,Y)</span></span>,<span class="hljs-function"><span class="hljs-title">eval</span><span class="hljs-params">(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>)</span></span>,<span class="hljs-number">1000</span>,Y,E,[]).
+</code></pre></div>
+                        <p>that computes the expectation of argument <code>Y</code> of <code>eval(2,Y)</code> given that
+                            <code>eval(1,3)</code> is true by taking 1000 samples using Metropolis-Hastings MCMC.</p>
+                        <hr>
+                        <p>Complete example: <a target="_blank" href="http://cplint.lamping.unife.it/example/inference/arithm.pl">arithm.pl</a></p>
+                    </div>
+                </section>
+
+                <hr/>
+                <section>
+                    <div id="continuous-random-variables">
+                        <h2>Unconditional Queries over Hybrid Programs</h2>
+                        <p>Up to now we have considered only discrete random variables and discrete
+                            probability distributions. Here we consider 
+                            <strong>Hybrid Probabilistic Logic Programs</strong>,
+                            where some of the random variables are continuous.
+                        </p>
+                        <p>
+                            How can we consider continuous random variables and
+                            probability density functions, for example real variables following a Gaussian
+                            distribution?
+                        </p>
+                        <p>
+                            <strong>cplint on SWISH</strong> with its sampling inference module 
+                            allows the specification of density functions over arguments
+                            of atoms in the head of rules. To specify a probability 
+                            density on an argument <code>Var</code> of an atom 
+                            <code>A</code> you can used rules of the form</p>
+                        <pre><code class="language-prolog">A : Density :- Body.</code></pre>
+                        <p>where <code>Density</code> is a special atom identifying 
+                            a probability density on variable <code>Var</code> 
+                            and <code>Body</code> (optional) is a regular clause body. 
+                            Allowed <code>Density</code> atoms are:
+                        </p>
+                        <ul>
+                            <li><p><code>uniform(Var,L,U)</code>: <code>Var</code> 
+                                    is uniformly distributed in <span class="math inline">\([L,U]\)</span></p></li>
+                            <li><p><code>gaussian(Var,Mean,Variance)</code>: <code>Var</code> 
+                                    follows a Gaussian distribution with mean <code>Mean</code> 
+                                    and variance <code>Variance</code></p></li>
+                            <li><p><code>dirichlet(Var,Par)</code>: <code>Var</code> 
+                                    is a list of real numbers following a Dirichlet distribution with 
+                                    parameters <span class="math inline">\(\alpha\)</span> 
+                                    specified by the list <code>Par</code></p></li>
+                            <li><p><code>gamma(Var,Shape,Scale)</code>: <code>Var</code> 
+                                    follows a gamma distribution with shape parameter 
+                                    <code>Shape</code> and scale parameter 
+                                    <code>Scale</code>.</p></li>
+                            <li><p><code>beta(Var,Alpha,Beta)</code>: <code>Var</code> 
+                                    follows a beta distribution with parameters 
+                                    <code>Alpha</code> and <code>Beta</code>.</p></li>
+                        </ul>
+                        <p>This syntax can be used to describe also discrete distribution, 
+                            with either a finite or countably infinite support:
+                        </p>
+                        <ul>
+                            <li><p><code>discrete(Var,D)</code> or <code>finite(Var,D)</code>:
+                                    <code>A</code> is an atom containg variable 
+                                    <code>Var</code> and <code>D</code> is a list 
+                                    of couples <code>Value:Prob</code> assigning probability 
+                                    <code>Prob</code> to <code>Value</code></p></li>
+                            <li><p><code>uniform(Var,D)</code>: <code>A</code> 
+                                    is an atom containg variable <code>Var</code> 
+                                    and <code>D</code> is a list of values each 
+                                    taking the same probability (1 over the length 
+                                    of <code>D</code>).</p></li>
+                            <li><p><code>poisson(Var,Lambda)</code>: <code>Var</code> 
+                                    follows a Poisson distribution with parameter 
+                                    <code>Lambda</code>.</p></li>
+                        </ul>
+
+                        <pre><code class="language-prolog"><span class="hljs-atom">g</span>(<span class="hljs-name">X</span>) : <span class="hljs-atom">gaussian</span>(<span class="hljs-name">X</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>).
+</code></pre>
+                        <p>states that argument <code>X</code> of <code>g(X)</code> 
+                            follows a Gaussian distribution with mean 0 and variance 1.</p>
+                        <p>In this section we will see how to perform simple 
+                            queries over hybrid programs. 
+                            <br/>
+                            If an atom encodes a continuous random variable (such 
+                            as <code>g(X)</code> above),
+                            asking the probability that a ground instantiation, 
+                            such as <code>g(0.3)</code>,
+                            is true is
+                            not meaningful, as the probability that a continuous 
+                            random variables takes a
+                            specific value is always 0. In this case you are more 
+                            interested in computing the
+                            distribution of <code>X</code> of a goal <code>g(X)</code>,
+                            possibly after having observed some evidence.
+                        </p>
+
+                        <h3>Sampling the Arguments of Unconditional Queries over Hybrid Programs</h3>
+                        <p>
+                            If the query is unconditional, we can use approximate inference 
+                            with Monte Carlo sampling as described in the section
+                            <a href="#approx-inference" class="section-ref-name"></a>.
+                            When you have continuous random variables, you may be 
+                            interested in sampling arguments of goals representing 
+                            continuous random variables. In this way you can build a
+                            probability density of the sampled argument. To do that 
+                            you can use the predicate <code>mc_sample_arg/4</code>.
+                            <br/>
+                            As example let us consider a program the following program.
+                        </p>
+                        <h4>Mixture of two Gaussians: Full Program</h4>
+                        <p>A biased coin is thrown, if it lands heads, <code>X</code> 
+                            in <code>mix(X)</code>
+                            is sampled from a Gaussian with mean 0 and variance 1. 
+                            If it lands tails, <code>X</code> is sampled from a Gaussian with 
+                            mean 5 and variance 2.</p>
+                        <div class="nb-cell program prolog"><pre><code class="language-prolog">:- <span class="hljs-atom">use_module</span>(<span class="hljs-atom">library</span>(<span class="hljs-atom">mcintyre</span>)).
+:- <span class="hljs-atom">use_rendering</span>(<span class="hljs-atom">c3</span>).
+:- <span class="hljs-atom">mc</span>.
+:- <span class="hljs-atom">begin_lpad</span>.
+<span class="hljs-comment">% a coin is thrown. The coin is biased: with probability 0.6 it lands heads,</span>
+<span class="hljs-comment">% with probabiity 0.4 it lands tails</span>
+<span class="hljs-atom">heads</span>:<span class="hljs-number">0.6</span>;<span class="hljs-atom">tails</span>:<span class="hljs-number">0.4</span>. 
+<span class="hljs-comment">% X in g(X)  follows a Gaussian distribution with mean 0 and variance 1</span>
+<span class="hljs-atom">g</span>(<span class="hljs-name">X</span>): <span class="hljs-atom">gaussian</span>(<span class="hljs-name">X</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>).
+<span class="hljs-comment">% X in h(X)  follows a Gaussian distribution with mean 5 and variance 2</span>
+<span class="hljs-atom">h</span>(<span class="hljs-name">X</span>): <span class="hljs-atom">gaussian</span>(<span class="hljs-name">X</span>,<span class="hljs-number">5</span>,<span class="hljs-number">2</span>).
+<span class="hljs-comment">% if the coin lands heads, X in mix(X) is given by g(X)</span>
+<span class="hljs-atom">mix</span>(<span class="hljs-name">X</span>) :- <span class="hljs-atom">heads</span>, <span class="hljs-atom">g</span>(<span class="hljs-name">X</span>).
+<span class="hljs-comment">% if the coin lands tails, X in mix(X) is given by h(X)</span>
+<span class="hljs-atom">mix</span>(<span class="hljs-name">X</span>) :- <span class="hljs-atom">tails</span>, <span class="hljs-atom">h</span>(<span class="hljs-name">X</span>).
+:- <span class="hljs-atom">end_lpad</span>.
+</code></pre></div>
+                        <p>For example we can now perform the query</p>
+                        <div class="nb-cell query"><pre><code class="language-prolog"><span class="hljs-atom">mc_sample_arg</span>(<span class="hljs-atom">mix</span>(<span class="hljs-name">X</span>),<span class="hljs-number">1000</span>,<span class="hljs-name">X</span>,<span class="hljs-name">Values</span>).
+</code></pre></div>
+                        <p><code>Values</code> will contain a list of 
+                            couples <code>L-N</code> where <code>L</code> is the list of values 
+                            of <code>X</code> for which query succeeds in a world 
+                            sampled at random and <code>N</code> is the number of 
+                            samples returning L.
+                            <br/>
+                            Notice that, in every couple <code>L-N</code>,
+                            <code>L</code> will contain just 
+                            one element and <code>N</code> will be always 1. This 
+                            is because the random variable <code>X</code> is continuous
+                            and <code>mix(X)</code> always succeeds exactly once,
+                            therefore the predicate <code>mc_sample_arg/4</code>
+                            will sample 1000 different worlds and every world will
+                            have a different value for <code>X</code>.
+                        </p>
+                        <p>
+                            Of course watching the 
+                            resulting values as a list of numerical 
+                            values could make you feel the pesky sensation of your eyes melting. 
+                            <br/>
+                            It would be better if we could use some 
+                            kind of graphical feature to represent the results. 
+                            In other words our desire is to draw the 
+                            probability density function of the argument.
+                            <!--                            
+                            Using the predicate <code>mc_sample_arg_bar/4</code> is 
+                                                        useless because it will just plot a number bars equal
+                                                        to the number of world where <code>mix(X)</code> is true 
+                                                        and all these bar with
+                                                        value 1. So what now?!
+                                                        Don't despair, you are lucky! -->
+                            <strong>cplint on SWISH</strong>
+                            provides the predicate <code>histogram/3</code> that comes
+                            in handy for these situations.
+                        </p>
+
+
+                     <pre><code class="language-{.pl}">histogram(+<span class="hljs-symbol">List</span><span class="hljs-symbol">:list</span>,-<span class="hljs-constant">Chart</span><span class="hljs-symbol">:dict</span>,+<span class="hljs-constant">Options</span><span class="hljs-symbol">:list</span>).</code></pre>
+<p>where <code>Options</code> is a list of options, the following are recognised:
+<ul>
+    <li>
+<code>min(+Min:float)</code> the minimum value of domain, default value the minimum in <code>List</code>
+</li>
+<li><code>max(+Max:float)</code> the maximum value of domain, default value the maximum in <code>List</code>
+</li>
+<li>
+<code>nbins(+NBins:int)</code> the number of bins for dividing the domain, default value 40
+</li>
+</ul>
+</p>
+                        <p>This predicate draws a vertical histogram of the samples in 
+                            <code>List</code> 
+                            dividing the domain in <code>NBins</code> bins. 
+                            <code>List</code> must be a list of couples of the 
+                            form <code>L-W</code> where <code>L</code> is a 
+                            list of sampled values and <code>W</code> is its weight. 
+                            <br/>
+                            So we can use the output list <code>Values</code> of
+                            <code>mc_sample_arg/4</code> as input list <code>List</code>
+                            for <code>histogram/3</code>. In our example, if we 
+                            want to plot the probability density function of <code>X</code>,
+                            we can use
+                        </p>
+                        <div class="nb-cell query"><pre><code class="language-prolog"><span class="hljs-atom">mc_sample_arg</span>(<span class="hljs-atom">mix</span>(<span class="hljs-name">X</span>),<span class="hljs-number">1000</span>,<span class="hljs-name">X</span>,<span class="hljs-name">_Values</span>), <span class="hljs-atom">histogram</span>(<span class="hljs-name">_Values</span>,<span class="hljs-name">Chart</span>,[]).
+</code></pre></div>
+                        <p><strong>Note:</strong> we wrote <code>_Values</code>
+                            instead of <code>Values</code> because we are not interested
+                            in printing the results of the sampling.
+                        </p>
+
+                        <hr/>
+                        <p>Complete examples: <a target="_blank" href="http://cplint.lamping.unife.it/example/inference/gaussian_mixture.pl">gaussian_mixture.pl</a>
+                    </div>
+                </section>
+                <hr/>
+                <section>
+                    <div id="conditional-continuous-random-variables">
+                        <h2>Conditional Queries over Hybrid Programs</h2>
+                        <p>
+                            <strong>cplint on SWISH</strong> also allows to execute conditional
+                            query over hybrid programs. 
+                        </p>
+                        <h3>Sampling the Arguments of Conditional Queries over Hybrid Programs</h3>
+                        <p>
+                            As in the <a href="#continuous-random-variables">previous section</a>
+                            we are interested in 
+                            sampling arguments of goals representing 
+                            continuous random variables and drawing a
+                            probability density of the sampled argument.
+                            <br/>
+                            To perform this
+                            kind of query we must distinguish three cases depending on what 
+                            type of evidence we have:
+                        <ol>
+                            <li>The evidence does not contain atoms with continuous 
+                                random variables (the probability of evidence is different from 0).</li>
+                            <li>The evidence contains atoms with continuous random 
+                                variables, but its probability is not zero.</li>
+                            <li>The evidence contains the grounding of atoms with 
+                                continuous random variables (its probability is 0).</li>
+                        </ol>
+                        For the first two cases you can use the predicates 
+                        <code>mc_rejection_sample_arg/6</code> and
+                        <code>mc_mh_sample_arg/6</code>, the predicates for rejection sampling and 
+                        Metropolis-Hastings MCMC (see section <a href="#rejection-MHMCMC" class="section-ref-name"></a>)
+                        <h4>Case 1</h4>
+                        <p>Let us consider the same program of the 
+                            <a href="#continous-random-variables">previous
+                                section</a>
+                            <br/>
+                            We want to take 1000 samples of <code>X</code> 
+                            in <code>mix(X)</code> given that <code>heads</code> was true 
+                            using rejection sampling and Metropolis-Hastings MCMC
+                        </p>
+                        <div class="nb-cell query"><pre><code class="language-prolog"><span class="hljs-atom">mc_rejection_sample_arg</span>(<span class="hljs-atom">mix</span>(<span class="hljs-name">X</span>),<span class="hljs-atom">heads</span>,<span class="hljs-number">1000</span>,<span class="hljs-name">X</span>,<span class="hljs-name">Values</span>,[]).
+</code></pre></div>
+                        <div class="nb-cell query"><pre><code class="language-prolog"><span class="hljs-atom">mc_mh_sample_arg</span>(<span class="hljs-atom">mix</span>(<span class="hljs-name">X</span>),<span class="hljs-atom">heads</span>,<span class="hljs-number">1000</span>,<span class="hljs-name">X</span>,<span class="hljs-name">Values</span>,[lag(2)]).
+</code></pre></div>
+                        <p>
+                            <!--                                As in the previous case it's no use 
+                                                            Using the predicates <code>mc_rejection_sample_arg_bar/5</code>
+                                                            or <code>mc_mh_sample_arg_bar/6</code> is 
+                                                            useless because they will just plot 1000 horizontal bars all with
+                                                            value 1. However we can use the predicate-->
+                            To plot the distribution of the arguments we can use 
+                            <code>histogram/3</code>.
+                        </p>
+                        <div class="nb-cell query"><pre><code class="language-prolog"><span class="hljs-atom">mc_rejection_sample_arg</span>(<span class="hljs-atom">mix</span>(<span class="hljs-name">X</span>),<span class="hljs-atom">heads</span>,<span class="hljs-number">1000</span>,<span class="hljs-name">X</span>,<span class="hljs-name">_V</span>), <span class="hljs-atom">histogram</span>(<span class="hljs-name">_V</span>,<span class="hljs-name">Chart</span>,[]).
+</code></pre></div>
+                        <div class="nb-cell query"><pre><code class="language-prolog"><span class="hljs-atom">mc_mh_sample_arg</span>(<span class="hljs-atom">mix</span>(<span class="hljs-name">X</span>),<span class="hljs-atom">heads</span>,<span class="hljs-number">1000</span>,<span class="hljs-name">X</span>,<span class="hljs-name">_V</span>,[lag(2)]), <span class="hljs-atom">histogram</span>(<span class="hljs-name">_V</span>,<span class="hljs-name">Chart</span>,[]).
+</code></pre></div>
+                        <h4>Case 2</h4>
+                        <p>Let us consider the same program of the 
+                            <a href="#continous-random-variables">previous
+                                section</a>
+                            <br/>
+                            We want to take 1000 samples of <code>X</code> 
+                            in <code>mix(X)</code> given that <code>X>2</code>
+                            was true using rejection sampling and draw an
+                            histogram with 40 bins representing the probability 
+                            density of <code>X</code>. To do that we can ask 
+                            the query
+                        </p>
+                        <div class="nb-cell query"><pre><code class="language-prolog"><span class="hljs-atom">mc_rejection_sample_arg</span>(<span class="hljs-atom">mix</span>(<span class="hljs-name">X</span>),(<span class="hljs-atom">mix</span>(<span class="hljs-name">Y</span>),<span class="hljs-name">Y</span>&gt;<span class="hljs-number">2</span>),<span class="hljs-number">1000</span>,<span class="hljs-name">X</span>,<span class="hljs-name">_V</span>,[]), <span class="hljs-atom">histogram</span>(<span class="hljs-name">_V</span>,<span class="hljs-name">Chart</span>,[]).
+</code></pre></div>
+                        <p>
+                            We can do the same by using Metropolis-Hastings MCMC
+                        </p>
+                        <div class="nb-cell query"><pre><code class="language-prolog"><span class="hljs-atom">mc_mh_sample_arg</span>(<span class="hljs-atom">mix</span>(<span class="hljs-name">X</span>),(<span class="hljs-atom">mix</span>(<span class="hljs-name">Y</span>),<span class="hljs-name">Y</span>&gt;<span class="hljs-number">2</span>),<span class="hljs-number">1000</span>,<span class="hljs-name">X</span>,<span class="hljs-name">_Values</span>,[lag(2)]), 
+  <span class="hljs-atom">histogram</span>(<span class="hljs-name">_Values</span>,<span class="hljs-name">Chart</span>,[]).
+</code></pre></div>
+                        <h4>Case 3</h4>
+                        <p>When you have evidence on ground atoms that have 
+                            continuous values as arguments, you cannot use neither
+                            rejection sampling nor Metropolis-Hastings,
+                            as the probability of the evidence is 0,
+                            but you need to use likelihood weighting <span class="ref" data-cite="NitDeLPl2016"></span> 
+                            to obtain samples of continuous arguments of a goal.
+                            <br/>
+                            Let us take as example the following program.
+                        </p>    
+
+                        <h4>Posterior estimation in Bayesian models: Full Program</h4>
+                        <p>We are trying to estimate the true value of a Gaussian distributed random
+                            variable, given some observed data. The variance is known (2) and we
+                            suppose that the mean has a Gaussian distribution with mean 1 and variance
+                            5. We take different measurement (e.g. at different times), indexed
+                            with an integer.
+                            Given that we observe 9 and 8 at indexes 1 and 2, how does the distribution 
+                            of the random variable (value at index 0) changes with respect to the case of 
+                            no observations?</p>
+                        <div class="nb-cell program prolog"><pre><code class="language-prolog">:- <span class="hljs-atom">use_module</span>(<span class="hljs-atom">library</span>(<span class="hljs-atom">mcintyre</span>)).
+:- <span class="hljs-atom">use_rendering</span>(<span class="hljs-atom">c3</span>).
+:- <span class="hljs-atom">mc</span>.
+:- <span class="hljs-atom">begin_lpad</span>.
+<span class="hljs-comment">% at time I we see X sampled from a Gaussian with mean M and variance 2.0</span>
+<span class="hljs-atom">val</span>(<span class="hljs-name">I</span>,<span class="hljs-name">X</span>) :- 
+  <span class="hljs-atom">mean</span>(<span class="hljs-name">M</span>),
+  <span class="hljs-atom">measurement</span>(<span class="hljs-name">I</span>,<span class="hljs-name">M</span>,<span class="hljs-name">X</span>).
+<span class="hljs-comment">% Gaussian distribution of the mean of the Gaussian of the variable</span>
+<span class="hljs-atom">mean</span>(<span class="hljs-name">M</span>): <span class="hljs-atom">gaussian</span>(<span class="hljs-name">M</span>,<span class="hljs-number">1.0</span>, <span class="hljs-number">5.0</span>).
+<span class="hljs-comment">% Gaussian distribution of the variable</span>
+<span class="hljs-atom">measurement</span>(<span class="hljs-name">_</span>,<span class="hljs-name">M</span>,<span class="hljs-name">X</span>): <span class="hljs-atom">gaussian</span>(<span class="hljs-name">X</span>,<span class="hljs-name">M</span>, <span class="hljs-number">2.0</span>).
+:- <span class="hljs-atom">end_lpad</span>.
+</code></pre></div>
+                        <!--                            <p>
+                                                        To perform likelihood weighting <strong>cplint on SWISH</strong>
+                                                        provides the predicate
+                                                    </p>
+                                                    <pre><code class="language-prolog">mc_lw_sample(:Query:atom,:Evidence:atom,+Samples:int,-Prob:floar) is det
+                        </code></pre>
+                                                    <p>This predicate samples <code>Query</code> a 
+                                                        number of <code>Samples</code> times given that 
+                                                        <code>Evidence</code> (a conjunction of atoms is 
+                                                        allowed here). is true. The predicate returns in 
+                                                        <code>Prob</code> the probability that the query 
+                                                        is true. It performs likelihood weighting: each 
+                                                        sample is weighted by the likelihood of evidence 
+                                                        in the sample.
+                                                        <br/>
+                                                        In our example if we want to know the probability
+                                                        that at index 0 the estimated random variable has value 5
+                                                        given that we observe 9 and 8 at indices 1 and 2, 
+                                                        we can execute
+                                                    </p>-->
+
+                        <p>
+                            As in the previous cases we are interested
+                            in finding the posterior probability density function
+                            of an argument. To do that we can use the predicate 
+                        </p>
+                        <pre><code class="language-prolog">mc_lw_sample_arg(:Query:atom,:Evidence:atom,+N:int,?Arg:var,-ValList)
+</code></pre>
+                        <p>This predicate returns in <code>ValList</code> a list of couples 
+                            <code>V-W</code> where <code>V</code> is a value 
+                            of <code>Arg</code> for which <code>Query</code> 
+                            succeeds and <code>W</code> is the weight computed 
+                            by likelihood weighting according to <code>Evidence</code> 
+                            (a conjunction of atoms is allowed here).
+                            <br/>
+                            For example we may ask given that we observe 9 and 8 at indexes 1 and 2, 
+                            what is the distribution of the random 
+                            variable (value at index 0)?
+                        </p>
+
+                        <div class="nb-cell query"><pre><code class="language-prolog"><span class="hljs-atom">mc_lw_sample_arg</span>(<span class="hljs-atom">val</span>(<span class="hljs-number">0</span>,<span class="hljs-name">X</span>),(<span class="hljs-atom">val</span>(<span class="hljs-number">1</span>,<span class="hljs-number">9</span>),<span class="hljs-atom">val</span>(<span class="hljs-number">2</span>,<span class="hljs-number">8</span>)),<span class="hljs-number">1000</span>,<span class="hljs-name">X</span>,<span class="hljs-name">V</span>)
+</code></pre></div>
+                        <p>
+                            Of course it would be better if we could plot the
+                            results in a graph, instead of just printing them (aah! my eyes!). 
+                            <br/>
+                            We cannot use
+                            <code>histogram/4</code> because it takes as input
+                            a list of couples <code>L-W</code> where <code>L</code> is a list 
+                            of values, whereas <code>mc_lw_sample_arg/5</code> returns
+                            a list of couples <code>V-W</code> where <code>V</code> is a value.
+                            In this case you can use <code>densities/4</code>
+                        </p>
+                        <pre><code class="language-prolog">densities(+PriorList:list,+PostList:list,-Chart:dict,+Options:list)
+</code></pre>
+                        <p>This predicate draws a line chart of the density of two sets 
+                            of samples, usually prior and post observations. 
+                            The samples from the prior are in <code>PriorList</code> 
+                            as couples <code>L-W</code>, where <code>L</code> is a 
+                            list of values and <code>W</code> is its weight, 
+                            while the samples from the posterior are in 
+                            <code>PostList</code> as couples <code>V-W</code> 
+                            where <code>V</code> 
+                            is a value and <code>W</code> its weigth. 
+                            The same options as <code>histogram/3</code> are recognized.
+                            The lines 
+                            are drawn dividing the domain in the number of bins provided as an option.
+                            <br/>
+                            If we want to plot the densities of the random variable before and after  
+                            observing 9 and 8 by taking 1000 samples and by dividing the domain
+                            in 40 bins, we can run
+                        </p>
+                        <div class="nb-cell query"><pre><code class="language-prolog"><span class="hljs-atom">mc_sample_arg</span>(<span class="hljs-atom">val</span>(<span class="hljs-number">0</span>,<span class="hljs-name">Y</span>),<span class="hljs-number">1000</span>,<span class="hljs-name">Y</span>,<span class="hljs-name">_V0</span>), 
+<span class="hljs-atom">mc_lw_sample_arg</span>(<span class="hljs-atom">val</span>(<span class="hljs-number">0</span>,<span class="hljs-name">X</span>),(<span class="hljs-atom">val</span>(<span class="hljs-number">1</span>,<span class="hljs-number">9</span>),<span class="hljs-atom">val</span>(<span class="hljs-number">2</span>,<span class="hljs-number">8</span>)),<span class="hljs-number">1000</span>,<span class="hljs-name">X</span>,<span class="hljs-name">_V</span>),
+<span class="hljs-atom">densities</span>(<span class="hljs-name">_V0</span>,<span class="hljs-name">_V</span>,<span class="hljs-name">Chart</span>,[]).
+</code></pre></div>
+
+                        <!--                    The first two cases are covered in the subsection <a href="#conditional-continuous-random-variables-non-ground">
+                                                
+                        </a>
+                                            <h3 href="#conditional-continuous-random-variables-non-ground">
+                                                Evidence NOT containing an atom with the grounding of a Continuous Random Variables</h4>
+                                            
+                                            <h3>Evidence containing an atom with the grounding of a Continuous Random Variables</h4>-->
+                        <hr>
+                        <p>Complete examples: <a target="_blank" href="http://cplint.lamping.unife.it/example/inference/gaussian_mixture.pl">gaussian_mixture.pl</a>, 
+                            <a target="_blank" href="http://cplint.lamping.unife.it/example/inference/gauss_mean_est.pl">gauss_mean_est.pl</a></p>
+                    </div>
+                </section>
+
+                <hr/>
+                <section>
+                    <div id="parameter-learning">
+                        <h2>Parameter Learning</h2>
+                        <p>In this section we will see how to learn the parameters 
+                            given a background knowledge and an initial program. 
+                            We take into account the Machines dataset 
+                            <span class="ref" data-cite="ACEman"></span>.</p>
+                        <!--<p><strong>Note</strong>: the learning algorithms are available only if you use the Prolog editor.</p>-->
+                        <h3>Machines Example: Writing the Program Step by Step</h3>
+                        <p>To execute a learning algorithm the input source, a .pl file, must be divided in five parts:</p>
+                        <ul>
+                            <li>preamble,</li>
+                            <li>background knowledge, i.e., knowledge valid for all interpretations,</li>
+                            <li>initial LPAD program for which you want to learn the parameters (optional),</li>
+                            <li>language bias information,</li>
+                            <li>example interpretations.</li>
+                        </ul>
+                        <br>
+                        <p>Here we will define a program step by step and then execute the algorithm EMBLEM <span class="ref" data-cite="BelRigEM2013,BelRigEo2012"></span> which learns the parameters of a given initial LPAD program.</p>
+                        <p>For more information of how to perform learning see the <a target="_blank" href="http://cplint.lamping.unife.it/help/help-cplint.html">cplint on SWISH manual</a> (<a target="_blank" href="https://github.com/friguzzi/cplint/blob/master/doc/help-cplint.pdf">PDF version</a>).</p>
+                        <h3>Preamble</h3>
+                        <p>In order to perform both EMBLEM and SLIPCOVER you need to load the library <code>slipcover</code> with the command</p>
+                        <pre><code class="language-{.pl}">:- <span class="hljs-function"><span class="hljs-title">use_module</span><span class="hljs-params">(library(slipcover)</span></span>).
+</code></pre>
+                        <p>After that you have to initialize <code>slipcover</code> with the command</p>
+                        <pre><code class="language-{.pl}">:- <span class="hljs-atom">sc</span>.
+</code></pre>
+                        <!--<p>At this point you can start setting parameters for SLIPCOVER with the predicate <code>set_sc/2</code>. For the complete list of the available parameters and their meanings see the <a target="_blank" href="http://cplint.lamping.unife.it/help/help-cplint.html">manual</a>. In our example we will set the following parameters</p>
+                        <pre><code class="language-{.pl}">:- <span class="hljs-function"><span class="hljs-title">set_sc</span><span class="hljs-params">(depth_bound,false)</span></span>.
+:- <span class="hljs-function"><span class="hljs-title">set_sc</span><span class="hljs-params">(neg_ex,given)</span></span>.
+:- <span class="hljs-function"><span class="hljs-title">set_sc</span><span class="hljs-params">(max_iter,<span class="hljs-number">10</span>)</span></span>.
+:- <span class="hljs-function"><span class="hljs-title">set_sc</span><span class="hljs-params">(verbosity,<span class="hljs-number">1</span>)</span></span>.
+</code></pre>-->
+                        <h3>Background Knowledge</h3>
+                        <p>Now that we have defined the preamble, one can specify the background knowledge with a fact of the form</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">bg</span><span class="hljs-params">(&lt;list of terms representing clauses&gt;)</span></span>.
+</code></pre>
+                        <p>Alternatively, we can specify a set of clauses by including them in a section between the goals <code>:- begin_bg.</code> and <code>:- end_bg.</code>. We will use the latter approach.</p>
+                        <pre><code class="language-{.pl}">:- begin_bg.
+<span class="hljs-function"><span class="hljs-title">component</span><span class="hljs-params">(C)</span></span>:-
+  <span class="hljs-function"><span class="hljs-title">replaceable</span><span class="hljs-params">(C)</span></span>.
+<span class="hljs-function"><span class="hljs-title">component</span><span class="hljs-params">(C)</span></span>:-
+  <span class="hljs-function"><span class="hljs-title">not_replaceable</span><span class="hljs-params">(C)</span></span>.
+<span class="hljs-function"><span class="hljs-title">replaceable</span><span class="hljs-params">(gear)</span></span>.
+<span class="hljs-function"><span class="hljs-title">replaceable</span><span class="hljs-params">(wheel)</span></span>.
+<span class="hljs-function"><span class="hljs-title">replaceable</span><span class="hljs-params">(chain)</span></span>.
+<span class="hljs-function"><span class="hljs-title">not_replaceable</span><span class="hljs-params">(engine)</span></span>.
+<span class="hljs-function"><span class="hljs-title">not_replaceable</span><span class="hljs-params">(control_unit)</span></span>.
+<span class="hljs-function"><span class="hljs-title">not_worn</span><span class="hljs-params">(C)</span></span>:-
+  <span class="hljs-function"><span class="hljs-title">component</span><span class="hljs-params">(C)</span></span>,
+  \+ <span class="hljs-function"><span class="hljs-title">worn</span><span class="hljs-params">(C)</span></span>.
+one_worn:-
+  <span class="hljs-function"><span class="hljs-title">worn</span><span class="hljs-params">(_)</span></span>.
+none_worn:-
+  \+ one_worn.
+:- end_bg.
+</code></pre>
+                        <h3>Initial Program</h3>
+                        <p>At this point we can define an initial program for which we want to learn the parameters. We can do it with a fact of the form</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-keyword">in</span>(&lt;<span class="hljs-type">list</span> <span class="hljs-keyword">of</span> terms representing clauses&gt;).
+</code></pre>
+                        <p>Alternatively, you can specify an input program in a section between <code>:- begin_in.</code> and <code>:- end_in.</code>. We will use the latter method. Therefore in our example</p>
+                        <pre><code class="language-{.pl}">:- begin_in.
+<span class="hljs-function"><span class="hljs-title">class</span><span class="hljs-params">(sendback)</span></span>:<span class="hljs-number">0.5</span> :-
+  <span class="hljs-function"><span class="hljs-title">worn</span><span class="hljs-params">(A)</span></span>,
+  <span class="hljs-function"><span class="hljs-title">not_replaceable</span><span class="hljs-params">(A)</span></span>.
+
+<span class="hljs-function"><span class="hljs-title">class</span><span class="hljs-params">(fix)</span></span>:<span class="hljs-number">0.6</span> :-
+  <span class="hljs-function"><span class="hljs-title">worn</span><span class="hljs-params">(A)</span></span>,
+  <span class="hljs-function"><span class="hljs-title">replaceable</span><span class="hljs-params">(A)</span></span>.
+
+<span class="hljs-function"><span class="hljs-title">class</span><span class="hljs-params">(ok)</span></span>:<span class="hljs-number">0.5</span> :-
+  <span class="hljs-function"><span class="hljs-title">not_worn</span><span class="hljs-params">(_A)</span></span>.
+:- end_in.
+</code></pre>
+                        <h3>Language Bias</h3>
+                        <p>The language bias part contains the declarations of the input and output predicates.</p>
+                        <p>The typical input for EMBLEM will be a set of interpretations, i.e. sets of ground facts. Among the predicates for the input facts the user has to indicate which are the output predicates. Output predicates are declared as</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">output</span><span class="hljs-params">(&lt;predicate&gt;/&lt;arity&gt;)</span></span>.
+</code></pre>
+                        <p>In our example</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">output</span><span class="hljs-params">(class/<span class="hljs-number">1</span>)</span></span>.
+</code></pre>
+                        <p>Input predicates are those whose atoms you are not interested in predicting.</p>
+                        <p>You can declare <strong>closed world input predicates</strong> with</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">input_cw</span><span class="hljs-params">(&lt;predicate&gt;/&lt;arity&gt;)</span></span>.
+</code></pre>
+                        <p>For these predicates, the only true atoms are those in the interpretations and those derivable from them using the background knowledge; the clauses in the
+                            input/hypothesized program are not used to derive atoms for these predicates.
+                            Moreover, clauses in the background knowledge that define closed world input predicates and that call an output predicate in the body will not be used for deriving examples.
+                            In our example</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">input_cw</span><span class="hljs-params">(replaceable/<span class="hljs-number">1</span>)</span></span>.
+<span class="hljs-function"><span class="hljs-title">input_cw</span><span class="hljs-params">(not_replaceable/<span class="hljs-number">1</span>)</span></span>.
+<span class="hljs-function"><span class="hljs-title">input_cw</span><span class="hljs-params">(worn/<span class="hljs-number">1</span>)</span></span>.
+<span class="hljs-function"><span class="hljs-title">input_cw</span><span class="hljs-params">(not_worn/<span class="hljs-number">1</span>)</span></span>.
+<span class="hljs-function"><span class="hljs-title">input_cw</span><span class="hljs-params">(none_worn/<span class="hljs-number">0</span>)</span></span>.
+</code></pre>
+                        <p>Besides closed world input predicates we can declare
+                            <strong>open world input predicates</strong> with</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">input</span><span class="hljs-params">(&lt;predicate&gt;/&lt;arity&gt;)</span></span>.
+</code></pre>
+                        <p>In our example we do not have open world input predicates.</p>
+                        <h3>Example Interpretations</h3>
+                        <p>The last part of the input file contains the data. 
+                            You can specify data with two modalities: <i>models</i> and <i>keys</i>.
+                            In the models type, you specify an example model (or interpretation) 
+                            as a list of Prolog facts initiated by <code>begin(model(&lt;name&gt;)).</code> 
+                            and terminated by <code>end(model(&lt;name&gt;)).</code>.
+                            Alternatively, with the keys modality, you can directly 
+                            write the facts and the first argument will be interpreted as a model identifier.
+                            <br/>
+                            The two modalities, models and keys, can be mixed in the same source.
+                            If we use the model modality for the example/interpretation 1, we get</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">begin</span><span class="hljs-params">(model(<span class="hljs-number">1</span>)</span></span>).
+<span class="hljs-function"><span class="hljs-title">class</span><span class="hljs-params">(sendback)</span></span>.
+<span class="hljs-function"><span class="hljs-title">neg</span><span class="hljs-params">(class(fix)</span></span>).
+<span class="hljs-function"><span class="hljs-title">neg</span><span class="hljs-params">(class(ok)</span></span>).
+<span class="hljs-function"><span class="hljs-title">worn</span><span class="hljs-params">(gear)</span></span>.
+<span class="hljs-function"><span class="hljs-title">worn</span><span class="hljs-params">(engine)</span></span>.
+<span class="hljs-function"><span class="hljs-title">end</span><span class="hljs-params">(model(<span class="hljs-number">1</span>)</span></span>).
+</code></pre>
+                        <p>If we use this modality the system asserts a <code>int(&lt;name&gt;).</code> for each model enclosed in <code>begin(model(&lt;name&gt;)).</code> and <code>end(model(&lt;name&gt;)).</code>.</p>
+                        <p>Instead, if we use the key modality, our example will be (note the first argument of each fact)</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">class</span><span class="hljs-params">(<span class="hljs-number">1</span>,sendback)</span></span>.
+<span class="hljs-function"><span class="hljs-title">neg</span><span class="hljs-params">(<span class="hljs-number">1</span>,class(fix)</span></span>).
+<span class="hljs-function"><span class="hljs-title">neg</span><span class="hljs-params">(<span class="hljs-number">1</span>,class(ok)</span></span>).
+<span class="hljs-function"><span class="hljs-title">worn</span><span class="hljs-params">(<span class="hljs-number">1</span>,gear)</span></span>.
+<span class="hljs-function"><span class="hljs-title">worn</span><span class="hljs-params">(<span class="hljs-number">1</span>,engine)</span></span>.
+</code></pre>
+                        <p>If we use this modality, facts for int/1 are not asserted for interpretations, but can be explicitily added by the user.</p>
+                        <h4><a id="Fold_division_152"></a>Fold division</h4>
+                        <p>After defining the examples/interpretations we must indicate how the examples are divided in folds with facts of the form:</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">fold</span><span class="hljs-params">(&lt;fold_name&gt;,&lt;list of model identifiers&gt;)</span></span>
+</code></pre>
+                        <p>as for example</p>
+                        <pre><code class="language-{.pl}">fold(train1,[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]).
+fold(train2,[<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span>,<span class="hljs-number">10</span>]).
+</code></pre>
+                        <p>We can also define intensionally the folds as in</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">fold</span><span class="hljs-params">(all,F)</span></span> :- <span class="hljs-function"><span class="hljs-title">findall</span><span class="hljs-params">(I,int(I)</span></span>,F).
+</code></pre>
+                        <h3>Machines: Full Dataset (for Parameter Learning)</h3>
+                        <p>The complete Machines input file is</p>
+                        <div class="nb-cell program prolog"><pre><code class="language-{.pl}"><span class="hljs-comment">% PREAMBLE %</span>
+:- use_module(library(slipcover)).
+<span class="hljs-comment">% use the renderer 'lpad'. It not mandatory to use it, but it prints the learned clauses in a more readable way</span>
+:- use_rendering(lpad).
+:- sc.
+:- set_sc(depth_bound,<span class="hljs-keyword">false</span>).
+:- set_sc(neg_ex,given).
+:- set_sc(megaex_bottom,15).
+:- set_sc(max_iter,10).
+:- set_sc(max_iter_structure,50).
+:- set_sc(verbosity,1).
+
+<span class="hljs-comment">% BACKGROUND KNOWLEDGE %</span>
+:- begin_bg.
+component(C):-
+  replaceable(C).
+component(C):-
+  not_replaceable(C).
+replaceable(gear).
+replaceable(wheel).
+replaceable(chain).
+not_replaceable(engine).
+not_replaceable(control_unit).
+not_worn(C):-
+  component(C),
+  \+ worn(C).
+one_worn:-
+  worn(_).
+none_worn:-
+  \+ one_worn.
+:- end_bg.
+<span class="hljs-comment">% INITIAL PROGRAM %</span>
+:- begin_in.
+class(sendback):0.5 :-
+  worn(A),
+  not_replaceable(A).
+
+class(fix):0.6 :-
+  worn(A),
+  replaceable(A).
+
+class(ok):0.5 :-
+  not_worn(_A).
+:- end_in. 
+
+<span class="hljs-comment">% LANGUAGE BIAS %</span>
+<span class="hljs-comment">% output predicates</span>
+output(class/1).
+<span class="hljs-comment">% input closed world predicates</span>
+input_cw(replaceable/1).
+input_cw(not_replaceable/1).
+input_cw(worn/1).
+input_cw(not_worn/1).
+input_cw(none_worn/0).
+
+<span class="hljs-comment">% EXAMPLES (interpretations) %</span>
+begin(model(1)).
+class(sendback).
+neg(class(fix)).
+neg(class(ok)).
+worn(gear).
+worn(engine).
+end(model(1)).
+
+begin(model(2)).
+class(ok).
+neg(class(sendback)).
+neg(class(fix)).
+end(model(2)).
+
+begin(model(3)).
+class(fix).
+neg(class(sendback)).
+neg(class(ok)).
+worn(gear).
+end(model(3)).
+
+begin(model(4)).
+class(sendback).
+neg(class(fix)).
+neg(class(ok)).
+worn(engine).
+end(model(4)).
+
+begin(model(5)).
+class(fix).
+neg(class(sendback)).
+neg(class(ok)).
+worn(gear).
+worn(chain).
+end(model(5)).
+
+begin(model(6)).
+class(fix).
+neg(class(sendback)).
+neg(class(ok)).
+worn(wheel).
+end(model(6)).
+
+begin(model(7)).
+class(sendback).
+neg(class(fix)).
+neg(class(ok)).
+worn(wheel).
+worn(control_unit).
+end(model(7)).
+
+begin(model(8)).
+class(ok).
+neg(class(sendback)).
+neg(class(fix)).
+end(model(8)).
+
+begin(model(9)).
+class(fix).
+neg(class(sendback)).
+neg(class(ok)).
+worn(wheel).
+worn(chain).
+end(model(9)).
+
+begin(model(10)).
+class(sendback).
+neg(class(fix)).
+neg(class(ok)).
+worn(engine).
+worn(chain).
+end(model(10)).
+
+begin(model(11)).
+class(sendback).
+neg(class(fix)).
+neg(class(ok)).
+worn(engine).
+worn(control_unit).
+end(model(11)).
+
+begin(model(12)).
+class(fix).
+neg(class(sendback)).
+neg(class(ok)).
+worn(chain).
+worn(wheel).
+worn(gear).
+end(model(12)).
+
+begin(model(13)).
+class(sendback).
+neg(class(fix)).
+neg(class(ok)).
+worn(chain).
+worn(wheel).
+worn(gear).
+worn(engine).
+end(model(13)).
+
+begin(model(14)).
+class(ok).
+neg(class(sendback)).
+neg(class(fix)).
+end(model(14)).
+
+begin(model(15)).
+class(fix).
+neg(class(sendback)).
+neg(class(ok)).
+worn(wheel).
+worn(gear).
+end(model(15)).
+
+fold(all, F) :- findall(I,<span class="hljs-keyword">int</span>(I),F).
+</code></pre></div>
+                        <h3>Performing Parameter Learning</h3>
+                        <p>To execute the parameter learning algorithm EMBLEM, we need to ask a query of the form</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">induce_par</span><span class="hljs-params">(&lt;list of folds&gt;,P)</span></span>.
+</code></pre>
+                        <p>where <code>&lt;list of folds&gt;</code> is a list of the folds for training and <code>P</code> will contain the
+                            input program with updated parameters.</p>
+                        <p>In our example we want to learn the parameters by using the fold which contains all the examples (<code>all</code>). Therefore</p>
+                        <div class="nb-cell query"><pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">induce_par</span><span class="hljs-params">([all],P)</span></span>.
+</code></pre></div>
+                        <hr>
+                        <p>Complete example: <a target="_blank" href="http://cplint.lamping.unife.it/example/learning/mach.pl">mach.pl</a></p>
+                        <hr>
+                        <p>For more information about how to perform learning and EMBLEM see the <a target="_blank" href="http://cplint.lamping.unife.it/help/help-cplint.html">manual</a> (or <a target="_blank" href="https://github.com/friguzzi/cplint/blob/master/doc/help-cplint.pdf">PDF version</a>) and the references in the <a target="_blank" href="http://cplint.lamping.unife.it/help/about.html#emblem">About page</a></p>
+
+                    </div>
+                </section>
+                <hr/>
+                <section>
+                    <div id="structure-learning">
+                        <h2>Structure Learning</h2>
+                        <p><strong>cplint on SWISH</strong> allows the user to 
+                            perform <strong>structure learning</strong>.
+                            In this tutorial section we will learn how to do that.
+                            <br/>
+                            We take into account the Machines dataset <span class="ref" data-cite="ACEman"></span>
+                            already illustrated in the 
+                            <a href="#parameter-learning">previous section</a>.</p>
+                        <p><strong>Note</strong>: the learning algorithms are available only if you use the Prolog editor.</p>
+                        <h3>Machines Example: Writing the Program Step by Step</h3>
+                        <p>To execute a learning algorithm the input source must be divided in five parts:</p>
+                        <ul>
+                            <li>preamble,</li>
+                            <li>background knowledge, i.e., knowledge valid for all interpretations,</li>
+                            <li>Initial LPAD (optional),</li>
+                            <li>language bias information,</li>
+                            <li>example interpretations.</li>
+                        </ul>
+                        <p>Here we will define a program step by step and then 
+                            execute the algorithm SLIPCOVER <span class="ref" data-cite="BelRigSl2015"></span>
+                            which learns the structure and the parameters given a background knowledge.
+                            <br>
+                            We keep the background knowledge, the initial LPAD, 
+                            and the interpretations unchanged. However, in order to 
+                            perform <strong>structure learning</strong>, we need to
+                            modify the preamble and the language bias.
+                        </p>
+                        <p>For more information of how to perform learning see the 
+                            <a target="_blank" href="http://cplint.lamping.unife.it/help/help-cplint.html">cplint on SWISH manual</a> 
+                            (<a target="_blank" href="https://github.com/friguzzi/cplint/blob/master/doc/help-cplint.pdf">PDF version</a>).</p>
+                        <h3>Preamble</h3>
+                        <p>We load the library <code>slipcover</code>, initialize 
+                            it and then set some parameters. We use the same preamble
+                            of the <a href="#parameter-learning">previous section</a>, plus 
+                            we add the settings <code>set_sc(max_iter_structure,50).</code> and 
+                            <code>:- set_sc(megaex_bottom,15).</code>. So the preamble becomes</p>
+                        <pre><code class="language-{.pl}">:-<span class="hljs-function"><span class="hljs-title">use_module</span><span class="hljs-params">(library(slipcover)</span></span>).
+:-sc.
+:- <span class="hljs-function"><span class="hljs-title">set_sc</span><span class="hljs-params">(depth_bound,false)</span></span>.
+:- <span class="hljs-function"><span class="hljs-title">set_sc</span><span class="hljs-params">(neg_ex,given)</span></span>.
+:- <span class="hljs-function"><span class="hljs-title">set_sc</span><span class="hljs-params">(max_iter,<span class="hljs-number">10</span>)</span></span>.
+:- <span class="hljs-function"><span class="hljs-title">set_sc</span><span class="hljs-params">(max_iter_structure,<span class="hljs-number">50</span>)</span></span>.
+:- <span class="hljs-function"><span class="hljs-title">set_sc</span><span class="hljs-params">(megaex_bottom,<span class="hljs-number">15</span>)</span></span>.
+:- <span class="hljs-function"><span class="hljs-title">set_sc</span><span class="hljs-params">(verbosity,<span class="hljs-number">1</span>)</span></span>.
+</code></pre>
+
+                        <h3>Language Bias</h3>
+                        <p>In the <a href="#parameter-learning">previous example</a> 
+                            we already defined the set of output and input
+                            predicates for the EMBLEM algorithm. However now we
+                            want to learn new clauses (the structure) for the program, 
+                            in order to do that we need to add mode declarations 
+                            in the style of <a target="_blank" href="http://www.doc.ic.ac.uk/~shm/progol.html">Progol</a>.</p>
+                        <p>To specify the atoms that can appear in the head of clauses you must use facts of the form</p>
+                        <pre><code class="language-{.pl}">modeh(<span class="hljs-tag">&lt;<span class="hljs-title">recall</span>&gt;</span>,<span class="hljs-tag">&lt;<span class="hljs-title">predicate</span>&gt;</span>(<span class="hljs-tag">&lt;<span class="hljs-title">arg1</span>&gt;</span>,...)).
+</code></pre>
+                        <p>To specify the atoms that can appear in the body of clauses you must use facts of the form</p>
+                        <pre><code class="language-{.pl}">modeb(<span class="hljs-tag">&lt;<span class="hljs-title">recall</span>&gt;</span>,<span class="hljs-tag">&lt;<span class="hljs-title">predicate</span>&gt;</span>(<span class="hljs-tag">&lt;<span class="hljs-title">arg1</span>&gt;</span>,...)).
+</code></pre>
+                        <p>where <code>&lt;recall&gt;</code> can be an integer or *. <code>&lt;recall&gt;</code> indicates how many atoms for the predicate specification are retained in the bottom clause during a saturation step. * stands for all those that are found.</p>
+                        <p>We refer to the 
+                            <a target="_blank" href="http://cplint.lamping.unife.it/help/help-cplint.html">
+                                cplint on SWISH manual</a> for further details.</p>
+                        <p>In our example we use the following mode declarations</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">modeh</span><span class="hljs-params">(*,class(fix)</span></span>).
+<span class="hljs-function"><span class="hljs-title">modeh</span><span class="hljs-params">(*,class(ok)</span></span>).
+<span class="hljs-function"><span class="hljs-title">modeh</span><span class="hljs-params">(*,class(sendback)</span></span>).
+
+<span class="hljs-function"><span class="hljs-title">modeb</span><span class="hljs-params">(*,not_replaceable(-comp)</span></span>).
+<span class="hljs-function"><span class="hljs-title">modeb</span><span class="hljs-params">(*,replaceable(-comp)</span></span>).
+<span class="hljs-function"><span class="hljs-title">modeb</span><span class="hljs-params">(*,worn(-comp)</span></span>).
+<span class="hljs-function"><span class="hljs-title">modeb</span><span class="hljs-params">(*,not_worn(-comp)</span></span>).
+<span class="hljs-function"><span class="hljs-title">modeb</span><span class="hljs-params">(*,none_worn)</span></span>.
+</code></pre>
+                        <p>SLIPCOVER also requires facts for the <code>determination/2</code> 
+                            predicate Aleph-style that indicate which predicates 
+                            can appear in the body of clauses. For our program we have</p>
+                        <pre><code class="language-{.pl}">determination(<span class="hljs-keyword">class</span>/<span class="hljs-number">1</span>,replaceable/<span class="hljs-number">1</span>).
+determination(<span class="hljs-keyword">class</span>/<span class="hljs-number">1</span>,not_replaceable/<span class="hljs-number">1</span>).
+determination(<span class="hljs-keyword">class</span>/<span class="hljs-number">1</span>,worn/<span class="hljs-number">1</span>).
+determination(<span class="hljs-keyword">class</span>/<span class="hljs-number">1</span>,not_worn/<span class="hljs-number">1</span>).
+determination(<span class="hljs-keyword">class</span>/<span class="hljs-number">1</span>,none_worn/<span class="hljs-number">0</span>).
+</code></pre>
+                        <p>For example the first <code>determination/2</code> fact 
+                            states that the predicate <code>replaceable/1</code> 
+                            can appear in the body of hypothesized clauses having 
+                            <code>class/1</code> in the head.</p>
+
+                        <h3>Machines Dataset: Full Program (for Structure Learning)</h3>
+                        <p>Below there is the complete program</p>
+                        <div class="nb-cell program prolog"><pre><code class="language-{.pl}"><span class="hljs-comment">% PREAMBLE %</span>
+:- use_module(library(slipcover)).
+<span class="hljs-comment">% use the renderer 'lpad'. It not mandatory to use it, but it prints the learned clauses in a more readable way</span>
+:- use_rendering(lpad).
+:- use_rendering(c3).
+:- sc.
+:- set_sc(depth_bound,<span class="hljs-keyword">false</span>).
+:- set_sc(neg_ex,given).
+:- set_sc(megaex_bottom,15).
+:- set_sc(max_iter,10).
+:- set_sc(max_iter_structure,50).
+:- set_sc(verbosity,1).
+
+<span class="hljs-comment">% BACKGROUND KNOWLEDGE %</span>
+:- begin_bg.
+component(C):-
+  replaceable(C).
+component(C):-
+  not_replaceable(C).
+replaceable(gear).
+replaceable(wheel).
+replaceable(chain).
+not_replaceable(engine).
+not_replaceable(control_unit).
+not_worn(C):-
+  component(C),
+  \+ worn(C).
+one_worn:-
+  worn(_).
+none_worn:-
+  \+ one_worn.
+:- end_bg.
+<span class="hljs-comment">% INITIAL PROGRAM %</span>
+:- begin_in.
+class(sendback):0.5 :-
+  worn(A),
+  not_replaceable(A).
+
+class(fix):0.6 :-
+  worn(A),
+  replaceable(A).
+
+class(ok):0.5 :-
+  not_worn(_A).
+:- end_in. 
+
+<span class="hljs-comment">% LANGUAGE BIAS %</span>
+<span class="hljs-comment">% output predicates</span>
+output(class/1).
+<span class="hljs-comment">% input closed world predicates</span>
+input_cw(replaceable/1).
+input_cw(not_replaceable/1).
+input_cw(worn/1).
+input_cw(not_worn/1).
+input_cw(none_worn/0).
+
+<span class="hljs-function"><span class="hljs-title">modeh</span><span class="hljs-params">(*,class(fix)</span></span>).
+<span class="hljs-function"><span class="hljs-title">modeh</span><span class="hljs-params">(*,class(ok)</span></span>).
+<span class="hljs-function"><span class="hljs-title">modeh</span><span class="hljs-params">(*,class(sendback)</span></span>).
+
+<span class="hljs-function"><span class="hljs-title">modeb</span><span class="hljs-params">(*,not_replaceable(-comp)</span></span>).
+<span class="hljs-function"><span class="hljs-title">modeb</span><span class="hljs-params">(*,replaceable(-comp)</span></span>).
+<span class="hljs-function"><span class="hljs-title">modeb</span><span class="hljs-params">(*,worn(-comp)</span></span>).
+<span class="hljs-function"><span class="hljs-title">modeb</span><span class="hljs-params">(*,not_worn(-comp)</span></span>).
+<span class="hljs-function"><span class="hljs-title">modeb</span><span class="hljs-params">(*,none_worn)</span></span>.
+
+determination(<span class="hljs-keyword">class</span>/<span class="hljs-number">1</span>,replaceable/<span class="hljs-number">1</span>).
+determination(<span class="hljs-keyword">class</span>/<span class="hljs-number">1</span>,not_replaceable/<span class="hljs-number">1</span>).
+determination(<span class="hljs-keyword">class</span>/<span class="hljs-number">1</span>,worn/<span class="hljs-number">1</span>).
+determination(<span class="hljs-keyword">class</span>/<span class="hljs-number">1</span>,not_worn/<span class="hljs-number">1</span>).
+determination(<span class="hljs-keyword">class</span>/<span class="hljs-number">1</span>,none_worn/<span class="hljs-number">0</span>).
+
+<span class="hljs-comment">% EXAMPLES (interpretations) %</span>
+begin(model(1)).
+class(sendback).
+neg(class(fix)).
+neg(class(ok)).
+worn(gear).
+worn(engine).
+end(model(1)).
+
+begin(model(2)).
+class(ok).
+neg(class(sendback)).
+neg(class(fix)).
+end(model(2)).
+
+begin(model(3)).
+class(fix).
+neg(class(sendback)).
+neg(class(ok)).
+worn(gear).
+end(model(3)).
+
+begin(model(4)).
+class(sendback).
+neg(class(fix)).
+neg(class(ok)).
+worn(engine).
+end(model(4)).
+
+begin(model(5)).
+class(fix).
+neg(class(sendback)).
+neg(class(ok)).
+worn(gear).
+worn(chain).
+end(model(5)).
+
+begin(model(6)).
+class(fix).
+neg(class(sendback)).
+neg(class(ok)).
+worn(wheel).
+end(model(6)).
+
+begin(model(7)).
+class(sendback).
+neg(class(fix)).
+neg(class(ok)).
+worn(wheel).
+worn(control_unit).
+end(model(7)).
+
+begin(model(8)).
+class(ok).
+neg(class(sendback)).
+neg(class(fix)).
+end(model(8)).
+
+begin(model(9)).
+class(fix).
+neg(class(sendback)).
+neg(class(ok)).
+worn(wheel).
+worn(chain).
+end(model(9)).
+
+begin(model(10)).
+class(sendback).
+neg(class(fix)).
+neg(class(ok)).
+worn(engine).
+worn(chain).
+end(model(10)).
+
+begin(model(11)).
+class(sendback).
+neg(class(fix)).
+neg(class(ok)).
+worn(engine).
+worn(control_unit).
+end(model(11)).
+
+begin(model(12)).
+class(fix).
+neg(class(sendback)).
+neg(class(ok)).
+worn(chain).
+worn(wheel).
+worn(gear).
+end(model(12)).
+
+begin(model(13)).
+class(sendback).
+neg(class(fix)).
+neg(class(ok)).
+worn(chain).
+worn(wheel).
+worn(gear).
+worn(engine).
+end(model(13)).
+
+begin(model(14)).
+class(ok).
+neg(class(sendback)).
+neg(class(fix)).
+end(model(14)).
+
+begin(model(15)).
+class(fix).
+neg(class(sendback)).
+neg(class(ok)).
+worn(wheel).
+worn(gear).
+end(model(15)).
+
+<span class="hljs-function"><span class="hljs-title">fold</span><span class="hljs-params">(all,F)</span></span>:- <span class="hljs-function"><span class="hljs-title">findall</span><span class="hljs-params">(I,int(I)</span></span>,F).
+:- <span class="hljs-function"><span class="hljs-title">fold</span><span class="hljs-params">(all,F)</span></span>,
+   <span class="hljs-function"><span class="hljs-title">sample</span><span class="hljs-params">(<span class="hljs-number">4</span>,F,FTr,FTe)</span></span>,
+   <span class="hljs-function"><span class="hljs-title">assert</span><span class="hljs-params">(fold(train,FTr)</span></span>),
+   <span class="hljs-function"><span class="hljs-title">assert</span><span class="hljs-params">(fold(test,FTe)</span></span>).
+</code></pre></div>
+                        <h3>Performing Structure Learning</h3>
+                        <p>To execute the structure learning algorithm SLIPCOVER (which learns also the parameters of the learned program), we need to execute a query with the form</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">induce</span><span class="hljs-params">(&lt;list of folds&gt;,P)</span></span>.
+</code></pre>
+                        <p>where <code>&lt;list of folds&gt;</code> is a list of the folds for training and <code>P</code> will contain the learned program.</p>
+                        <p>In our example we want to learn the structure (and the parameters) by using the fold which contains all the examples (<code>all</code>). Therefore</p>
+                        <div class="nb-cell query"><pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">induce</span><span class="hljs-params">([all],P)</span></span>.
+</code></pre></div>
+                        <hr>
+                        <p>Complete example: <a target="_blank" href="http://cplint.lamping.unife.it/example/learning/mach.pl">mach.pl</a></p>
+                        <hr>
+                        <p>For more information about how to perform learning and 
+                            SLIPCOVER see the 
+                            <a target="_blank" href="http://cplint.lamping.unife.it/help/help-cplint.html">cplint on SWISH manual</a> 
+                            (or <a target="_blank" href="https://github.com/friguzzi/cplint/blob/master/doc/help-cplint.pdf">PDF version</a>) 
+                            and <span class="ref" data-cite="BelRigSl2015"></span>.</p>
+
+                    </div>
+                </section>
+                <hr/>
+                <section>
+                    <div id="test">
+                        <h2>How to Test a Program</h2>
+                        <p>In this tutorial section we will see how to execute a test on a program. 
+                            We take into account the Machines dataset <span class="ref" data-cite="ACEman"></span>
+                            already seen in the previous sections (
+                            <a href="#parameter-learning">Parameter Learning</a> and
+                            <a href="#structure-learning">Structure Learning</a>).</p>
+                        <p>A program can also be tested on a test set with a query of the form</p>
+                        <pre><code class="language-{.pl}">?- <span class="hljs-keyword">test</span>(&lt;<span class="hljs-keyword">program</span>&gt;,&lt;list_of_folds&gt;,LL,AUCROC,ROC,AUCPR,<span class="hljs-keyword">PR</span>).
+</code></pre>
+                        <p>where <code>&lt;program&gt;</code> is a list of terms representing clauses and <code>&lt;list_of_folds&gt;</code> is a list of folds. This returns the log likelihood of the test examples in <code>LL</code>, the Area Under the ROC curve in <code>AUCROC</code>, a dictionary containing the list of points (in the form of Prolog pairs x-y) of the ROC curve in <code>ROC</code>, the Area Under the PR curve in AUCPR, a dictionary containing the list of points of the PR curve in <code>PR</code>.</p>
+                        <p>Let us suppose now that we have two disjunt folds of examples named <code>train</code> and <code>test</code>. We will now see how to test a (learned) program.</p>
+                        <h3>How to Test the Initial Program</h3>
+                        <p>we can test the input program on the fold test with a query of the form</p>
+                        <pre><code class="language-{.pl}">?- <span class="hljs-keyword">in</span>(P), <span class="hljs-keyword">test</span>(P,[<span class="hljs-keyword">test</span>],LL,AUCROC,ROC,AUCPR,<span class="hljs-keyword">PR</span>).
+</code></pre>
+                        <h3>How to Test a Program after Parameter Learning</h3>
+                        <p>Suppose we want to perform parameter learning on the initial program by using the <code>train</code> fold and then test the resulting program by using the <code>test</code> fold. Then we have just to run the query</p>
+                        <pre><code class="language-{.pl}">?- <span class="hljs-function">induce_par</span>(<span class="hljs-attr_selector">[train]</span>,<span class="hljs-tag">P</span>), <span class="hljs-function">test</span>(<span class="hljs-tag">P</span>,<span class="hljs-attr_selector">[test]</span>,LL,AUCROC,ROC,AUCPR,PR).
+</code></pre>
+                        <h3>How to Test the Learned Program</h3>
+                        <p>Suppose we want to learn new clauses (i.e. we perform structure learning) by using the <code>train</code> fold and then test the resulting program by using the <code>test</code> fold. Then we have just to run the query</p>
+                        <pre><code class="language-{.pl}">?- <span class="hljs-function">induce</span>(<span class="hljs-attr_selector">[train]</span>,<span class="hljs-tag">P</span>), <span class="hljs-function">test</span>(<span class="hljs-tag">P</span>,<span class="hljs-attr_selector">[test]</span>,LL,AUCROC,ROC,AUCPR,PR).
+</code></pre>
+                        <h3>Adding Renderers</h3>
+                        <p>It is possible to see the curves AUCROC, ROC and PR as graphs by including the renderer <code>c3</code> before <code>:- sc.</code>. Morover we include the renderer <code>lpad</code> to have the output program pretty printed. Therefore we add the following commands in the preamble before <code>:- sc.</code>.</p>
+                        <pre><code class="language-{.pl}">:- <span class="hljs-function"><span class="hljs-title">use_rendering</span><span class="hljs-params">(c3)</span></span>.
+:- <span class="hljs-function"><span class="hljs-title">use_rendering</span><span class="hljs-params">(lpad)</span></span>.
+</code></pre>
+                        <h3>Dynamic Folds</h3>
+                        <p>We can intensionally create the fold containing all the example with</p>
+                        <pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">fold</span><span class="hljs-params">(all,F)</span></span>:- <span class="hljs-function"><span class="hljs-title">findall</span><span class="hljs-params">(I,int(I)</span></span>,F).
+</code></pre>
+                        <p>We can dynamically create the folds <code>train</code> and <code>test</code> with the following command</p>
+                        <pre><code class="language-{.pl}">:- <span class="hljs-function"><span class="hljs-title">fold</span><span class="hljs-params">(all,F)</span></span>,
+   <span class="hljs-function"><span class="hljs-title">sample</span><span class="hljs-params">(<span class="hljs-number">4</span>,F,FTr,FTe)</span></span>,
+   <span class="hljs-function"><span class="hljs-title">assert</span><span class="hljs-params">(fold(train,FTr)</span></span>),
+   <span class="hljs-function"><span class="hljs-title">assert</span><span class="hljs-params">(fold(test,FTe)</span></span>).
+</code></pre>
+                        <p>This last command should however be inserted after the input interpretations. As can be seen, it uses <code>sample(N,List,Sampled,Rest)</code> exported from the library <code>slipcover</code> that samples <code>N</code> elements from <code>List</code> and returns the sampled elements in <code>Sampled</code> and the rest in <code>Rest</code>. If <code>List</code> has <code>N</code> elements or less, <code>Sampled</code> is equal to <code>List</code> and <code>Rest</code> is empty.</p>
+                        <h3>Performing Parameter Learning and Testing</h3>
+                        <p>If we want to learn the parameters of the initial program and then test the resulting program, we can use the following query</p>
+                        <div class="nb-cell query"><pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">induce_par</span><span class="hljs-params">([train],P)</span></span>, <span class="hljs-function"><span class="hljs-title">test</span><span class="hljs-params">(P,[test],LL,AUCROC,ROC,AUCPR,PR)</span></span>.
+</code></pre></div>
+                        <h3>Performing Structure Learning and Testing</h3>
+                        <p>If we want to learn a program and then test it, we can use the following query</p>
+                        <div class="nb-cell query"><pre><code class="language-{.pl}"><span class="hljs-function"><span class="hljs-title">induce</span><span class="hljs-params">([train],P)</span></span>, <span class="hljs-function"><span class="hljs-title">test</span><span class="hljs-params">(P,[test],LL,AUCROC,ROC,AUCPR,PR)</span></span>.
+</code></pre></div>
+                        <hr>
+                        <p>Complete example: <a target="_blank" href="http://cplint.lamping.unife.it/example/learning/mach.pl">mach.pl</a></p>
+                        <hr>
+                        <p>For more information about how to perform learning 
+                            see the 
+                            <a target="_blank" href="http://cplint.lamping.unife.it/help/help-cplint.html">cplint on SWISH manual</a> 
+                            (or <a target="_blank" href="https://github.com/friguzzi/cplint/blob/master/doc/help-cplint.pdf">PDF version</a>).</p>
+
+                    </div>
+                </section>
+
+                <hr/>
+                <div id="references">
+                    <h2>References</h2>
+                    <ol>
+                        <li id="BelRigEM2013">E. Bellodi and F. Riguzzi. <em>Expectation Maximization over binary decision diagrams for probabilistic logic programs</em>. Intelligent Data Analysis, 17(2):343-363, IOS Press, 2013.</li>
+                        <li id="BelRigEo2012">E. Bellodi and F. Riguzzi. <em>Experimentation of an expectation maximization algorithm for probabilistic logic programs</em>. Intelligenza Artificiale, 8(1):3-18, IOS Press, 2012.</li>
+                        <li id="BelRigSl2015">Elena Bellodi and Fabrizio Riguzzi. Structure learning of probabilistic logic programs by searching the clause space. Theory and Practice of Logic Programming, 15(2):169-212, Cambridge University Press, 2015.</li>
+                        <li id="RigSwiTP2011">F. Riguzzi and T. Swift. <em>The PITA system: Tabling and answer subsumption for reasoning under uncertainty</em>. Theory and Practice of Logic Programming, 27th International Conference on Logic Programming (ICLP'11) Special Issue, 11(4-5), pages 433-449, 2011.</li>
+                        <li id="RigEs2009">Riguzzi F. <em>Extended semantics and inference for the Independent Choice Logic</em>. Log. J. IGPL 2009, 17(6), pages 589-629, 2009.</li>
+                        <li id="ItaRodSB1990">A. Itai and M. Rodeh. <em>Symmetry Breaking in Distributed Networks</em>.Information and Computation, 88(1). 1990.</li>
+                        <li id="GorRamMc2012">Gorlin, Andrey, C. R. Ramakrishnan, and Scott A. Smolka. <em>Model checking with probabilistic tabled logic programming</em>. Theory and Practice of Logic Programming 12.4-5 (2012).</li>
+                        <li id="prismURL"><a href="http://www.prismmodelchecker.org/casestudies/synchronous_leader.php">http://www.prismmodelchecker.org/casestudies/synchronous_leader.php</a></li>
+                        <li id="NamRamAM2014">Nampally, Arun, and C. R. Ramakrishnan. <em>Adaptive MCMC-Based Inference in Probabilistic Logic Programs</em>. arXiv preprint arXiv:1403.6036 (2014).</li>
+                        <li id="arithmURL"><a href="http://forestdb.org/models/arithmetic.html">http://forestdb.org/models/arithmetic.html</a></li>
+                        <li id="ACEman">The ACE Data Mining System User’s Manual <a target="_blank" href="https://dtai.cs.kuleuven.be/ACE/doc/ACEuser-1.2.16.pdf">https://dtai.cs.kuleuven.be/ACE/doc/ACEuser-1.2.16.pdf</a></li>
+                        <li id="VenVerLp2004">J. Vennekens, S. Verbaeten, and M. Bruynooghe. <em>Logic programs with annotated disjunctions</em>. In International Conference on Logic Programming, volume 3131 of LNCS, pages 195-209. Springer, 2004.</li>
+                        <li id="NitDeLPl2016">D. Nitti, T. De Laet,L. De Raedt. <em>Probabilistic logic programming for hybrid relational domains</em>. Mach. Learn. 103(3), 407–449 (2016)
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+
+            <div id="credits" class="w3-container content">
+                <div class="person w3-row">
+                    <img src="img/fabrizio-riguzzi.jpg" alt="Person" class="w3-circle w3-col">
+                    <div class="w3-rest">
+                        <h4><a href="http://ds.ing.unife.it/~friguzzi/">Fabrizio Riguzzi</a></h4>
+                        <p>Associate Professor - University of Ferrara</p>
+                        <p><em>Main developer of cplint on SWISH</em></p>
+                    </div>
+                </div>
+                <!--                <div class="person w3-row">
+                                    <img src="img/default.png" alt="Person" class="w3-circle w3-col">
+                                    <div class="w3-rest">
+                                        <h4><strong>Riccardo Zese</strong></h4>
+                                        <p>Post-doc researcher - University of Ferrara</p>
+                                    </div>
+                                </div>-->
+                <div class="person w3-row">
+                    <img src="img/default.png" alt="Person" class="w3-circle w3-col">
+                    <div class="w3-rest">
+                        <h4><a href="http://docente.unife.it/giuseppe.cota">Giuseppe Cota</a></h4>
+                        <p>PhD student - University of Ferrara</p>
+                    </div>
+                </div>
+
+                <!--                <div class="w3-row-padding">
+                                    <div class="w3-col w3-card-4 s4" >
+                                        
+                                    </div>
+                                   
+                                    <div class="w3-col w3-card-4 s4" >
+                
+                                    </div>
+                                </div>-->
+            </div>
+
+            <div id="contacts" class="w3-container content">
+                <h2>Contacts</h2>
+                For troubleshooting or any question about cplint on SWISH go to the forum:
+                <br/>
+                <a href="https://groups.google.com/forum/#!forum/mlunife"><i class="fa fa-group"></i> Machine Learning @ Unife Forum</a>
+                <br/>
+                or send an email to:
+                <br/>
+                <a href="mailto:mlunife@googlegroups.com"><i class="fa fa-envelope"></i> Machine Learning @ Unife</a>
+            </div>
+
+            <div id="footer">
+                <footer>
+                    <div class="separation-line unife-teal"></div>
+                    <div class="w3-container w3-padding-left">
+                        <div class="w3-padding-left w3-small">
+                            <p>
+                                <a href="https://sites.google.com/a/unife.it/ml/">
+                                    Machine Learning @ unife 
+                                </a> - University of Ferrara 
+                            </p>
+                        </div>
+                    </div>
+                </footer>             
+            </div>
+        </div>
+        <script>$(function () {
+                $(".nb-cell.query").PLPT({swish: "http://cplint.lamping.unife.it/"});
+            });</script>
+    </body>
+</html>
