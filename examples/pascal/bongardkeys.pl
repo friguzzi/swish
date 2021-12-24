@@ -47,11 +47,10 @@ in([]).
 
 :- begin_in.
 
-ic("0.5 :: 	triangle(T)/\\square(S)/\\in(T,S)
---->
-	circle(C)/\\in(C,S)
-  \\/
-  not(circle(C)/\\in(C,T)).").
+ic("0.5 :: circle(A)/\\in(A,B)---> false.").
+ic("0.5 :: circle(B)/\\in(B,A)---> config(A,up).").
+ic("0.5 :: circle(A)/\\in(A,B)---> config(A,up).").
+ic("0.5 :: square(A)---> config(A,up).").
 
 :- end_in.
 /*

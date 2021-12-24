@@ -47,8 +47,10 @@ in([]).
 
 :- begin_in.
 
-rule(([((+),[circle(C),in(C,S)]),((-),[circle(C),in(C,T)])]:-
-	  [triangle(T),square(S),in(T,S)]),0.5).
+rule(([]:-[circle(A), in(A, _B)]), 0.5).
+rule(([((+),[config(A, up)])]:-[circle(B), in(B, A)]), 0.5).
+rule(([((+),[config(A, up)])]:-[circle(A), in(A, _B)]), 0.5).
+rule(([((+),[config(A, up)])]:-[square(A)]), 0.5).
 
 :- end_in.
 /*
