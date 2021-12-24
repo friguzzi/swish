@@ -1,0 +1,35 @@
+<div class="notebook">
+
+<div class="nb-cell markdown">
+# Welcome to Pascal
+
+PASCAL is a system for learning probabilistic integrity constraints, see
+
+Fabrizio Riguzzi, Elena Bellodi, Riccardo Zese, Marco Alberti, and Evelina Lamma. Probabilistic inductive constraint logic. Machine Learning, 110:723–754, 2021. 
+[doi:10.1007/s10994-020-05911-6](https://doi.org/10.1007/s10994-020-05911-6)
+
+and help at https://friguzzi.github.io/pascal
+
+This notebook gives an overview of example programs for learning with PASCAL:
+
+  - Bongard ([bongardkeys.pl](example/pascal/bongardkeys.pl), [bongardkeys_rule.pl](example/pascal/bongardkeys_rule.pl), parameter and structure learning) 
+  The task is to classify pictures containing geometrical objects. 
+  From L. De Raedt and W. Van Laer. _Inductive constraint logic_. In Proceedings of the Sixth International Workshop on Algorithmic Learning Theory, 1995. 
+  Both parameters and structure can be learned. The input theory for parameter 
+  learning has been manually crafted. Both files contain the examples in 
+  the keys format. 
+  - BUPA ([bupa_d.pl](example/pascal/bupa_d.pl), parameter and structure learning) 
+  A medical dataset for diagnosing liver disorders. From
+  McDermott and Forsyth, _Diagnosing a disorder in a classification benchmark_, Pattern Recognition Letters, Volume 73, 2016.
+  Downloaded from https://relational.fit.cvut.cz/dataset/Bupa
+
+
+More examples are included in the standalone version of =PASCAL= at https://github.com/friguzzi/pascal
+The standalone version of =PASCAL= can be installed as a SWI-Prolog pack http://www.swi-prolog.org/pack/list
+The other datasets include Carcinogenesis, Cora, Hepatitis, HIV, IMDB,
+Mondial, UWCSE and WebKB.
+They have not been included here because of their computational cost.
+
+</div>
+
+</div>

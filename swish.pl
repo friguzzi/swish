@@ -277,6 +277,7 @@ pengines:prepare_module(Module, swish, _Options) :-
 :- use_module(swish(lib/render/prolog),	  []).
 :- use_module(swish(lib/render/tiles),	  []).
 :- use_module(swish(lib/render/sldnf),	  []).
+:- use_module(swish(lib/render/pic),	  []).
 
 :- use_module(library(pita)).
 :- use_module(library(mcintyre)).
@@ -286,6 +287,8 @@ pengines:prepare_module(Module, swish, _Options) :-
 :- use_module(library(auc)).
 :- use_module(library(matrix)).
 :- use_module(library(viterbi)).
+:- use_module(library(pascal)).
+:- use_module(library(lbfgs)).
 
 
 :- use_module(swish(lib/render/gvterm),   []).

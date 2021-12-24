@@ -367,7 +367,8 @@ swish_navbar(Options) -->
 		a([href('https://edu.swi-prolog.org/'),target('_blank')],['Online course']),
 		&(nbsp), &(nbsp),
         a([id('dismisslink'),href('')],['Dismiss']),
-p(['Updated: ',
+p(['Latest: ',
+a([href('/e/pascal_examples.swinb')],['PASCAL examples']),', ',
 a([href('/e/bag_mpe.pl')],['MPE']),', ',
 a([href('/e/bag_game_mpe.pl')],['MPE']),', ',
 a([href('/e/eruption_mpe.pl')],['MPE']),', ',
@@ -375,10 +376,6 @@ a([href('/e/bag_1.pl')],['MAP']),', ',
 a([href('/e/bag_game_vit.pl')],['Viterbi']),', ',
 a([href('/e/eruption_vit.pl')],['Viterbi']),', ',
 a([href('/e/phil_examples.swinb')],['PHIL examples']),', ',
-a([href('/e/diabetes.swinb')],['diabetes']),', ',
-a([href('/e/fruit.swinb')],['fruit selling']),', ',
-a([href('/e/ship.swinb')],['fire on a ship']),', ',
-a([href('/e/decision_theory.swinb')],['DTProbLog']),', ',
 a([href('http://ml.unife.it/plp-book/'),target('_blank')],["book"])
 ])
        ]))
