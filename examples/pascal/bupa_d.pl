@@ -4,6 +4,7 @@
 :- use_rendering(pic).
 :- endif.
 /** <examples>
+?- induce_par_pascal([train],P),test_pascal(P,[test],LL,AUCROC,ROC,AUCPR,PR). % learn the parameters and test the result
 ?- induce_pascal([train],P),test_pascal(P,[test],LL,AUCROC,ROC,AUCPR,PR). % learn the structure and the parameters and test the result
 */
 greaterAct(_,A,B):-
@@ -12,6 +13,16 @@ greaterAct(_,A,B):-
     A>=B.
 
 :-pascal.
+
+:- begin_in.
+
+rule(([((-),[mcv(_A, 85)])]:-[]), 0.5).
+rule(([((-),[sgot(_A, 27)])]:-[]), 0.5).
+rule(([((+),[sgpt(_A, 45)])]:-[]), 0.5).
+rule(([((+),[sgpt(_A, 45), dependencies_aux(alkphos, arg1, bupa_name, arg1, fin)])]:-[]), 0.5).
+rule(([((+),[drinks(_A, 0.0), gammagt(_B, 31)])]:-[]), 0.5).
+
+:- end_in.
 
 :-set_pascal(examples,keys(bupa_k)).
 :-set_pascal(default_parameters,0).

@@ -17,7 +17,8 @@ This notebook gives an overview of example programs for learning with PASCAL:
   From L. De Raedt and W. Van Laer. _Inductive constraint logic_. In Proceedings of the Sixth International Workshop on Algorithmic Learning Theory, 1995. 
   Both parameters and structure can be learned. The input theory for parameter 
   learning has been manually crafted. Both files contain the examples in 
-  the keys format. 
+  the keys format. They differ because in the first the initial theory is given using constraints encoded as strings
+  while in the latter the initial theory is given using constraints encoded as logic facts.
   - BUPA ([bupa_d.pl](example/pascal/bupa_d.pl), parameter and structure learning) 
   A medical dataset for diagnosing liver disorders. From
   McDermott and Forsyth, _Diagnosing a disorder in a classification benchmark_, Pattern Recognition Letters, Volume 73, 2016.
