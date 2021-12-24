@@ -362,6 +362,8 @@ swish_navbar(Options) -->
 	&(nbsp), &(nbsp),
 	a([href('http://arnaudfadja.github.io/phil/'),target('_blank')],['PHIL-Help']),
         &(nbsp), &(nbsp),
+	a([href('http://friguzzi.github.io/pascal/'),target('_blank')],['PASCAL-Help']),
+        &(nbsp), &(nbsp),
         a([href('/help/credits.html'),target('_blank')],['Credits']),
         &(nbsp), &(nbsp),
 		a([href('https://edu.swi-prolog.org/'),target('_blank')],['Online course']),
