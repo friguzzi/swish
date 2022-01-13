@@ -2,7 +2,7 @@
 
 <div class="nb-cell html">
 <script type="text/javascript">
-$.getScript("https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"+
+$.getScript("https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"+
              "?config=TeX-MML-AM_CHTML",function() {MathJax.Hub.Queue(["Typeset",MathJax.Hub]);});
 </script>
 <h2>Simpon's Paradox</h2>
@@ -100,7 +100,7 @@ MutilatedNetwork = dot(digraph(['Drug C'-&gt;'Recovery E','Gender F'-&gt;'Recove
 
 <div class="nb-cell html">
 <script type="text/javascript">
-$.getScript("https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML",function() {MathJax.Hub.Queue(["Typeset",MathJax.Hub]);});
+$.getScript("https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML",function() {MathJax.Hub.Queue(["Typeset",MathJax.Hub]);});
 </script>
 
 <p> and set the conditional probability table of \(C\) to

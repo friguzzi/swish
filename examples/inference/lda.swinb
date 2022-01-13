@@ -6,7 +6,7 @@ $.getScript("https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js"+
              "?config=TeX-MML-AM_CHTML",function() {MathJax.Hub.Queue(["Typeset",MathJax.Hub]);});
 </script>
 <script type="text/javascript">
-$.getScript("https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML",function() {MathJax.Hub.Queue(["Typeset",MathJax.Hub]);});
+$.getScript("https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML",function() {MathJax.Hub.Queue(["Typeset",MathJax.Hub]);});
 </script>
 <h2>Latent Dirichlet Allocation</h2>
 <p>From <a href="https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation">https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation</a>:</p>
@@ -105,7 +105,7 @@ prob_topic_1(G).
 
 <div class="nb-cell html">
 <script type="text/javascript">
-$.getScript("https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML",function() {MathJax.Hub.Queue(["Typeset",MathJax.Hub]);});
+$.getScript("https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML",function() {MathJax.Hub.Queue(["Typeset",MathJax.Hub]);});
 </script>
 <h3>Code</h3>
 <p>You can change the number of words in vocabulary and the number
