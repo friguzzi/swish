@@ -4,7 +4,7 @@
 
 :- begin_lpad.
 
-% The folllowing programs represents a
+% The following programs represents a
 % Barabási Albert preferential attachment model generated
 % with python library networkx
 % >>> import networkx as nx
