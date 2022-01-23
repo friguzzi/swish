@@ -1,7 +1,8 @@
 /*
-Probabilistic context-free grammar.
-0.2:S->aS
-0.2:S->bS
+Probabilistic context-free grammar. The grammar is left-recursive, MCINTYRE
+is necessary to ensure termination.
+Grammar:
+0.4:S->SS
 0.3:S->a
 0.3:S->b
 From
