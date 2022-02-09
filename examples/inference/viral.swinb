@@ -67,7 +67,7 @@ prob(has(2),has(3),P).
 :- endif.
 graph(digraph([rankdir="LR"|G])):-
     findall(edge(A -&gt; B,[]),
-      clause(trusts(A,B,_,_),_),
+      (clause(trusts(A,B,_,_),_),ground(A)),
       G).
 
 :- pita.
