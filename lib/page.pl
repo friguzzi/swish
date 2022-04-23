@@ -787,6 +787,15 @@ include_swish_js -->
 
         ga(''create'', ''UA-16202613-9'', ''auto'');
         ga(''send'', ''pageview'');'])),
+        html(\['<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GL8L9W5NE7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag(''js'', new Date());
+
+  gtag(''config'', ''G-GL8L9W5NE7'');
+</script>']),
         { swish_resource(js, JS),
 	  swish_resource(rjs, RJS),
 	  http_absolute_location(swish(js/JS), SwishJS, []),
