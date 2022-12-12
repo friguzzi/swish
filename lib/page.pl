@@ -350,11 +350,14 @@ swish_page(Options) -->
 swish_navbar(Options) -->
 	swish_resources,
 	html(div([id('navbarhelp'),style('height:40px;margin: 10px 5px;text-align:center')], %;line-height: 40px')],
-        [span([style('color:maroon')],['cplint on ']),
+	[div([class('container'),style('display: flex; height: 100px;')],[
+	  div([style('width: 5%;')],[
+	    a([href('https://ml.unife.it'),target('_blank')],
+	      [img([src('/icons/logo-unife.png'),height(40)])])]),
+	  div([style('flex-grow 1;')],[span([],[span([style('color:maroon')],['cplint on ']),
         span([style('color:darkblue')],['SWI']),
         span([style('color:maroon')],['SH']),
         ' is a web application for probabilistic logic programming',
-        ' with a Javascript-enabled browser.',
         &(nbsp), &(nbsp),
         a([id('about')],['About']),
         &(nbsp), &(nbsp),
@@ -365,8 +368,6 @@ swish_navbar(Options) -->
 	a([href('http://friguzzi.github.io/pascal/'),target('_blank')],['PASCAL-Help']),
         &(nbsp), &(nbsp),
         a([href('/help/credits.html'),target('_blank')],['Credits']),
-        &(nbsp), &(nbsp),
-		a([href('https://edu.swi-prolog.org/'),target('_blank')],['Online course']),
 		&(nbsp), &(nbsp),
         a([id('dismisslink'),href('')],['Dismiss']),
 p(['Latest: ',
@@ -379,8 +380,8 @@ a([href('/e/bag_game_vit.pl')],['Viterbi']),', ',
 a([href('/e/eruption_vit.pl')],['Viterbi']),', ',
 a([href('/e/phil_examples.swinb')],['PHIL examples']),', ',
 a([href('http://ml.unife.it/plp-book/'),target('_blank')],["book"])
-])
-       ]))
+])])
+       ])])]))
         ,
 
 	html(nav([ class([navbar, 'navbar-default']),
