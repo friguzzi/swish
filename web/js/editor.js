@@ -253,7 +253,28 @@ define([ "cm/lib/codemirror",
 	  copyData("st_type");
 	  copyData("chats");
 
-	  data.cm = CodeMirror.fromTextArea(ta, options);
+	  if ( $(ta).data("download") == "browser" &&
+	       storage.url ) {
+	    options.placeHolder = "Downloading data ...";
+	    data.cm = CodeMirror.fromTextArea(ta, options);
+
+	    $.ajax({ url: storage.url,
+		     dataType: "text",
+		     success: function(data) {
+		       elem.prologEditor('setSource', {
+			 data:data,
+			 url:storage.url,
+			 noHistory:true
+		       }, false);
+		       elem.storage('update_tab_title')
+		     },
+		     error: function(jqXHDR) {
+		       modal.ajaxError(jqXHDR);
+		     }
+		   });
+	  } else {
+	    data.cm = CodeMirror.fromTextArea(ta, options);
+	  }
 	} else {
 	  if ( !options.value )
 	    options.value = elem.text();
@@ -265,6 +286,10 @@ define([ "cm/lib/codemirror",
 
 	elem.addClass("swish-event-receiver");
 	elem.addClass("prolog-editor");
+	elem.on("editor", function(ev, action, ...args) {
+	  args.unshift(ev, action);
+	  elem.prologEditor.apply(this, args);
+	});
 	elem.on("preference", function(ev, pref) {
 	  elem.prologEditor('preference', pref);
 	});
@@ -456,8 +481,8 @@ define([ "cm/lib/codemirror",
 
 	  if ( file )
 	    result.push({ file: file,
-		          breakpoints: breakpoints
-		        });
+			  breakpoints: breakpoints
+			});
 	}
       });
 
@@ -729,11 +754,14 @@ define([ "cm/lib/codemirror",
      * string)
      * @param {Object} error.location contains the location, providing
      * `line` and `ch` attributes.
+     * @param {Boolean} [force] when `true`, report the error on this editor.
      */
-    highlightError: function(error) {
-      if ( error.location.file &&
-	   (error.location.file == true ||
-	    this.prologEditor('isMyFile', error.location.file)) ) {
+    highlightError: function(error, force) {
+      if ( force == true ||
+	   ( error.location.file &&
+	     (error.location.file == true ||
+	      this.prologEditor('isMyFile', error.location.file))
+	   )) {
 	var data = this.data(pluginName);
 	var chmark;
 
@@ -944,11 +972,11 @@ define([ "cm/lib/codemirror",
 	    switch ( cmploc(s.anchor, s.head) )
 	    { case -1:
 		sr.from = cppos(s.anchor);
-	        sr.to   = cppos(s.head);
+		sr.to   = cppos(s.head);
 		break;
 	      case 1:
 		sr.to   = cppos(s.anchor);
-	        sr.from = cppos(s.head);
+		sr.from = cppos(s.head);
 		break;
 	      case 0:
 		continue;
@@ -1183,7 +1211,7 @@ define([ "cm/lib/codemirror",
 	var line   = cm.getLine(lineno);
 
 	cm.replaceRange("\n\n/** <examples>\n" +
-		        "?- "+query+"\n" +
+			"?- "+query+"\n" +
 			"*/\n", {line:lineno, ch:line.length});
       }
 
@@ -1555,7 +1583,7 @@ define([ "cm/lib/codemirror",
 
 	tabType.create = function(dom) {
 	  $(dom).addClass("prolog-editor")
-	        .prologEditor(options);
+		.prologEditor(options);
 	};
 
 	tabbed.tabTypes[tabType.typeName] = tabType;
@@ -1590,6 +1618,7 @@ define([ "cm/lib/codemirror",
       $.error('Method ' + method + ' does not exist on jQuery.' + pluginName);
     }
   };
+  $.fn.prologEditor.methods = methods;
 }(jQuery));
 
 		 /*******************************
