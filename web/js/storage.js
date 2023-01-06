@@ -99,6 +99,10 @@ define([ "jquery", "config", "modal", "form", "gitty",
 	  ev.stopPropagation();
 	}
 
+	elem.on("storage", function(ev, action, ...args) {
+	  args.unshift(ev, action);
+	  onStorage.apply(this, args);
+	});
 	elem.on("save", function(ev, data) {
 	  onStorage(ev, 'save', data);
 	});
@@ -256,7 +260,7 @@ define([ "jquery", "config", "modal", "form", "gitty",
 	    title = filebase(utils.basename(file));
 	    if ( data.meta &&
 		 data.meta.symbolic != "HEAD" &&
-	         data.meta.commit ) {
+		 data.meta.commit ) {
 	      title += "@" + data.meta.commit.substring(0,7);
 	    }
 	  } else {
@@ -286,7 +290,7 @@ define([ "jquery", "config", "modal", "form", "gitty",
 		   that.storage('setSource',
 				{ data: data,
 				  meta: { name:file
-				        }
+					}
 				});
 		 },
 		 error: function(jqXHDR) {
@@ -436,7 +440,7 @@ define([ "jquery", "config", "modal", "form", "gitty",
 		   data.markClean(true);
 		   modal.feedback({ html: "Saved",
 				    owner: elem
-		                  });
+				  });
 
 		   if ( method == "POST" )
 		     data.chats = {		/* forked file has no chats */
@@ -533,7 +537,7 @@ define([ "jquery", "config", "modal", "form", "gitty",
       form.showDialog({ title: options.title ? options.title :
 			       fork   ? "Fork from "+meta.commit.substring(0,7) :
 			       update ? "Save new version" :
-			                "Save "+type.label+" as",
+					"Save "+type.label+" as",
 			body:  saveAsBody
 		      });
 
@@ -570,7 +574,7 @@ define([ "jquery", "config", "modal", "form", "gitty",
 		   options.markClean(true);
 		   modal.feedback({ html: "Saved",
 				    owner: elem
-		                  });
+				  });
 		 }
 	       },
 	       error: function(jqXHR) {
@@ -805,7 +809,7 @@ define([ "jquery", "config", "modal", "form", "gitty",
       var type    = tabbed.tabTypes[options.typeName];
       var data    = options.getValue();
       var href    = "data:text/plain;charset=UTF-8,"
-	          + encodeURIComponent(data);
+		  + encodeURIComponent(data);
 
       var a = $.el.a({ href:href,
 		       download:options.file||("swish."+type.dataType)
@@ -901,12 +905,29 @@ define([ "jquery", "config", "modal", "form", "gitty",
 	tabbed.tabbed('show', tab.attr('id'));
 	if ( reason )
 	  modal.feedback({ html: reason,
-	                   owner: this
-	                 });
+			   owner: this
+			 });
 
 	return this;
       }
     },
+
+    /**
+     * Kill the storage object and close the associated tab
+     * @param {Boolean} force If `true`, to not check the content
+     * for being modified.
+     */
+
+     kill: function(force) {
+       return this.each(function() {
+	 var elem = $(this);
+	 var tab = elem.closest(".tab-pane");
+	 if ( tab.length == 1 ) {
+	   var tabbed = tab.closest(".tabbed");
+	   tabbed.tabbed('removeTab', tab.attr('id'), force);
+	 }
+       });
+     },
 
     /**
      * Provide information about the current source in a modal
@@ -971,16 +992,16 @@ define([ "jquery", "config", "modal", "form", "gitty",
 	} else {
 	  var rb;
 	  var buttons = $.el.div({ class:"btn-group diff",
-			           role:"group"
+				   role:"group"
 				 },
 				 $.el.button({ name:"close",
 					       'data-dismiss':"modal",
-				               class:"btn btn-primary"
+					       class:"btn btn-primary"
 					     },
 					     "Close"),
 				 rb=
 				 $.el.button({ name:"revert",
-				               class:"btn btn-danger",
+					       class:"btn btn-danger",
 					       'data-dismiss':"modal"
 					     },
 					     "Revert changes"));
@@ -1283,7 +1304,7 @@ define([ "jquery", "config", "modal", "form", "gitty",
 	   data.cleanData != data.getValue() ) {
 	if ( why == "beforeunload" ) {
 	  var message = "The source editor has unsaved changes.\n"+
-	                "These will be lost if you leave the page";
+			"These will be lost if you leave the page";
 
 	  ev = ev||window.event;
 	  if ( ev )
@@ -1292,7 +1313,7 @@ define([ "jquery", "config", "modal", "form", "gitty",
 	  return message;
 	} else {
 	  var message = "The source editor has unsaved changes.\n"+
-	                "These will be lost"+
+			"These will be lost"+
 			( why == "setSource" ? " if you load a new program" :
 			  why == "closetab"  ? " close this tab" : ""
 			);
@@ -1399,6 +1420,7 @@ define([ "jquery", "config", "modal", "form", "gitty",
       $.error('Method ' + method + ' does not exist on jQuery.' + pluginName);
     }
   };
+  $.fn.storage.methods = methods;
 }(jQuery));
 
   function filebase(file) {

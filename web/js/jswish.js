@@ -72,6 +72,7 @@ preferences.setDefault("semantic-highlighting", true);
 preferences.setDefault("emacs-keybinding", false);
 preferences.setDefault("new-tab", true);
 preferences.setDefault("preserve-state", true);
+preferences.setDefault("auto-binding-layout", true);
 preferences.setInform("preserve-state", ".unloadable");
 
 (function($) {
@@ -150,6 +151,11 @@ preferences.setInform("preserve-state", ".unloadable");
 	  preference: "emacs-keybinding",
 	  type: "checkbox",
 	  value: "false"
+	},
+	"Smart binding layout": {
+	  preference: "auto-binding-layout",
+	  type: "checkbox",
+	  value: "true"
 	},
 	"Open document in new tab": {
 	  preference: "new-tab",
@@ -257,6 +263,7 @@ preferences.setInform("preserve-state", ".unloadable");
 	delete data.restoring;
 	elem[pluginName]('runDelayedRestore');
 	$().version('checkForUpdates');
+	elem.trigger("post-config");
       });
     },
 
@@ -864,6 +871,14 @@ el.addEventListener('click',function(){$(el).swishModal('showHelp', {file:'about
       $.error('Method ' + method + ' does not exist on jQuery.' + pluginName);
     }
   };
+  $.fn.swish.methods = methods;
 }(jQuery));
+
+	 return {
+	   swish: $("body"),
+	   trigger: function(name, data) {
+	     this.swish.swish('trigger', name, data);
+	   }
+	 };
 
 }); // define()

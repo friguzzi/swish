@@ -3,7 +3,8 @@
     Author:        Jan Wielemaker
     E-mail:        jan@swi-prolog.org
     WWW:           http://www.swi-prolog.org
-    Copyright (C): %Y, SWI-Prolog Solutions b.v.
+    Copyright (C): 2022, VU University Amsterdam
+			 CWI Amsterdam
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -32,3 +33,16 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
+:- module(plugin_menu, []).
+
+/** <module> Adjust the SWISH menu bar and define new actions
+
+*/
+
+:- multifile
+    swish_config:web_plugin/1.
+
+swish_config:web_plugin(
+    json{name: menu,
+	 js:   plugin('menu.js')
+	}).
