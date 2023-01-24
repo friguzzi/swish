@@ -1,7 +1,7 @@
 <div class="notebook">
 
 <div class="nb-cell markdown">
-# Welcome to cplint on SWISH
+# LIFTCOVER Learning Examples
 
 This notebook gives an overview of example programs for learning with LIFTCOVER (see
 Arnaud Nguembang Fadja and Fabrizio Riguzzi. Lifted discriminative learning of probabilistic logic programs. Machine Learning, 108(7):1111–1135, 2019. [doi:10.1007/s10994-018-5750-0](https://dx.doi.org/10.1007/s10994-018-5750-0)):
