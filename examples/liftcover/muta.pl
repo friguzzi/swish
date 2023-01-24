@@ -17,8 +17,8 @@ Theory and Practice of Logic Programming, 15(2):169-212, 2015
 */
 
 /** <examples>
-?- induce_par_lift([1,2,3,4,5,6,7,8,9],P),test(P,[10],LL,AUCROC,ROC,AUCPR,PR). % learn the parameteters and test the result
-?- induce_lift([1,2,3,4,5,6,7,8,9],P),test(P,[10],LL,AUCROC,ROC,AUCPR,PR).  % learn the structure and the parameters and test the result
+?- induce_par_lift([1,2,3,4,5,6,7,8,9],P),test_lift(P,[10],LL,AUCROC,ROC,AUCPR,PR). % learn the parameteters and test the result
+?- induce_lift([1,2,3,4,5,6,7,8,9],P),test_lift(P,[10],LL,AUCROC,ROC,AUCPR,PR).  % learn the structure and the parameters and test the result
 ?- in(P),test_lift(P,[test],LL,AUCROC,ROC,AUCPR,PR). % test the input theory
 ?- induce_par_lift([1,2,3,4,5,6,7,8,9,10],P).  % learn the parameteters
 ?- induce_lift([1,2,3,4,5,6,7,8,9,10],P). % learn the structure and the parameters 

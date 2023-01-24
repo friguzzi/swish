@@ -3,11 +3,9 @@
 %
 % Example taken from relational.fit.cvut.cz
 
-/* ?- induce_par([train],P),test(P,[test],LL,AUCROC,ROC,AUCPR,PR). % learn the parameteters and test the result
-* ?- induce([train],P),test(P,[test],LL,AUCROC,ROC,AUCPR,PR). % learn the structure and the parameters and test the result
-* ?- in(P),test(P,[test],LL,AUCROC,ROC,AUCPR,PR). % test the input theory
-* ?- induce_par([all],P).
-* ?- induce([all],P).
+/* 
+* ?- induce_lift([f1,f2,f3,f4],P),test_lift(P,[f5],LL,AUCROC,ROC,AUCPR,PR). % learn the structure and the parameters and test the result
+* ?- induce_lift([f1,f2,f3,f4,f5],P).
 * */
 %%
 

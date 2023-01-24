@@ -14,7 +14,7 @@ Arnaud Nguembang Fadja and Fabrizio Riguzzi. Lifted discriminative learning of p
   the models format while =bongardkeys.pl= in the keys format. 
   - Mutagenesis ([muta.pl](e/liftcover/muta.pl), parameter and structure learning)
    The famous Mutagenesis problem where the task is to predict whether a molecule is an active mutagenic agent. From  Srinivasan A, Muggleton S, Sternberg MJE, King RD _Theories for mutagenicity: A study in first-order and feature-based induction_.   Artificial Intelligence 85(1-2):277-299, 1996. Both parameters and structure can be learned. The input theory for parameter learning has been manually crafted. 
-
+  - Bupa ([bupa.pl](e/liftcover/bupa.pl), NBA ([nba.pl](e/liftcover/nba.pl), pyrimidine ([pyrimidine.pl](e/liftcover/pyrimidine.pl): datasets from https://relational.fit.cvut.cz
 
 More examples are included in the standalone version of =liftcover= at https://github.com/friguzzi/liftcover
 The standalone version of =liftcover= can be installed as a SWI-Prolog pack http://www.swi-prolog.org/pack/list
