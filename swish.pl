@@ -283,6 +283,7 @@ pengines:prepare_module(Module, swish, _Options) :-
 :- use_module(library(mcintyre)).
 :- use_module(library(slipcover)).
 :- use_module(library(phil)).
+:- use_module(library(liftcover)).
 :- use_module(library(lemur)).
 :- use_module(library(auc)).
 :- use_module(library(matrix)).
