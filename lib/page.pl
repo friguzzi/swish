@@ -381,7 +381,7 @@ swish_navbar(Options) -->
 		&(nbsp), &(nbsp),
         a([id('dismisslink'),href('')],['Dismiss']),
 p(['Latest: ',
-a([href('/e/liftcover/learning_examples.swinb')],['LIFTCOVER examples']),', ',
+a([href('/e/liftcover/liftcover_examples.swinb')],['LIFTCOVER examples']),', ',
 a([href('/e/pascal_examples.swinb')],['PASCAL examples']),', ',
 a([href('/e/bag_mpe.pl')],['MPE']),', ',
 a([href('/e/bag_game_mpe.pl')],['MPE']),', ',
