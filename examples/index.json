@@ -22,6 +22,8 @@
      "group":"cplint"},
    { "file":"learning/learning_examples.swinb", "title":"SLIPCOVER learning example programs",
      "group":"cplint"},
+   { "file":"liftcover/learning_examples.swinb", "title":"LIFTCOVER learning example programs",
+     "group":"cplint"},
    { "file":"phil/phil_examples.swinb", "title":"PHIL learning example programs",
      "group":"cplint"},
    { "file":"pascal/pascal_examples.swinb", "title":"PASCAL learning example programs",
