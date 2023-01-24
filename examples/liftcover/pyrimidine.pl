@@ -5,7 +5,10 @@
 %
 % URL on cplint.lamping.unife: http://cplint.lamping.unife.it/p/pyrimidine.pl
 %%
-
+/* 
+* ?- induce_lift([f1,f2,f3],P),test_lift(P,[f4],LL,AUCROC,ROC,AUCPR,PR). % learn the structure and the parameters and test the result
+* ?- induce_lift([f1,f2,f3,f4],P).
+* */
 :-use_module(library(liftcover)).
 
 :-lift.
