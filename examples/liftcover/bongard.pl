@@ -14,9 +14,9 @@ https://dtai.cs.kuleuven.be/static/ACE/doc/
 
 /** <examples>
 ?- induce_lift([train],P),test_lift(P,[test],LL,AUCROC,ROC,AUCPR,PR). % learn the structure and the parameters and test the result
-?- induce_lift_par([train],P),test_lift(P,[test],LL,AUCROC,ROC,AUCPR,PR). % learn the parameteters and test the result
+?- induce_par_lift([train],P),test_lift(P,[test],LL,AUCROC,ROC,AUCPR,PR). % learn the parameteters and test the result
 ?- in(P),test_lift(P,[test],LL,AUCROC,ROC,AUCPR,PR). % test the input theory
-?- induce_lift_par([all],P).
+?- induce_par_lift([all],P).
 ?- induce_lift([all],P).
 */
 
