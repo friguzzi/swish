@@ -1,0 +1,103 @@
+<div class="notebook">
+
+<div class="nb-cell markdown" name="md1">
+# Medical diagnosis
+
+Develop an expert system for medical diagnosis.
+
+Consider three diseases: flu, gastroenteritis and bronchitis.
+
+A priori, flu has probability 0.3, gastroenteritis 0 0.2, and bronchitis 0.25.
+
+If you have the flu, you may have the following symptons, associated with their probabilities (symptoms are not mutually exclusive):
+ - fever, 0.8
+ - cough 0.6
+ - sore throat 0.5
+ - headaches 0.4
+ - aches 0.7
+
+If you have gastroenteritis, you may have the following symptons, associated with their probabilities (symptoms are not mutually exclusive):
+ - diarrhea 0.8
+ - aches 0.7
+ - nausea 0.4
+ - fatigue 0.3
+
+If you have bronchitis, you may have the following symptons, associated with their probabilities (symptoms are not mutually exclusive):
+ - cough 0.8
+ - fatigue 0.7
+ - fever 0.3
+
+Compute the probability of each disease given that the patient has the symptoms fever and aches.
+
+Do the same supposing the patient adds that he also experiences fatigue.
+</div>
+
+<div class="nb-cell program" name="p1">
+:- use_module(library(pita)).
+:- if(current_predicate(use_rendering/1)).
+:- use_rendering(c3).
+:- use_rendering(graphviz).
+:- endif.
+
+:- pita.
+
+:- begin_lpad.
+
+flu:0.3.
+
+gastroenteritis:0.2.
+
+bronchitis:0.25.
+
+fever:0.8:- flu.
+
+cough:0.6:- flu.
+
+sore_throat:0.5:-flu.
+
+headaches:0.4:- flu.
+
+aches:0.7:-flu.
+
+diarrhea:0.8:-gastroenteritis.
+
+aches:0.7:-gastroenteritis.
+
+nausea:0.4:-gastroenteritis.
+
+fatigue:0.3:-gastroenteritis.
+
+cough:0.8:-bronchitis.
+    
+fatigue:0.7:-bronchitis.
+
+fever:0.3:-bronchitis.
+
+:- end_lpad.
+</div>
+
+<div class="nb-cell query" name="q1">
+prob(flu,(fever,aches),P).
+</div>
+
+<div class="nb-cell query" name="q2">
+prob(gastroenteritis,(fever,aches),P).
+</div>
+
+<div class="nb-cell query" name="q3">
+prob(bronchitis,(fever,aches),P).
+</div>
+
+<div class="nb-cell query" name="q4">
+prob(flu,(fever,aches,fatigue),P).
+</div>
+
+<div class="nb-cell query" name="q5">
+prob(gastroenteritis,(fever,aches,fatigue),P).
+</div>
+
+<div class="nb-cell query" name="q6">
+prob(bronchitis,(fever,aches,fatigue),P).
+</div>
+
+</div>

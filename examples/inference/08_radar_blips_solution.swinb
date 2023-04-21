@@ -1,0 +1,58 @@
+<div class="notebook">
+
+<div class="nb-cell markdown" name="md1">
+# Radar Blips
+
+You are an air traffic controller and you have to estimate the number of planes flying in your area.
+
+You observe a radar screen where a blip indicates the presence of a plane.
+
+You know that the number of planes follows a Poisson distribution (https://en.wikipedia.org/wiki/Poisson_distribution) with parameter 10.
+
+Each plane produces a blip with probability 0.9.
+
+Produce a histogram of the distribution of the number of planes (this should be that of the Poisson distribution).
+
+Given that you observe a blip from planes with indices 1 and 4, what is the probability that there are 4 planes?
+
+Produce a histogram of the distribution of the number of planes, given that you observe a blip from planes with indices 1 and 4. Observe the differences with the previous histogram.
+
+Do the same with line graphs instead of histograms.
+</div>
+
+<div class="nb-cell program" name="p1">
+:- use_module(library(mcintyre)).
+
+:- use_rendering(c3).
+:- mc.
+
+:- begin_lpad.
+
+n_planes(N):poisson(N,10).
+
+blip(I):0.9:- n_planes(N),between(1,N,I).
+
+:- end_lpad.
+</div>
+
+<div class="nb-cell query" name="q1">
+mc_sample_arg(n_planes(N),10000,N,ValList),histogram(ValList,Chart,[]).
+</div>
+
+<div class="nb-cell query" name="q2">
+mc_mh_sample(n_planes(4),(blip(1),blip(4)),10000,Probability).
+</div>
+
+<div class="nb-cell query" name="q3">
+mc_mh_sample_arg(n_planes(N),(blip(1),blip(4)),10000,N,ValList),histogram(ValList,Chart,[]).
+</div>
+
+<div class="nb-cell query" name="q4">
+mc_sample_arg(n_planes(N),10000,N,ValList),density(ValList,Chart,[nbins(20)]).
+</div>
+
+<div class="nb-cell query" name="q5">
+mc_mh_sample_arg(n_planes(N),(blip(1),blip(4)),10000,N,ValList),density(ValList,Chart,[nbins(20)]).
+</div>
+
+</div>

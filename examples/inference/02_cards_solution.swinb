@@ -1,0 +1,44 @@
+<div class="notebook">
+
+<div class="nb-cell markdown" name="md1">
+# Cards
+
+Suppose you have two decks of poker cards (52 cards, 4 suits, 13 ranks: A, K, Q, J, 10, 9, 8, 7, 6, 5, 4, 3, 2).
+
+Suppose you draw a card from the first deck and one from the second.
+
+Write a program to compute the probability that in this way you obtain one pair (two cards of the same rank).
+
+Can you do it with a single probabilistic clause?
+
+Add code to compute the probability that you draw at least one ace.
+</div>
+
+<div class="nb-cell program" name="p1">
+:- use_module(library(pita)).
+
+:- pita.
+
+:- begin_lpad.
+
+pair :- d(deck1,X),d(deck2,X).
+
+ace :-d(deck1,X),d(deck2,Y),member(a,[X,Y]).
+
+d(D,a):1/13; d(D,k):1/13; d(D,q):1/13; d(D,j):1/13; d(D,10):1/13 ; 
+d(D,9):1/13; d(D,8):1/13; d(D,7):1/13; d(D,6):1/13; d(D,5):1/13;
+d(D,4):1/13; d(D,3):1/13; d(D,2):1/13 .
+
+
+:- end_lpad.
+</div>
+
+<div class="nb-cell query" name="q2">
+prob(pair,P).
+</div>
+
+<div class="nb-cell query" name="q1">
+prob(ace,P).
+</div>
+
+</div>

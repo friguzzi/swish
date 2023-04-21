@@ -1,0 +1,20 @@
+<div class="notebook">
+
+<div class="nb-cell markdown">
+# cplint Course
+
+An online course on cplint is avaialble from  https://ml.unife.it/cplint-course/
+
+Here is the list of exercises in increasing order of difficulty:
+  1. [Urns and balls](e/01_urns_and_balls.swinb) ([solution](example/inference/01_urns_balls_solution.swinb))
+  2. [Cards](e/02_cards.swinb) ([solution](e/02_cards_solution.swinb))
+  3. [Medical diagnosis](e/03_medical_diagnosis.swinb) ([solution](e/03_medical_diagnosis_solution.swinb))
+  4. [Coin tosses](e/04_coin_tosses.swinb) ([solution](e/04_coin_tosses_solution.swinb))
+  5. [Password generation](e/05_password_generation.swinb) ([solution](e/05_password_generation_solution.swinb))
+  6. [Playing with wordnet](e/06_playing_with_wordnet.swinb) ([solution](e/06_playing_with_wordnet_solution.swinb))
+  7. [Urns and balls - continuous](e/07_urns_and_balls_continuous.swinb) ([solution](e/07_urns_and_balls_continuous_solution.swinb))
+  8. [Radar blips](e/08_radar_blips.swinb) ([solution](e/08_radar_blips_solution.swinb))
+  9. [Lineland](e/09_lineland.swinb) ([solution](e/09_lineland_solution.swinb))
+</div>
+
+</div>

@@ -1,0 +1,42 @@
+<div class="notebook">
+
+<div class="nb-cell markdown" name="md1">
+# Urns and balls
+
+Suppose you have two urns: urn1 contains 40 blue balls and 20 red balls and urn2 contains 25 blue balls and 30 red balls.
+
+You throw an unbiased coin and, if it turns out head, you draw a ball from the first urn, it it turns out tails you draw a ball from the second urn.
+
+Write a program modeling this process and a query for answering the question "What is the probability of drawing a blue ball?"
+
+Write the program and the query in the cells below. Then save the notebook and submit the url.
+</div>
+
+<div class="nb-cell program" name="p1">
+:- use_module(library(pita)).
+
+:- if(current_predicate(use_rendering/1)).
+:- use_rendering(c3).
+:- endif.
+
+:- pita.
+
+:- begin_lpad.
+
+ball(blue, 1) : 2/3; ball(red, 1): 1/3.
+ball(blue, 2) : 25/55; ball(red, 2): 30/55.
+
+coin(1): 0.5 ; coin(2) : 0.5.
+
+draw(Color) :-
+    coin(Urn),
+    ball(Color, Urn).
+
+:- end_lpad.
+</div>
+
+<div class="nb-cell query" name="q1">
+prob(draw(blue), Prob).
+</div>
+
+</div>

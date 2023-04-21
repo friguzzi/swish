@@ -1,0 +1,13 @@
+<div class="notebook">
+
+<div class="nb-cell markdown" name="md1">
+# Urns and Balls with Continuous properties
+
+Consider an urn containing 30 wooden balls and 70 metal balls.
+
+Metal balls have a random diameter that follows a beta distribution (https://en.wikipedia.org/wiki/Beta_distribution) with parameters 2 and 3 and wooden balls have a random diameter that follows a beta distribution with parameters 4 and 2.
+
+Draw a histogram and a line chart of the size of balls drawn from the urn.
+</div>
+
+</div>
