@@ -3,6 +3,10 @@
 <div class="nb-cell html" name="htm4">
 <h2>Playing with WordNet</h2>
 
+Try to convert the code below so that it uses cplint.
+
+<hr>
+
 <p> 
 As described in its <a href="https://en.wikipedia.org/wiki/WordNet">Wikipedia</a>
 article, <b>WordNet</b> is a lexical database for the English language. It groups
