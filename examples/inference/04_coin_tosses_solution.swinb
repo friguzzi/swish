@@ -36,8 +36,6 @@ Compute the expected length of the sequences of coin tosses using MCINTYRE.
 % Note: one have to identify each toss with an id.
 toss(_):0.8.
 toss(C,h):1/2 ; toss(C,t):1/2 :- toss(C).
-tossed(C) :-
-  toss(C,_).
 
 tosses(Coin,[C|L]) :-
   Coin2 is Coin + 1,
@@ -45,7 +43,7 @@ tosses(Coin,[C|L]) :-
   tosses(Coin2,L).  
 tosses(Coin,[]):-
     Coin2 is Coin + 1,
-    \+ tossed(Coin2). % this is needed otherwise you can
+    \+ toss(Coin2). % this is needed otherwise you can
 % obtain a sequence like [h,h,h] with the following toss 
 % still possible, so the probability of [h,h,h]  misses the
 % last factor 0.2
