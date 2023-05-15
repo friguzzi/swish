@@ -5,7 +5,9 @@
 
 Consider a process where you repeatedly toss coins and record the results.
 
-After each toss, you continue tossing with probability 0.8.
+At each turn, you toss a coin with probability 0.8 and do nothing with probability 0.2.  The coin is fair.
+
+You stop the process at the first time you do not toss a coin.
 
 Write a predicate tosses(Coin,L) that, given an initial coin id =Coin=, returns in =L= the list of results of coin tosses obtained using the process above. 
 

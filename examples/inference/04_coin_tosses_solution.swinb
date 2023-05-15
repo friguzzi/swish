@@ -5,11 +5,14 @@
 
 Consider a process where you repeatedly toss coins and record the results.
 
-After each toss, you continue tossing with probability 0.8.
+At each turn, you toss a coin with probability 0.8 and do nothing with probability 0.2.  The coin is fair.
+
+You stop the process at the first time you do not toss a coin.
 
 Write a predicate tosses(Coin,L) that, given an initial coin id =Coin=, returns in =L= the list of results of coin tosses obtained using the process above. 
 
 Moreover, write a predicate length_tosses(N) that returns the number of coin tosses.
+
 
 
 Compute the probability of the sequence =|[h,h,h]|= using MCINTYRE.
@@ -37,16 +40,14 @@ Compute the expected length of the sequences of coin tosses using MCINTYRE.
 toss(_):0.8.
 toss(C,h):1/2 ; toss(C,t):1/2 :- toss(C).
 
+tosses(Coin,[]):-  % base case of the recursion
+    \+ toss(Coin). 
+
 tosses(Coin,[C|L]) :-
+  toss(Coin,C),
   Coin2 is Coin + 1,
-  toss(Coin2,C),
   tosses(Coin2,L).  
-tosses(Coin,[]):-
-    Coin2 is Coin + 1,
-    \+ toss(Coin2). % this is needed otherwise you can
-% obtain a sequence like [h,h,h] with the following toss 
-% still possible, so the probability of [h,h,h]  misses the
-% last factor 0.2
+
 
 % this is needed because the probability of [h,h,h,h,h] 
 % give that [h,h,h] was sampled is 0 because when you obtain
