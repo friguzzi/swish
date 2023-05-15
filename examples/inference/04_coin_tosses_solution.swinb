@@ -41,7 +41,7 @@ toss(_):0.8.
 toss(C,h):1/2 ; toss(C,t):1/2 :- toss(C).
 
 tosses(Coin,[]):-  % base case of the recursion
-    \+ toss(Coin). 
+  \+ toss(Coin). 
 
 tosses(Coin,[C|L]) :-
   toss(Coin,C),
@@ -53,8 +53,8 @@ tosses(Coin,[C|L]) :-
 % give that [h,h,h] was sampled is 0 because when you obtain
 % the first sequence, toss(3) is false
 partial_tosses(L):-
-    tosses(0,T),
-    append(L,_,T).
+  tosses(0,T),
+  append(L,_,T).
 
 
 % length of the coin toss session
