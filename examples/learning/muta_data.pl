@@ -85,6 +85,22 @@ fold(10,[d48,d60,d112,d148,d157,d35,d81,d91,d103,d118,d162,
 
 output(active/0).
 
+input_cw(lumo/1).
+input_cw(logp/2).
+input_cw(bond/3).
+input_cw(atm/4).
+input_cw(benzene/1).
+input_cw(carbon_5_aromatic_ring/1).
+input_cw(carbon_6_ring/1).
+input_cw(hetero_aromatic_6_ring/1).
+input_cw(hetero_aromatic_5_ring/1).
+input_cw(ring_size_6/1).
+input_cw(ring_size_5/1).
+input_cw(nitro/1).
+input_cw(methyl/1).
+input_cw(anthracene/1).
+input_cw(phenanthrene/1).
+input_cw(ball3/1).
 
 %begin(model(s1)).
 % fold 1

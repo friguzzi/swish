@@ -12,6 +12,30 @@ fold(f5,[f5]).
 
 output(rating/2).
 
+input(capability/3).
+
+input(salary/3).
+
+input(diff/2).
+
+input(popularity/2).
+
+input(rating/2).
+
+input(teachingability/2).
+
+input(grade/3).
+
+input(sat/3).
+
+input(intelligence/2).
+
+input(ranking/2).
+
+input(b_registration/2).
+
+input(b_ra/2).
+
 begin(model(f1)).
 capability(prof_id_5,student_id_5,capability_1).
 capability(prof_id_6,student_id_5,capability_2).
