@@ -7,17 +7,17 @@ Consider a one-dimensional world, a world where the objects lie on a line and th
 
 Objects appear in the world at random positions that follow a Gaussian distribution with mean 4 and variance 1.
 
-You want to know the real position of the objects but you can only observe them by means of an instrument that makes noisy observations. The instrument has a systematic error so the observation of each object is offset by a fixed amount, i.e.m the observed position is given by the true position plus the error. However, you don't know the amount, you only know that is Gaussian distributed with mean 0 and variance 0.5.
+You want to know the real position of the objects but you can only observe them by means of an instrument that makes noisy observations. The instrument has a systematic error so the observation of each object is offset by a fixed amount, i.e., the observed position is given by the true position plus the error. However, you don't know the amount, you only know that is Gaussian distributed with mean 0 and variance 0.5.
 
-Define a predicate left(A,P) that is true if the real position of object =A= is on the left of point =P= and a predicate rel_left(A,B) that is true when object =A= is on the left of object =B= according to their real positions.
+Define a predicate left(A,P) that is true if the observed position of object =A= is on the left of point =P= and a predicate rel_left(A,B) that is true when object =A= is observed on the left of object =B=.
 
 Perform the following tasks:
-  - Draw the distribution of the real position of object 1.
-  - Draw the distribution of the real position of object 1 given that it is on the left of position 3.
-  - Draw the distribution of the real position of object 1 given that it is on the left of object 2 and object 2 is on the left of position3.
-  - Draw the distribution of the real position of object 1 given that object 2 was observed at position 1.
-  - Draw the distribution of the real position of object 1 given that objects 2 and 3 were observed both at position 1. How is it different from the previous one?
-
+  1. Draw the distribution of the real position of object 1.
+  2. Draw the distribution of the real position of object 1 given that it was observed in position 2.
+  3. Draw the distribution of the real position of object 1 given that it is on the left of position 3.
+  4. Draw the distribution of the real position of object 1 given that it is on the left of object 2 and object 2 is observed in position 3.
+  5. Draw the distribution of the real position of object 1 given that it was observed in position 2 and object 2 was observed at 3.
+  6. Draw the distribution of the real position of object 1 given that it was observed in position 2 and objects 2 and 3 were observed at 3. How is it different from the previous one?
 
 You can use CLP(R) constraints as in http://cplint.eu/example/inference/kalman_filter.swinb
 </div>
