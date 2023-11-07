@@ -32,6 +32,7 @@ Examples divided by features:
   [kalman_filter.pl](example/inference/kalman_filter.pl),
   [kalman_filtermsw.pl](example/inference/kalman_filtermsw.pl),
   [gaussian_mean_est.pl](example/inference/gauss_mean_est.pl),
+  [gaussian_mean_est_user.pl](example/inference/gauss_mean_est_user.pl),
   [seven_scientists.pl](example/inference/seven_scientists.pl),
   [widget.pl](example/inference/widget.pl),
   [widgetmsw.pl](example/inference/widgetmsw.pl),
@@ -55,6 +56,7 @@ Examples divided by features:
   [kalman_filter.pl](example/inference/kalman_filter.pl),
   [kalman_filtermsw.pl](example/inference/kalman_filtermsw.pl),
   [gaussian_mean_est.pl](example/inference/gauss_mean_est.pl),
+  [gaussian_mean_est_user.pl](example/inference/gauss_mean_est_user.pl),
   [seven_scientists.pl](example/inference/seven_scientists.pl), [widget.pl](example/inference/widget.pl),
   [widgetmsw.pl](example/inference/widgetmsw.pl),
   [indian_gpa.pl](example/inference/indian_gpa.pl),
@@ -94,6 +96,7 @@ Examples divided by features:
   [kalman_filter.pl](example/inference/kalman_filter.pl),
   [kalman_filtermsw.pl](example/inference/kalman_filtermsw.pl),
   [gaussian_mean_est.pl](example/inference/gauss_mean_est.pl),
+  [gaussian_mean_est_user.pl](example/inference/gauss_mean_est_user.pl),
   [seven_scientists.pl](example/inference/seven_scientists.pl),
   [widget.pl](example/inference/widget.pl),
   [widgetmsw.pl](example/inference/widgetmsw.pl),
@@ -137,6 +140,7 @@ Examples divided by features:
   [meta.pl](example/inference/meta.pl)
   [metacomb.pl](example/inference/metacomb.pl)
   - combining rules: [metacomb.pl](example/inference/metacomb.pl)
+  - user-defined distributions: [gaussian_mean_est_user.pl](example/inference/gauss_mean_est_user.pl)
   - graphics with R:
   [gpr_R.pl](example/inference/gpr_R.pl),
   [hmm_R.pl](example/inference/hmm_R.pl),
@@ -167,6 +171,7 @@ Examples divided by features:
   [kalman_filter.pl](example/inference/kalman_filter.pl),
   [kalman_filtermsw.pl](example/inference/kalman_filtermsw.pl),
   [gaussian_mean_est.pl](example/inference/gauss_mean_est.pl),
+  [gaussian_mean_est_user.pl](example/inference/gauss_mean_est_user.pl),
   [seven_scientists.pl](example/inference/seven_scientists.pl),
   [widget.pl](example/inference/widget.pl),
   [widgetmsw.pl](example/inference/widgetmsw.pl),
@@ -204,6 +209,7 @@ Examples divided by features:
   [kalman_filter.pl](example/inference/kalman_filter.pl),
   [kalman_filtermsw.pl](example/inference/kalman_filtermsw.pl),
   [gaussian_mean_est.pl](example/inference/gauss_mean_est.pl),
+  [gaussian_mean_est_user.pl](example/inference/gauss_mean_est_user.pl),
   [seven_scientists.pl](example/inference/seven_scientists.pl), [widget.pl](example/inference/widget.pl),
   [widgetmsw.pl](example/inference/widgetmsw.pl),
   [gpr.pl](example/inference/gpr.pl),
@@ -306,6 +312,7 @@ Examples divided by application domain:
   [kalman_filtermsw.pl](example/inference/kalman_filtermsw.pl)
  - Bayesian estimation:
   [gaussian_mean_est.pl](example/inference/gauss_mean_est.pl),
+  [gaussian_mean_est_user.pl](example/inference/gauss_mean_est_user.pl),
   [seven_scientists.pl](example/inference/seven_scientists.pl),
   [figaro_coin.swinb](example/figaro_coin.swinb),
   [figaro_coin_bag.swinb](example/figaro_coin_bag.swinb)
@@ -528,7 +535,8 @@ Complete list of examples with description:
   Russell, S. and Norvig, P. 2010. Arficial Intelligence: A Modern Approach.
   Third Edition, Prentice Hall, Figure 15.10 page 587
   - Posterior estimation in Bayesian models
-  ([gaussian_mean_est.pl](example/inference/gauss_mean_est.pl), [gaussian_mean_est_R.pl](example/inference/gauss_mean_est_R.pl)).
+  ([gaussian_mean_est.pl](example/inference/gauss_mean_est.pl), [gaussian_mean_est_R.pl](example/inference/gauss_mean_est_R.pl),
+  [gaussian_mean_est_user.pl](example/inference/gauss_mean_est_user.pl)).
   We are trying to estimate the true value of a Gaussian distributed random
   variable, given some observed data. The variance is known (2) and we
   suppose that the mean has a Gaussian distribution with mean 1 and variance 5.
@@ -539,6 +547,8 @@ Complete list of examples with description:
   no observations?
   From
   http://www.robots.ox.ac.uk/~fwood/anglican/examples/viewer/?worksheet=gaussian-posteriors
+  [gaussian_mean_est_user.pl](example/inference/gauss_mean_est_user.pl) shows an example
+  of a user-defined distribution
   - Seven scientists, posterior estimation in Bayesian models
   ([seven_scientists.pl](example/inference/seven_scientists.pl), [seven_scientists_R.pl](example/inference/seven_scientists_R.pl)).
   Suppose seven scientists all go and perform the same experiment, each collecting
