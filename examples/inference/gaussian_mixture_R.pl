@@ -65,12 +65,12 @@ hist_mh_dis(Samples,Lag,NBins):-
 % histogram with NBins bins representing the probability density of X
 
 
-/** <examples> THESE NEED TO BE FIXED.
+/** <examples>
 
 ?- hist_uncond(10000,40).
 % take 10000 samples of X in mix(X) and draw a histogram with 40 bins representing 
 % the probability density of X 
-
+?- mc_sample_arg_raw(mix(X),1000,X,_L),histogram_r(_L,[nbins(40)]).
 % take 10000 samples of X in mix(X) and draw a histogram with 40 bins representing 
 % the probability density of X
 ?- mc_expectation(mix(X),1000,X,E).
