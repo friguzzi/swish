@@ -132,15 +132,14 @@ logistic_regression_iter(I,Iterations,X,XT,Y,Coeff0,Coeff):-
     generate_nu(X,Coeff0,Nu),
     maplist(logistic,Nu,Mu),
     generate_s(Mu,S_vec),
-    generate_z(Nu,Y,Mu,S_vec,Z),
+    generate_zs(Nu,Y,Mu,S_vec,ZS),
     matrix_diagonal(S_vec,S),
     matrix_multiply(XT,S,XTS),
     matrix_multiply(XTS,X,XTSX),
     matrix_inversion(XTSX,XTSX_1),
     matrix_multiply(XTSX_1,XT,XTSX_1XT),
-    matrix_multiply(XTSX_1XT,S,XTSX_1XTS),
-    transpose([Z],ZT),
-    matrix_multiply(XTSX_1XTS,ZT,Coeff1T),
+    transpose([ZS],ZST),
+    matrix_multiply(XTSX_1XT,ZST,Coeff1T),
     transpose(Coeff1T,[Coeff1]),
     compute_log_lik(Mu,Y,LL),
     compute_accuracy(Mu,Y,Acc),
@@ -190,8 +189,8 @@ generate_s(Mu,S_vec):-
 mu_1_mu(Mu_i,S_i):-
     S_i is Mu_i*(1-Mu_i).
 
-generate_z(Nu,Y,Mu,S_vec,Z):-
-    maplist(gen_x,Nu,Y,Mu,S_vec,Z).
+generate_zs(Nu,Y,Mu,S_vec,Z):-
+    maplist(gen_xs,Nu,Y,Mu,S_vec,Z).
 
 maplist(Goal, List1, List2, List3, List4, List5) :-
     maplist_(List1, List2, List3, List4, List5, Goal).
@@ -201,8 +200,8 @@ maplist_([Elem1|Tail1], [Elem2|Tail2], [Elem3|Tail3], [Elem4|Tail4], [Elem5|Tail
     call(Goal, Elem1, Elem2, Elem3, Elem4, Elem5),
     maplist_(Tail1, Tail2, Tail3, Tail4, Tail5, Goal).
 
-gen_x(Nu,Y,Mu,S,Z):-
-    Z is Nu+(Y-Mu)/S.
+gen_xs(Nu,Y,Mu,S,ZS):-
+    ZS is S*Nu +(Y-Mu).
 
 logistic(X,Sigma_X):-
     Sigma_X is 1/(1+exp(-X)).
