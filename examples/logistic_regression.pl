@@ -191,12 +191,17 @@ mu_1_mu(Mu_i,S_i):-
     S_i is Mu_i*(1-Mu_i).
 
 generate_z(Nu,Y,Mu,S_vec,Z):-
-    maplist(zip,Nu,Y,NuY),
-    maplist(gen_x,NuY,Mu,S_vec,Z).
+    maplist(gen_x,Nu,Y,Mu,S_vec,Z).
 
-zip(In1,In2,(In1,In2)).
+maplist(Goal, List1, List2, List3, List4, List5) :-
+    maplist_(List1, List2, List3, List4, List5, Goal).
 
-gen_x((Nu,Y),Mu,S,Z):-
+maplist_([], [], [], [], [], _).
+maplist_([Elem1|Tail1], [Elem2|Tail2], [Elem3|Tail3], [Elem4|Tail4], [Elem5|Tail5], Goal) :-
+    call(Goal, Elem1, Elem2, Elem3, Elem4, Elem5),
+    maplist_(Tail1, Tail2, Tail3, Tail4, Tail5, Goal).
+
+gen_x(Nu,Y,Mu,S,Z):-
     Z is Nu+(Y-Mu)/S.
 
 logistic(X,Sigma_X):-
