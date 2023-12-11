@@ -44,10 +44,15 @@ x(_,_,X_ij):gaussian(X_ij,0,10).
 
 
 
-example_log_r(N,Coeff):-
+example_log_r(N,CoeffNorm):-
     generate_data(N,5,[1,2,3],X,Y),
 	logistic_regression(X,Y,10,Coeff),
-    draw_dataset(X,Y,Coeff).
+    draw_dataset(X,Y,Coeff),
+    Coeff=[C|_],
+    maplist(norm(C),Coeff,CoeffNorm).
+
+norm(C,A,AN):-
+    AN is A/C.
 
 draw_dataset(X,Y,Coeff):-
     <-library(plot3D),
