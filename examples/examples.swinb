@@ -43,6 +43,7 @@ You are reading a SWISH _notebook_.  A notebook is a mixture of _text_, _program
     - [EM Clustering of the Iris Dataset](example/iris.swinb)
     - [Linear regression](e/linear_regression.pl)
     - [Logistic regression](e/logistic_regression.pl)
+    - [Neural network forward reasoning](e/neural_network.pl)
     - [SIATEC pattern discovery in polyphonic music](example/siatec.swinb)
   - *Reasoning*
     - [Tabling with Well Founded Semantics](example/WFS_intro.swinb)
