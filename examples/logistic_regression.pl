@@ -16,7 +16,7 @@ dataset generation: it generates a N-row dataset with 5 as the noise variance an
 coefficients [1,2,3].
 Then it performs 10 iterations of logistic regression
 Coeff is the output of regression and should be a list of three numbers close to [1,2,3]
-The higher N is, the closer to C*[1,2,3] Coeff should be, where C is a constant.
+The higher N is, the closer to [1,2,3] Coeff should be.
 
 */
 
