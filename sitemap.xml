@@ -222,10 +222,6 @@
   <changefreq>weekly</changefreq>
 </url>
 <url>
-  <loc>http://cplint.eu/example/learning/mach.pl</loc>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
   <loc>http://cplint.eu/example/learning/registration.pl</loc>
   <changefreq>weekly</changefreq>
 </url>
@@ -291,14 +287,6 @@
 </url>
 <url>
   <loc>http://cplint.eu/tutorial/inference/pctl_slep.swinb</loc>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://cplint.eu/tutorial/inference/artihm.swinb</loc>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>http://cplint.eu/tutorial/learning/mach.swinb</loc>
   <changefreq>weekly</changefreq>
 </url>
 <url>
