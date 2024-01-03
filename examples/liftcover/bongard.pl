@@ -45,10 +45,6 @@ in([
   	circle(A),
 	inside(B,A)),
 (
-  pos:0.000303421 :-
-	circle(A),
-	triangle(B)), 
-(
 pos:0.000448807 :-
 	triangle(A),
 	circle(B)
