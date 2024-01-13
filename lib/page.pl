@@ -381,13 +381,8 @@ swish_navbar(Options) -->
 		&(nbsp), &(nbsp),
         a([id('dismisslink'),href('')],['Dismiss']),
 p(['Latest: ',
+a([href('/e/liftcover/liftcover_examples.swinb')],['Threads and Python in LIFTCOVER']),', ',
 a([href('/e/course.swinb')],['course']),', ',
-a([href('/e/liftcover/liftcover_examples.swinb')],['LIFTCOVER examples']),', ',
-a([href('/e/pascal_examples.swinb')],['PASCAL examples']),', ',
-a([href('/e/bag_mpe.pl')],['MPE']),', ',
-a([href('/e/bag_game_mpe.pl')],['MPE']),', ',
-a([href('/e/bag_1.pl')],['MAP']),', ',
-a([href('/e/eruption_vit.pl')],['Viterbi']),', ',
 a([href('/e/phil_examples.swinb')],['PHIL examples']),', ',
 a([href('http://ml.unife.it/plp-book/'),target('_blank')],["book"])
 ])])
