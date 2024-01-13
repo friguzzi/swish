@@ -35,7 +35,7 @@ https://dtai.cs.kuleuven.be/static/ACE/doc/
 :- set_lift(megaex_bottom,10). % max number of mega examples to considered in the generation of bottoms clauses
 :- set_lift(initial_clauses_per_megaex,1).
 :- set_lift(min_probability,0.00001).  % threshold value of the probability under which a clauses is dropped out
-:- set_lift(parameter_learning,em_python).
+:- set_lift(parameter_learning,em).
 :- set_lift(threads,2).
 
 bg([]).
