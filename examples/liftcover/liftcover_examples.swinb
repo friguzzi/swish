@@ -4,7 +4,8 @@
 # LIFTCOVER Learning Examples
 
 This notebook gives an overview of example programs for learning with LIFTCOVER (see
-Arnaud Nguembang Fadja and Fabrizio Riguzzi. Lifted discriminative learning of probabilistic logic programs. Machine Learning, 108(7):1111–1135, 2019. [doi:10.1007/s10994-018-5750-0](https://dx.doi.org/10.1007/s10994-018-5750-0)):
+Arnaud Nguembang Fadja and Fabrizio Riguzzi. Lifted discriminative learning of probabilistic logic programs. Machine Learning, 108(7):1111–1135, 2019. [doi:10.1007/s10994-018-5750-0](https://dx.doi.org/10.1007/s10994-018-5750-0) and 
+Elisabetta Gentili, Alice Bizzarri, Damiano Azzolini, Riccardo Zese, and Fabrizio Riguzzi. Regularization in probabilistic inductive logic programming. ILP 2023 [doi:10.1007/978-3-031-49299-0_2](http://dx.doi.org/10.1007/978-3-031-49299-0_2)):
 
   - Bongard ([bongard.pl](e/liftcover/bongard.pl), [bongardkeys.pl](e/liftcover/bongardkeys.pl)), parameter and structure learning) 
   The task is to classify pictures containing geometrical objects. 
@@ -12,6 +13,9 @@ Arnaud Nguembang Fadja and Fabrizio Riguzzi. Lifted discriminative learning of p
   Both parameters and structure can be learned. The input theory for parameter 
   learning has been manually crafted. =bongard.pl= contains the examples in 
   the models format while =bongardkeys.pl= in the keys format. 
+  - Parallel Bongard ([bongard_par.pl](e/liftcover/bongard_par.pl)): uses multiple threads, the number of
+  threads can be set using hyper-parameter =threads=, see the [hyper-parameter section](https://friguzzi.github.io/liftcover/_build/html/index.html#hyper-parameters-for-learning) of the manual
+  - Python EM and gradient descent ([bongard_em_python.pl](e/liftcover/bongard_em_python.pl), [bongard_gd_python.pl](e/liftcover/bongard_gd_python.pl)): Python version of the EM and gradient descent algorithms, see the [parameter learning](https://friguzzi.github.io/liftcover/_build/html/index.html#parameter-learning) section of the manual.
   - Mutagenesis ([muta.pl](e/liftcover/muta.pl), parameter and structure learning)
    The famous Mutagenesis problem where the task is to predict whether a molecule is an active mutagenic agent. From  Srinivasan A, Muggleton S, Sternberg MJE, King RD _Theories for mutagenicity: A study in first-order and feature-based induction_.   Artificial Intelligence 85(1-2):277-299, 1996. Both parameters and structure can be learned. The input theory for parameter learning has been manually crafted. 
   - Bupa ([bupa.pl](e/liftcover/bupa.pl)), NBA ([nba.pl](e/liftcover/nba.pl)), pyrimidine ([pyrimidine.pl](e/liftcover/pyrimidine.pl)): datasets from https://relational.fit.cvut.cz
