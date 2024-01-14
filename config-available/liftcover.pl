@@ -41,3 +41,5 @@ This module provides the configuration for the max_threads setting of liftcover.
 */
 
 :- set_setting(liftcover:max_threads,2).
+:- set_setting(liftcover:allow_gpu,false).
+
