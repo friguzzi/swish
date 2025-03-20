@@ -3,7 +3,7 @@
     Author:        Jan Wielemaker
     E-mail:        J.Wielemaker@cs.vu.nl
     WWW:           http://www.swi-prolog.org
-    Copyright (C): 2014-2023, VU University Amsterdam
+    Copyright (C): 2014-2025, VU University Amsterdam
 			      CWI Amsterdam
 			      SWI-Prolog Solutions b.v.
     All rights reserved.
@@ -537,15 +537,20 @@ define([ "jquery", "config", "preferences", "utils",
 	   one from the pengine server rather than a packaged one.
 	*/
 
-	require([config.http.locations.pengines+"/pengines.js"],
-		function() {
+	let pengine_server = config.http.locations.pengines;
+	if ( pengine_server.endsWith("/") )
+	  pengine_server = pengine_server.slice(0,-1);
+	let pengine_script = pengine_server + "/pengines.js";
+
+	require([pengine_script], function() {
 	  var pdata = {
-	    server: backend.url + config.http.locations.pengines,
+	    server: backend.url + pengine_server,
 	    runner: elem,
 	    application: "swish",
 	    src: query.source,
 	    destroy: false,
 	    format: 'json-html',
+	    collate: 0.01,
 	    oncreate: handleCreate,
 	    onsuccess: handleSuccess,
 	    onfailure: handleFailure,

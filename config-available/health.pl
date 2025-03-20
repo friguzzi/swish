@@ -1,10 +1,9 @@
 /*  Part of SWISH
 
     Author:        Jan Wielemaker
-    E-mail:        J.Wielemaker@cs.vu.nl
+    E-mail:        jan@swi-prolog.org
     WWW:           http://www.swi-prolog.org
-    Copyright (C): 2017, VU University Amsterdam
-			 CWI Amsterdam
+    Copyright (C): 2024, SWI-Prolog Solutions b.v.
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -33,46 +32,27 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-:- module(swish_attvar,
-          [ put_attr/2,                 % +Var, :Attr.
-            get_attr/2                  % +Var, -Value
-          ]).
-:- meta_predicate
-    put_attr(-, :),
-    get_attr(:, -).
+:- module(swish_config_health, []).
 
-%!  put_attr(+Var, :Value) is det.
-%
-%   Put an attribute on  the  current  module.   This  is  the  same  as
-%   put_attr(Var, Module, Value), where Module is the calling context.
+:- use_module(library(http/http_server_health)).
+:- use_module(library(aggregate)).
+:- use_module(library(pengines)).
 
-put_attr(Var, M:Value) :-
-    put_attr(Var, M, Value).
+/** <module> Enable /health
 
-%!  get_attr(:Var, -Value) is det.
-%
-%   Get the attribute on the current module.
+This config file enables obtaining server stats using /health. Note that
+enabling requires SWI-Prolog 9.3.3 or later.
+*/
 
-get_attr(M:Name, Value) :-
-    get_attr(Name, M, Value).
+:- multifile
+    http_server_health:hide/1,
+    http_server_health:health/2.
 
-:- multifile sandbox:safe_meta/3.
+http_server_health:health(Key, Value) :-
+    health(Key, Value).
 
-sandbox:safe_meta(swish_attvar:put_attr(Var,Value), Context, Called) :-
-    Value \= _:_,
-    !,
-    attr_hook_predicates([ attr_unify_hook(Value, _),
-                           attribute_goals(Var,_,_),
-                           project_attributes(_,_)
-                         ], Context, Called).
-sandbox:safe_meta(swish_attvar:get_attr(Var,_Value), _Context, []) :-
-    Var \= _:_.
+term_expansion((health(Key, Value) :- Body),
+               (health(Key, Value) :- \+ http_server_health:hide(Key), Body)).
 
-attr_hook_predicates([], _, []).
-attr_hook_predicates([H|T], M, Called) :-
-    (   predicate_property(M:H, defined)
-    ->  Called = [M:H|Rest]
-    ;   Called = Rest
-    ),
-    attr_hook_predicates(T, M, Rest).
-
+health(pengines, Count) :-
+    aggregate_all(count, pengine_property(_,thread(_)), Count).

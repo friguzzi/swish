@@ -1,10 +1,9 @@
 /*  Part of SWISH
 
     Author:        Jan Wielemaker
-    E-mail:        J.Wielemaker@cs.vu.nl
+    E-mail:        jan@swi-prolog.org
     WWW:           http://www.swi-prolog.org
-    Copyright (C): 2017, VU University Amsterdam
-			 CWI Amsterdam
+    Copyright (C): 2024, SWI-Prolog Solutions b.v.
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -33,46 +32,44 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-:- module(swish_attvar,
-          [ put_attr/2,                 % +Var, :Attr.
-            get_attr/2                  % +Var, -Value
-          ]).
-:- meta_predicate
-    put_attr(-, :),
-    get_attr(:, -).
+:- module(swish_config_watchdog,
+          []).
+:- use_module(swish(lib/cron)).
+:- use_module(library(threadutil)).
 
-%!  put_attr(+Var, :Value) is det.
-%
-%   Put an attribute on  the  current  module.   This  is  the  same  as
-%   put_attr(Var, Module, Value), where Module is the calling context.
+/** <module> Watchdog module
 
-put_attr(Var, M:Value) :-
-    put_attr(Var, M, Value).
+This module deals with regular  maintenance   tasks  for 24x7 instances.
+Infrequently Pengines escape their time limit.
+*/
 
-%!  get_attr(:Var, -Value) is det.
-%
-%   Get the attribute on the current module.
+% When to consider a thread a runaway?  CPU time in seconds.
+runaway_min_time(1800).
 
-get_attr(M:Name, Value) :-
-    get_attr(Name, M, Value).
+:- initialization
+    http_schedule_maintenance(daily(02:50), kill_runaway_threads).
 
-:- multifile sandbox:safe_meta/3.
+kill_runaway_threads :-
+    runaway_min_time(MinTime),
+    forall(runaway_thread(TID, MinTime, Time),
+           kill_thread(TID, Time)).
 
-sandbox:safe_meta(swish_attvar:put_attr(Var,Value), Context, Called) :-
-    Value \= _:_,
-    !,
-    attr_hook_predicates([ attr_unify_hook(Value, _),
-                           attribute_goals(Var,_,_),
-                           project_attributes(_,_)
-                         ], Context, Called).
-sandbox:safe_meta(swish_attvar:get_attr(Var,_Value), _Context, []) :-
-    Var \= _:_.
+runaway_thread(TID, MinTime, CPU) :-
+    thread_property(TID, id(_)),
+    catch(anon_thread_cpu(TID, CPU), error(_,_), fail),
+    CPU > MinTime.
 
-attr_hook_predicates([], _, []).
-attr_hook_predicates([H|T], M, Called) :-
-    (   predicate_property(M:H, defined)
-    ->  Called = [M:H|Rest]
-    ;   Called = Rest
-    ),
-    attr_hook_predicates(T, M, Rest).
+anon_thread_cpu(TID, CPU) :-
+    \+ thread_property(TID, alias(_)),
+    thread_statistics(TID, cputime, CPU).
 
+kill_thread(TID, Time) :-
+    print_message(warning, kill_runaway(TID, Time)),
+    catch(tbacktrace(TID), error(_,_), true),
+    catch(thread_signal(TID, abort),
+          error(_,_), true).
+
+:- multifile prolog:message//1.
+
+prolog:message(kill_runaway(TID, Time)) -->
+    [ 'Killing runaway thread ~p: used ~0f seconds CPU'-[TID,Time] ].

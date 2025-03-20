@@ -3,8 +3,9 @@
     Author:        Jan Wielemaker
     E-mail:        J.Wielemaker@cs.vu.nl
     WWW:           http://www.swi-prolog.org
-    Copyright (C): 2017, VU University Amsterdam
-			 CWI Amsterdam
+    Copyright (C): 2017-2024, VU University Amsterdam
+			      CWI Amsterdam
+			      SWI-Prolog Solutions b.v.
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -104,9 +105,19 @@ define([ "jquery", "form", "cm/lib/codemirror", "utils", "config",
 					$.el.tr($.el.td({class:"chat-text"}, text),
 						$.el.td({class:"chat-send"}, btn)))));
 
-	$(send).on("click", function() {
+	function enable_btn() {
+	  $(send).prop('disabled', $(text).val().trim() == "" ? true : false);
+	}
+	enable_btn();
+
+	function send_chat() {
+	  $(send).prop('disabled', true);
 	  elem.chatroom('send');
-	});
+	  $(text).val("");
+	}
+
+	$(send).on("click", send_chat);
+	$(text).on("change", enable_btn);
 
 					/* event handling */
 	form.widgets.populateMenu($(btn), elem, {
@@ -132,15 +143,14 @@ define([ "jquery", "form", "cm/lib/codemirror", "utils", "config",
 	$(close).on("click", function() {
 	  elem.tile('close');
 	});
-	if ( options.oneline ) {
-	  $(text).keypress(function(ev) {
-	    if ( ev.which == 13 ) {
-	      elem.chatroom('send');
-	      ev.preventDefault();
-	      return false;
-	    }
-	  });
-	} else {
+	$(text).keypress(function(ev) {
+	  if ( ev.key == "Enter" &&
+	       options.oneline || ev.ctrlKey || ev.metaKey ) {
+	    send_chat();
+	    return false;
+	  }
+	});
+	if ( !options.oneline) {
 	  $(text).on('keyup', function() {
 	    var that = $(this);
 	    var h;
@@ -151,6 +161,7 @@ define([ "jquery", "form", "cm/lib/codemirror", "utils", "config",
 	      that.animate({ height: h }, 200,
 			   function() { elem.chatroom('scrollToBottom'); });
 	    }
+	    enable_btn();
 	  });
 	}
 	if ( options.docid == hangout ) {

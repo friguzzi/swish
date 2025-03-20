@@ -107,7 +107,7 @@ to rounding the small objects to disk allocation units.
     pack_object/6,                      % Hash, Type, Size, Offset, Store,PackFile
     attached_packs/1,                   % Store
     attached_pack/2,                    % Store, PackFile
-    redis_db/3.                         % Store, DB, Prefix
+    redis_db/4.                         % Store, DB, RO, Prefix
 
 :- volatile
     head/4,
@@ -138,6 +138,8 @@ remote_sync(true).
 %
 %     - redis(+DB)
 %       Name of the redis DB to connect to.  See redis_server/3.
+%     - redis_ro(+DB)
+%       Read-only redis DB.
 %     - redis_prefix(+Prefix)
 %       Prefix for all keys.  This can be used to host multiple
 %       SWISH servers on the same redis cluster.  Default is `swish`.
@@ -145,8 +147,9 @@ remote_sync(true).
 gitty_open(Store, Options) :-
     option(redis(DB), Options),
     !,
+    option(redis_ro(RO), Options, DB),
     option(redis_prefix(Prefix), Options, swish),
-    asserta(redis_db(Store, DB, Prefix)),
+    asserta(redis_db(Store, DB, RO, Prefix)),
     thread_create(gitty_scan(Store), _, [detached(true)]).
 gitty_open(_, _).
 
@@ -171,7 +174,7 @@ gitty_close(Store) :-
 %   revision.
 
 gitty_file(Store, Head, Ext, Hash) :-
-    redis_db(Store, _, _),
+    redis_db(Store, _, _, _),
     !,
     gitty_scan(Store),
     redis_file(Store, Head, Ext, Hash).
@@ -277,7 +280,7 @@ load_object(Store, Hash, Data, Type, Size) :-
     !,
     f(Data0, Type0, Size0) = f(Data, Type, Size).
 load_object(Store, Hash, Data, Type, Size) :-
-    redis_db(Store, _, _),
+    redis_db(Store, _, _, _),
     redis_replicate_get(Store, Hash),
     load_object_file(Store, Hash, Data, Type, Size).
 
@@ -289,6 +292,17 @@ load_object_file(Store, Hash, Data, Type, Size) :-
         gzopen(Path, read, In, [encoding(utf8)]),
         read_object(In, Data, Type, Size),
         close(In)).
+
+%!  has_object(+Store, +Hash) is det.
+%
+%   True when Hash exists in store.
+
+has_object(Store, Hash) :-
+    pack_object(Hash, _Type, _Size, _Offset, Store, _Pack),
+    !.
+has_object(Store, Hash) :-
+    gitty_object_file(Store, Hash, Path),
+    exists_file(Path).
 
 %!  load_object_raw(+Store, +Hash, -Data)
 %
@@ -387,7 +401,7 @@ gitty_scan_sync(Store) :-
     store(Store, _),
     !.
 gitty_scan_sync(Store) :-
-    redis_db(Store, _, _),
+    redis_db(Store, _, _, _),
     !,
     gitty_attach_packs(Store),
     redis_ensure_heads(Store),
@@ -515,7 +529,7 @@ gitty_object_file(Store, Hash, Path) :-
 %   head.  This can both be in-process or another process.
 
 gitty_update_head(Store, Name, OldCommit, NewCommit, DataHash) :-
-    redis_db(Store, _, _),
+    redis_db(Store, _, _, _),
     !,
     redis_update_head(Store, Name, OldCommit, NewCommit, DataHash).
 gitty_update_head(Store, Name, OldCommit, NewCommit, _) :-
@@ -708,7 +722,7 @@ save_heads(Store, Out) :-
 %   should they do their own thing?
 
 delete_head(Store, Head) :-
-    redis_db(Store, _, _),
+    redis_db(Store, _, _, _),
     !,
     redis_delete_head(Store, Head).
 delete_head(Store, Head) :-
@@ -719,7 +733,7 @@ delete_head(Store, Head) :-
 %   Set the head of the given File to Hash
 
 set_head(Store, File, Hash) :-
-    redis_db(Store, _, _),
+    redis_db(Store, _, _, _),
     !,
     redis_set_head(Store, File, Hash).
 set_head(Store, File, Hash) :-
@@ -1187,8 +1201,13 @@ empty_directory(Dir) :-
 		 *******************************/
 
 redis_head_db(Store, DB, Key) :-
-    redis_db(Store, DB, Prefix),
+    redis_db(Store, DB, _, Prefix),
     string_concat(Prefix, ":gitty:head", Key).
+
+redis_head_db_ro(Store, DB, Key) :-
+    redis_db(Store, _, DB, Prefix),
+    string_concat(Prefix, ":gitty:head", Key).
+
 
 %!  redis_file(+Store, ?Name, ?Ext, ?Hash)
 
@@ -1196,13 +1215,13 @@ redis_file(Store, Name, Ext, Hash) :-
     nonvar(Name),
     !,
     file_name_extension(_Base, Ext, Name),
-    redis_head_db(Store, DB, Heads),
+    redis_head_db_ro(Store, DB, Heads),
     redis(DB, hget(Heads, Name), Hash as atom).
 redis_file(Store, Name, Ext, Hash) :-
     nonvar(Ext),
     !,
     string_concat("*.", Ext, Pattern),
-    redis_head_db(Store, DB, Heads),
+    redis_head_db_ro(Store, DB, Heads),
     redis_hscan(DB, Heads, LazyList, [match(Pattern)]),
     member(NameS-HashS, LazyList),
     atom_string(Name, NameS),
@@ -1214,7 +1233,7 @@ redis_file(Store, Name, Ext, Hash) :-
     Name = Commit.name,
     file_name_extension(_Base, Ext, Name).
 redis_file(Store, Name, Ext, Hash) :-
-    redis_head_db(Store, DB, Heads),
+    redis_head_db_ro(Store, DB, Heads),
     redis(DB, hgetall(Heads), Pairs as pairs(atom,atom)),
     member(Name-Hash, Pairs),
     file_name_extension(_Base, Ext, Name).
@@ -1225,7 +1244,7 @@ redis_file(Store, Name, Ext, Hash) :-
 %   their head hashes.
 
 redis_ensure_heads(Store) :-
-    redis_head_db(Store, DB, Key),
+    redis_head_db_ro(Store, DB, Key),
     redis(DB, exists(Key), 1),
     !.
 redis_ensure_heads(Store) :-
@@ -1316,7 +1335,7 @@ gitty_message(discover(Hash)) :-
     redis(swish, publish(swish:gitty, object(Hash, Data) as prolog)).
 gitty_message(object(Hash, Data)) :-
     debug(gitty(replicate), 'Replicate: ~p', [Hash]),
-    redis_db(Store, _DB, _Prefix),
+    redis_db(Store, _DB, _RO, _Prefix),
     store_object_raw(Store, Hash, Data, New),
     debug(gitty(replicate), 'Received object ~p (new=~p)', [Hash, New]),
     (   New == true
@@ -1324,13 +1343,48 @@ gitty_message(object(Hash, Data)) :-
     ;   true
     ).
 
-redis_replicate_get(_Store, Hash) :-
+%!  redis_replicate_get(+Store, +Hash) is semidet.
+%
+%   True to get Hash if we do  not   have  it  locally. This initiates a
+%   Redis `discover` request for the hash. The  replies are picked up by
+%   gitty_message/1 above.
+%
+%   The code may be subject to  various race conditions, but fortunately
+%   objects are immutable. It also seems  possible that the Redis stream
+%   gets lost. Not sure when and how. For   now, we restart if we get no
+%   reply, but nore more than once per minute.
+
+redis_replicate_get(Store, Hash) :-
     is_gitty_hash(Hash),
     redis(swish, publish(swish:gitty, discover(Hash) as prolog), Count),
-    Count > 1,                          % If I'm alone it won't help :(
-    thread_get_message(gitty_queue, Hash,
-                       [ timeout(10)
-                       ]).
+    Count > 1,                          % If I'm alone it won't help ...
+    between(1, 100, _),
+    (   thread_get_message(gitty_queue, Hash,
+                           [ timeout(0.1)
+                           ])
+    ->  !
+    ;   has_object(Store, Hash)
+    ->  !
+    ;   restart_pubsub,
+        fail
+    ).
+
+:- dynamic
+    restarted/1.
+
+restart_pubsub :-
+    (   restarted(When)
+    ->  get_time(Now),
+        Now-When < 60,
+        !
+    ).
+restart_pubsub :-
+    get_time(Now),
+    transaction(( retractall(restarted(_)),
+                  asserta(restarted(Now)))),
+    thread_signal(redis_pubsub, throw(error(io_error(read, _),_))),
+    sleep(0.05).
+
 
 
 %!  publish_objects(+Store, +Hashes)
@@ -1362,7 +1416,7 @@ publish_object(Store, Stream, Hash) :-
 %   objects as well.
 
 replicate(Data) :-
-    redis_db(Store, _DB, _Prefix),
+    redis_db(Store, _DB, _RO, _Prefix),
     atom_string(Hash, Data.hash),
     store_object_raw(Store, Hash, Data.data, _0New),
     debug(gitty(replicate), 'Received object ~p (new=~p)',
