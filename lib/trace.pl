@@ -74,13 +74,20 @@ Allow tracing pengine execution under SWISH.
 
 :- multifile
 	user:prolog_trace_interception/4,
-	user:message_hook/3.
+	user:message_hook/3,
+	prolog:message_action/2.
 :- dynamic
-	user:message_hook/3.
+	user:message_hook/3,
+	prolog:message_action/2.
 
 intercept_trace_mode_switch :-
+	% old style
 	asserta((user:message_hook(trace_mode(_), _, _) :-
+		    pengine_self(_), !)),
+	% SWI-Prolog 10 and later
+	asserta((prolog:message_action(trace_mode(_), _) :-
 		    pengine_self(_), !)).
+
 
 :- initialization
 	intercept_trace_mode_switch.
